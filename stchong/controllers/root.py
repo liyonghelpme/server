@@ -5606,6 +5606,9 @@ class RootController(BaseController):
                     if user.corn < cost:
                         return dict(id=0,reason="corn not enough")
                 
+                curBuilding = DBSession.query(businessWrite).filter_by(city_id=city_id, grid_id=grid_id).all()
+                if len(curBuilding) > 0:
+                    return dict(id=0, reason="has building yet")
                 statue = businessWrite(city_id = city_id, ground_id=ground_id, grid_id=grid_id, object_id = -1, producttime = curTime, finish = 0)
                 DBSession.add(statue)
                 if statuebuilding[index][1]<0:
