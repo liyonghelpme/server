@@ -150,7 +150,7 @@ class RootController(BaseController):
     
     production=[[100,1,1,600],[300,2,1,600],[500,5,1,600],[600,3,1,5400],[900,5,1,5400],[1200,9,1,5400],[800,5,2,1800],[1400,9,2,1800],[2100,15,2,1800],[1200,5,1,10440],[1800,9,1,10440],[2600,17,1,10440],[2300,12,2,21600],[3200,20,2,21600],[4500,29,2,21600],[2500,18,3,7200],[4400,28,3,7200],[6800,40,3,7200],[1400,10,2,11160],[2100,19,2,11160],[3100,30,2,11160],[3500,23,3,30600],[6500,34,3,30600],[8000,45,3,30600],[7500,30,12,26200],[13000,50,12,26200],[17500,70,12,26200],[1800,4,0,16200],[2600,8,0,16200],[4400,12,0,16200],[4000,28,35,6.5*3600],[6200,40,35,6.5*3600],[8100,52,35,6.5*3600]]
     
-    expanding=[[10000,1,10],[50000,4,20],[100000,10,40],[500000,19,70],[1000000,31,110],[1500000,43,150],[2000000,55,210],[2500000,70,280],[3000000,90,360],[5000000,125,450]]
+    expanding=[[10000,1,10],[50000,3,20],[100000,5,50],[500000,7,90],[1000000,10,140],[1500000,15,200],[2000000,20,330],[2500000,27,580],[3000000,37,740],[5000000,50,920]]
     error = ErrorController()
     EXPANDLEV=10
     
@@ -3276,7 +3276,59 @@ class RootController(BaseController):
             else:
                 print "failed!"
             return dict(wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods=nu.specialgoods,time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=c1[0],city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
-    
+   
+    @expose('json')
+    def upgradecastle(self, userid, lev, type):
+        #try:
+        userid = int(userid)
+        u=checkopdata(userid)
+        lev = int(lev)
+        type = int(type)
+        if u.lev < 20:
+            return dict(id=0, reason="lev < 20")
+        print "upgrade Castal", userid, lev, type
+        num_a = 0
+        num_b = 0
+        num_c = 0
+        i = 0
+        specialgoods = u.specialgoods.split(';')
+        num_a = int(specialgoods[0].split(',')[1])
+        num_b = int(specialgoods[1].split(',')[1])
+        num_c = int(specialgoods[2].split(',')[1])
+        m = DBSession.query(Mana).filter_by(userid=userid).one()
+        if lev == 1:
+            if type == 1:#by money
+                if num_a >= 30 and num_b >= 30 and num_c >= 30 and u.corn >= 100000 and u.food >= 1000 and (u.population-u.labor_num) >= 100:
+                    num_a -= 30
+                    num_b -= 30
+                    num_c -= 30
+                    u.corn -= 100000
+                    u.food -= 1000
+                    u.labor_num += 100
+                    city = DBSession.query(warMap).filter_by(userid=userid).one()
+                    city_id = city.city_id
+                    castle = DBSession.query(businessWrite).filter_by(city_id=city_id).filter_by(ground_id=0).one()
+                    castle.object_id += 1
+                    newspecialgoods = 'a,'+str(num_a)+';'+'b,'+str(num_b)+';'+'c,'+str(num_c)+';'+specialgoods[3]+';'+specialgoods[4]+';'+specialgoods[5]+';'+specialgoods[6]+';'+specialgoods[7]+';'+specialgoods[8]+';'+specialgoods[9]+';'+specialgoods[10]+';'+specialgoods[11]
+                    u.specialgoods = newspecialgoods
+                    u.populationupbound += 100
+                    m.boundary += 5
+
+                    return dict(id=1, result="the castle is lev 2")
+                else:
+                    return dict(id=0, reason="good not enough")
+            else:
+                if u.cae >= 100:
+                    u.cae -= 100
+                    city = DBSession.query(warMap).filter_by(userid=userid).one()
+                    city_id = city.city_id
+                    castle = DBSession.query(businessWrite).filter_by(city_id=city_id).filter_by(ground_id=0).one()
+                    castle.object_id += 1
+                    u.populationupbound += 100
+                    m.boundary += 5
+                    return dict(id=1, result="the castle is lev 2")
+        else:
+            return dict(id=0, reason="do not have the level") 
     global NobilityName
     NobilityName = ['三等平民','二等平民','一等平民',
                 '三等子爵','二等子爵','一等子爵', 
@@ -5606,9 +5658,6 @@ class RootController(BaseController):
                     if user.corn < cost:
                         return dict(id=0,reason="corn not enough")
                 
-                curBuilding = DBSession.query(businessWrite).filter_by(city_id=city_id, grid_id=grid_id).all()
-                if len(curBuilding) > 0:
-                    return dict(id=0, reason="has building yet")
                 statue = businessWrite(city_id = city_id, ground_id=ground_id, grid_id=grid_id, object_id = -1, producttime = curTime, finish = 0)
                 DBSession.add(statue)
                 if statuebuilding[index][1]<0:
