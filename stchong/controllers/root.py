@@ -133,7 +133,7 @@ class RootController(BaseController):
     milbuild=[[4000,130,100,0,0,5,3600,None,1],[9000,0,20,200,5,10,11520,'a,3',1],[20000,0,50,-200,10,20,22680,'b,3;c,4',1],[12000,320,130,0,0,15,7200,None,5],[25000,0,20,500,7,20,14760,'b,3',5],[50000,0,50,-500,15,35,28440,'c,3;d,4',5],[6000,150,90,0,0,7,10800,None,5],[12000,0,20,300,3,15,21600,'c,3',5],[25000,0,50,-300,7,30,32400,'d,3;e,4',5]]
     businessbuild=[[300,20,20,0,0,3,600,None,1],[500,30,5,0,1,7,1800,'a,1',1],[1100,0,10,70,2,11,3600,'a,2;b,3',1],[1200,45,40,0,0,5,3600,None,4],[1800,50,10,100,3,9,10740,'b,2;c,2',4],[3000,70,15,-100,4,14,15120,'c,2;d,3',4],[-5,0,0,0,0,15,5400,None,6],[5000,0,0,120,6,20,14400,'b,2;c,2',6],[7000,0,0,-120,7,25,23400,'c,2;d,3',6],[2000,80,50,0,0,7,19800,None,8],[3300,0,15,150,5,9,35270,'d,2;e,2',8],[4500,0,20,-150,6,11,46800,'e,2;f,3',8],[5000,100,70,0,0,9,8280,None,15],[7000,0,20,170,7,11,22320,'f,2;g,2',15],[13500,0,25,-170,8,13,28800,'g,2;h,3',15],[-8,0,0,0,0,25,20520,None,14],[9000,130,0,200,10,30,25200,'d,2;e,2',14],[11000,0,0,-200,11,35,33120,'e,2;f,3',14],[7200,130,90,0,0,20,21600,None,21],[11000,0,25,210,9,33,28800,'h,2;i,2',21],[19900,0,30,-210,10,45,36720,'i,2;j,3',21],[8000,170,110,0,0,29,30600,None,29],[13000,0,30,230,10,45,34200,'j,2;k,2',29],[21000,0,35,-230,11,61,46800,'k,2;l,3',29],[-11,0,0,0,0,35,25200,None,24],[13000,0,0,250,12,45,30240,'h,2;i,2',24],[17000,0,0,-250,13,60,39600,'i,2;j,3',24],[10000,1000,55,0,0,8,16200,None,7],[20000,0,18,300,7,15,28800,'a,5;i,4',7],[50000,0,27,-300,10,25,41400,'c,5;d,6',7],[10000,210,100,0,0,35,10*3600,None,35],[17000,280,30,280,10,47,11.5*3600,'d,4;h,6',35],[27000,-300,40,-300,11,56,13.5*3600,'g,5;a,10',35]]
     
-    godbuild=[[10000,500,0,50,250,7200],[10000,500,0,50,250,7200],[10000,500,0,50,250,7200],[10000,500,0,50,250,7200],[20000,1000,5,100,250,21600],[20000,1000,5,100,250,21600],[20000,1000,5,100,250,21600],[20000,1000,5,100,250,21600],[50000,2000,10,170,250,43200],[50000,2000,10,170,250,43200],[50000,2000,10,170,250,43200],[50000,2000,10,170,250,43200],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[500000,10000,30,350,250,86400],[500000,10000,30,350,250,86400],[500000,10000,30,350,250,86400],[500000,10000,30,350,250,86400]]
+    godbuild=[[10000,500,0,50,100,7200],[10000,500,0,50,100,7200],[10000,500,0,50,100,7200],[10000,500,0,50,100,7200],[20000,1000,5,100,150,21600],[20000,1000,5,100,150,21600],[20000,1000,5,100,150,21600],[20000,1000,5,100,150,21600],[50000,2000,10,170,200,43200],[50000,2000,10,170,200,43200],[50000,2000,10,170,200,43200],[50000,2000,10,170,200,43200],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[500000,10000,30,350,300,86400],[500000,10000,30,350,300,86400],[500000,10000,30,350,300,86400],[500000,10000,30,350,300,86400]]
     
     statuebuilding = [[27,80000,600,20,7200],[30,-8,700,40,14400],[32,120000,950,80,21600],[34,-12,1200,60,28800],[37,200000,1600,120,36000],[40,-20,2500,100,43200]]
     
@@ -2174,10 +2174,10 @@ class RootController(BaseController):
                 cardlist=[]
             if visit.visited==0:
                 print "not visited yet"
-                if dv.visitnum > 99:
-                    bonus = 100 + 5*99
+                if dv.visitnum > 49:
+                    bonus = 20 + 5*49
                 else:
-                    bonus=100+5*(dv.visitnum)
+                    bonus=20+5*(dv.visitnum)
                 print "bonus " + str(bonus)
                 mycity = DBSession.query(warMap).filter_by(userid = userid).one()
                 buildings = DBSession.query(businessWrite).filter("city_id=:cid and ground_id >= 420 and ground_id <= 424 and finish = 1").params(cid=mycity.city_id).all() 
@@ -2566,7 +2566,7 @@ class RootController(BaseController):
         if kind >= 3:
             mapNum = 'select mid, num from (select mid, (num1+num2) as num from (select mapid, map_kind, count(*) as num1 from warMap group by mapid) as temp1, (select mid, count(*) as num2 from emptyCastal group by mid) as temp2 where mapid = mid and map_kind = '+str(kind)+') as temp where num < ' + str(mapKind[kind])
         else:
-            mapNum = 'select mapid, num from (select mapid, num1 as num from (select mapid, map_kind, count(*) as num1 from warMap group by mapid) as temp1  where map_kind = '+str(kind)+') as temp where num < ' + str(mapKind[kind])
+            mapNum = 'select mapid, num from (select mapid, map_kind, count(*) as num from warMap group by map_kind) as temp where map_kind = '+str(kind)+ ' and  num < ' + str(mapKind[kind])
         try:
             cursor.execute(mapNum)
         except:
@@ -3151,7 +3151,7 @@ class RootController(BaseController):
                 return dict(loginNum = user.logincard, wonNum = wonNum, wonBonus = wonBonus,sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,hid=user.hid,foodlost=ds.monfood-1,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,headid=user.hid,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,invitestring=user.invitestring,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime)
                     
         except InvalidRequestError:
-            newuser=operationalData(labor_num=280,population=380,exp=0,corn=1000,cae=1,nobility=-1,infantry1_num=30,cavalry1_num=0,scout1_num=0,person_god=0,wealth_god=0,food_god=0,war_god=0,user_kind=user_kind,otherid=oid,lev=1,empirename='我的领地',food=100)
+            newuser=operationalData(labor_num=280,population=380,exp=0,corn=1000,cae=1,nobility=-1,infantry1_num=30,cavalry1_num=0,scout1_num=0,person_god=0,wealth_god=0,food_god=0,war_god=0,user_kind=user_kind,otherid=oid,lev=1,empirename='My Territory',food=100)
             DBSession.add(newuser)
             newuser = DBSession.query(operationalData).filter_by(otherid = oid).one()
             c1=DBSession.query('LAST_INSERT_ID()')
@@ -3330,13 +3330,7 @@ class RootController(BaseController):
         else:
             return dict(id=0, reason="do not have the level") 
     global NobilityName
-    NobilityName = ['三等平民','二等平民','一等平民',
-                '三等子爵','二等子爵','一等子爵', 
-                '三等伯爵', '二等伯爵','一等伯爵',
-                '三等侯爵', '二等侯爵', '一等侯爵', 
-                '三等公爵', '二等公爵', '一等公爵', 
-                '三等伯爵', '二等伯爵', '一等伯爵', 
-                '帝王']
+    NobilityName =  ["3-class civilians","2-class civilians","1-class civilians","3-class baron","2-class baron","1-class baron","3-class viscount","2-class viscount","1-class viscount","3-class earl","2-class class earl","1-class earl","3-class marquis","2-class marquis","1-class marquis","3-class duke","2-class duke","1-class duke","Emperor"]
     global Domain
     Domain = 'http://uhz000738.chinaw3.com:8003/'
     @expose('json')
@@ -3379,7 +3373,7 @@ class RootController(BaseController):
             
             myMap = DBSession.query(warMap).filter_by(userid = u.userid).one()
             try:
-                req = Domain + 'send?uid=0&name=系统&cid='+str(myMap.mapid)+'&text=<'+u.empirename+'>升级到 '+NobilityName[(u.nobility+1)]+'away'
+                req = Domain + 'send?uid=0&name=system��&cid='+str(myMap.mapid)+'&text=<'+u.empirename+'upgrade to '+NobilityName[(u.nobility+1)]+'away'
                 urllib.urlopen(req)
             except:
                 print 'send sysmsg fail'
@@ -5413,7 +5407,7 @@ class RootController(BaseController):
                         dragon.state = 2
                         dragon.health = 9
                         dragon.attack = 0
-                        dragon.name = '�ҵĳ���'
+                        dragon.name = 'My Pet'
                         return dict(id=1, result = "buy suc corn")
                     return dict(id=0, reason="need corn")
                 else:
@@ -5424,7 +5418,7 @@ class RootController(BaseController):
                         dragon.state = 2
                         dragon.health = 9
                         dragon.attack = 0
-                        dragon.name = '�ҵĳ���'
+                        dragon.name = 'My Pet'
                         return dict(id=1, result = "buy suc cae")
                     return dict(id=0, reason="need cae")
             return dict(id=0, reason="kind out of range")
@@ -5637,7 +5631,7 @@ class RootController(BaseController):
                     
                     user.populationupbound += 100
 
-                    dragon = Dragon(uid = user_id, bid = building.bid, friNum = 0, state=0,  health = 0, name = '�ҵĳ���', kind = 0, friList= '[]', lastFeed = 0, trainNum = 0, attack=0)
+                    dragon = Dragon(uid = user_id, bid = building.bid, friNum = 0, state=0,  health = 0, name = 'My Pet', kind = 0, friList= '[]', lastFeed = 0, trainNum = 0, attack=0)
                     DBSession.add(dragon)
                     return dict(id=1, result = "build dragon suc")
             return dict(id = 0, reason = "dragon fail lev or food or corn need")
@@ -6450,7 +6444,7 @@ class RootController(BaseController):
                     for f in notvisited:
                         k += 1
                         f.visited = 1
-                    cornadd = (100 + bonus)*friend_num
+                    cornadd = (20 + bonus)*friend_num
                 else:
                     return dict(id=0, reason="mana or card invalid")
             else:
@@ -6466,10 +6460,10 @@ class RootController(BaseController):
                     for f in notvisited:
                         k += 1
                         f.visited = 1
-                    if friend_num <= 100:
-                        cornadd = (100+bonus)*friend_num + 5*(friend_num+1)*friend_num/2
+                    if friend_num <= 50:
+                        cornadd = (20+bonus)*friend_num + 5*(friend_num+1)*friend_num/2
                     else:
-                        cornadd = (100+bonus)*100 + 5*(100+1)*100/2 + (100+99*5)*(friend_num-100)
+                        cornadd = (20+bonus)*50 + 5*(50+1)*50/2 + (20+49*5)*(friend_num-50)
             if flag == 1:
                 u.corn = u.corn + cornadd
                 m.mana = temp_mana
