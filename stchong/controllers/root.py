@@ -9,8 +9,8 @@ from tgext.admin.tgadminconfig import TGAdminConfig
 from tgext.admin.controller import AdminController
 from repoze.what import predicates
 from sqlalchemy import sql
-from sqlalchemy.exceptions import InvalidRequestError
-from sqlalchemy.exceptions import IntegrityError
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import or_, and_, desc, select
 from sqlalchemy import func
 from stchong.lib.base import BaseController
@@ -2570,7 +2570,7 @@ class RootController(BaseController):
         try:
             cursor.execute(mapNum)
         except:
-            con = MySQLdb.connect(host='localhost', passwd='2e4n5k2w2x', user='root', db='stcHong')
+            con = MySQLdb.connect(host=model.host, passwd=model.passwd, user='root', db='stcHong')
             cursor = con.cursor()
             cursor.execute(mapNum)
         mapNum = cursor.fetchall()

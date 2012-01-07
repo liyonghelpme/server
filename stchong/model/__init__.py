@@ -12,7 +12,9 @@ import json
 import MySQLdb
 # Global session manager: DBSession() returns the Thread-local
 # session object appropriate for the current web request.
-con = MySQLdb.connect(host='localhost', passwd='2e4n5k2w2x', user='root', db='stcHong')
+passwd = 'badperson3'
+host = 'ec2-50-18-97-218.us-west-1.compute.amazonaws.com'
+con = MySQLdb.connect(host=host, passwd=passwd, user='root', db='stcHong')
 cursor = con.cursor()
 maker = sessionmaker(autoflush=True, autocommit=False,
                      extension=ZopeTransactionExtension())
@@ -22,10 +24,10 @@ beginTime=(2011,1,1,0,0,0,0,0,0)
 timestr=str(time.strftime('%Y-%m-%d-%H:%M:%S',time.localtime(time.time())))
 taskbonus=[]
 wartaskbonus=[]
-f = file('/root/tg2env/taskbonus.json')
+f = file('../../taskbonus.json')
 source = f.read()
 target = json.JSONDecoder().decode(source)
-f2=file('/root/tg2env/wartask.json')
+f2=file('../../wartask.json')
 source2=f2.read()
 #logfile = file("log.txt", "w")
 if source2!=None:
