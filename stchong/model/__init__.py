@@ -12,9 +12,9 @@ import json
 import MySQLdb
 # Global session manager: DBSession() returns the Thread-local
 # session object appropriate for the current web request.
-passwd = 'badperson3'
-host = 'ec2-50-18-97-218.us-west-1.compute.amazonaws.com'
-con = MySQLdb.connect(host=host, passwd=passwd, user='root', db='stcHong')
+passwd = '2e4n5k2w2x'
+user = 'root'
+con = MySQLdb.connect(host='localhost', passwd=passwd, user=user, db='stcHong')
 cursor = con.cursor()
 maker = sessionmaker(autoflush=True, autocommit=False,
                      extension=ZopeTransactionExtension())

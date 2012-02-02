@@ -16,7 +16,6 @@ stchong/config/environment.py
 stchong/config/middleware.py
 stchong/controllers/__init__.py
 stchong/controllers/error.py
-stchong/controllers/init.py
 stchong/controllers/root.py
 stchong/controllers/secure.py
 stchong/controllers/template.py
