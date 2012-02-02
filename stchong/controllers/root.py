@@ -3319,8 +3319,8 @@ class RootController(BaseController):
                 '三等公爵', '二等公爵', '一等公爵', 
                 '三等伯爵', '二等伯爵', '一等伯爵', 
                 '帝王']
-    global Domain
-    Domain = 'http://uhz000738.chinaw3.com:8003/'
+    #global Domain
+    #Domain = 'http://uhz000738.chinaw3.com:8003/'
     @expose('json')
     def upgrademap(self,userid):
         try:
@@ -3361,11 +3361,13 @@ class RootController(BaseController):
                     DBSession.delete(b)
             
             myMap = DBSession.query(warMap).filter_by(userid = u.userid).one()
+            """
             try:
                 req = Domain + 'send?uid=0&name=系统&cid='+str(myMap.mapid)+'&text=<'+u.empirename+'>升级到 '+NobilityName[(u.nobility+1)]+'away'
                 urllib.urlopen(req)
             except:
                 print 'send sysmsg fail'
+            """
             c = moveMap(userid) 
             print "moveMap " + str(c)
             u.corn=u.corn+nobilitybonuslist[u.nobility][0]
@@ -4628,12 +4630,14 @@ class RootController(BaseController):
             u.subno = 2
             return [2, need*3-wonInMap]
         u.subno = 2
+        """
         if u.subno > subno:
             try:
                 req = Domain + 'send?uid=0&name=系统&cid='+str(myMap.mapid)+'&text=<'+u.empirename+'>升级到 '+NobilityName[(u.nobility+1)*3+u.subno]
                 urllib.urlopen(req)
             except:
                 print 'send sysmsg fail'
+        """
         return [2, 0]
     @expose('json')
     def battlelist(self,uid):
@@ -5552,7 +5556,6 @@ class RootController(BaseController):
                 return dict(id=0, reason="resource not enough")
             return dict(id=0, reason="unknown")
     @expose('json')
-    
     def build(self,user_id,city_id,ground_id,grid_id):
         print "build " + str(ground_id)
         curTime=int(time.mktime(time.localtime())-time.mktime(beginTime))
@@ -5648,7 +5651,7 @@ class RootController(BaseController):
                     
                     user.populationupbound += 100
 
-                    dragon = Dragon(uid = user_id, bid = building.bid, friNum = 0, state=0,  health = 0, name = '�ҵĳ���', kind = 0, friList= '[]', lastFeed = 0, trainNum = 0, attack=0)
+                    dragon = Dragon(uid = user_id, bid = building.bid, friNum = 0, state=0,  health = 0, name = 'My Pet', kind = 0, friList= '[]', lastFeed = 0, trainNum = 0, attack=0)
                     DBSession.add(dragon)
                     return dict(id=1, result = "build dragon suc")
             return dict(id = 0, reason = "dragon fail lev or food or corn need")
