@@ -11,6 +11,7 @@ import time
 import json
 # Global session manager: DBSession() returns the Thread-local
 # session object appropriate for the current web request.
+"""
 maker = sessionmaker(autoflush=True, autocommit=False,
                      extension=ZopeTransactionExtension())
 DBSession = scoped_session(maker)
@@ -32,7 +33,7 @@ for tt in target2:
     wartaskbonus.append([tt['id'],tt['des'],tt['lev']])
 logfile=open("logfile"+timestr,'w')
 # Base class for all of our model classes: By default, the data model is
-# defined with SQLAlchemy's declarative extension, but if you need more
+# ddefined with SQLAlchemy's declarative extension, but if you need more
 # control, you can switch to the traditional method.
 DeclarativeBase = declarative_base()
 
@@ -58,7 +59,6 @@ metadata = DeclarativeBase.metadata
 ######
 
 def init_model(engine):
-    """Call me before using any of the tables or classes in the model."""
     DBSession.configure(bind=engine)
     # If you are using reflection to introspect your database and create
     # table objects for you, your tables must be defined and mapped inside
@@ -142,3 +142,4 @@ from stchong.model.card import Card
 from stchong.model.caebuy import Caebuy
 from stchong.model.papayafriend import Papayafriend
 #from stchong.model.useraccount import userAccount
+"""
