@@ -9,13 +9,8 @@ from sqlalchemy import Table
 import memcache
 import time
 import json
-import MySQLdb
 # Global session manager: DBSession() returns the Thread-local
 # session object appropriate for the current web request.
-passwd = '2e4n5k2w2x'
-user = 'root'
-con = MySQLdb.connect(host='localhost', passwd=passwd, user=user, db='stcHong')
-cursor = con.cursor()
 maker = sessionmaker(autoflush=True, autocommit=False,
                      extension=ZopeTransactionExtension())
 DBSession = scoped_session(maker)
@@ -24,23 +19,18 @@ beginTime=(2011,1,1,0,0,0,0,0,0)
 timestr=str(time.strftime('%Y-%m-%d-%H:%M:%S',time.localtime(time.time())))
 taskbonus=[]
 wartaskbonus=[]
-f = file('../../taskbonus.json')
+f = file('/root/tg2env/taskbonus.json')
 source = f.read()
 target = json.JSONDecoder().decode(source)
-f2=file('../../wartask.json')
+f2=file('/root/tg2env/wartask.json')
 source2=f2.read()
-#logfile = file("log.txt", "w")
 if source2!=None:
     target2 = json.JSONDecoder().decode(source2)
 for t in target:
     taskbonus.append([t['id'],t['des'],t['lev']])
 for tt in target2:
     wartaskbonus.append([tt['id'],tt['des'],tt['lev']])
-
-#newtask = file('newtask.json')
-#newtask = newtask.read()
-#newtask = json.loads(newtask)
-
+logfile=open("logfile"+timestr,'w')
 # Base class for all of our model classes: By default, the data model is
 # defined with SQLAlchemy's declarative extension, but if you need more
 # control, you can switch to the traditional method.
@@ -109,8 +99,6 @@ def init_model(engine):
     card_table=Table("card",metadata,autoload=True,autoload_with=engine)
     caebuy_table=Table("caebuy",metadata,autoload=True,autoload_with=engine)
     ppyfriend_table=Table("papayafriend",metadata,autoload=True,autoload_with=engine)
-    rank_table=Table("rank",metadata,autoload=True,autoload_with=engine)
-    mana_table = Table("mana", metadata, autoload=True, autoload_with=engine)
    # useraccount_table=Table("userAccount",metadata,autoload=True,autoload_with=engine)
     mapper(warMap,warmap_table)
     mapper(operationalData,operationaldata_table)
@@ -132,8 +120,6 @@ def init_model(engine):
     mapper(Card,card_table)
     mapper(Caebuy,caebuy_table)
     mapper(Papayafriend,ppyfriend_table)
-    mapper(Rank,rank_table)
-    mapper(Mana,mana_table)
 # Import your model modules here.
 from stchong.model.auth import User, Group, Permission
 from stchong.model.operationaldata import operationalData
@@ -155,11 +141,4 @@ from stchong.model.friendrequest import FriendRequest
 from stchong.model.card import Card
 from stchong.model.caebuy import Caebuy
 from stchong.model.papayafriend import Papayafriend
-from stchong.model.rank import Rank
-from stchong.model.dragon import Dragon
-from stchong.model.petAtt import PetAtt
-from stchong.model.message import Message
-from stchong.model.emptyCastal import EmptyCastal
-from stchong.model.emptyResult import EmptyResult
-from stchong.model.mana import Mana
 #from stchong.model.useraccount import userAccount
