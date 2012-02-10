@@ -1118,7 +1118,7 @@ class RootController(BaseController):
                 s=s+';'+str(n[0])+','+str(n[1])
         u.specialgoods=s        
         return s
-    def getbonusbattle(u,k):
+    def getbonusbattle(u,k):#user kind 
         num1=[]
         restr=''
         num2=[]
@@ -1139,12 +1139,7 @@ class RootController(BaseController):
             while j<k:
                 a1=alphabet[num2[j]]
                 if a1==x1:
-                    
                     y1=y1+1
-                    
-                    
-                    
-                    
                     break
                 j=j+1
             j=0
@@ -1352,8 +1347,54 @@ class RootController(BaseController):
         except :
             return dict(foodlost=0)
         return dict(foodlost = 0)
+    #defeat lost
+    #reward add
+    #state changed
+    global defeatMonReward
+    def defeatMonReward(u, monsterid, k):
+        #exp
+        if u.lev<=8:
+            mu=int((k+2-1)/2)
+            u.exp=u.exp+(int(k+4-1)/4)
+        elif u.lev>8 and u.lev<=14:
+            mu=int((3*k+5-1)/5)
+            u.exp=u.exp+int((2*k+5-1)/5)
+        else:
+            mu=int((65*k+100-1)/100)
+            u.exp=u.exp+int((k+2-1)/2)
+        #corn
+        u.corn=u.corn+mu*30
+        if monsterid%3==0:
+            t=1
+        elif monsterid%3==1:
+            t=2
+        else:
+            t=3
+        #specials
+        s=getbonusbattle(u,t)
+
+        """
+        i=0
+        for m in mlist:
+            ml=m.split(',')
+            if ml[1]!=gridid:
+                if i==0:
+                    mstr=mstr+m
+                    i=1
+                else:
+                    mstr=mstr+';'+m
+        #monster string
+        u.monsterlist=mstr
+        """
+        return [mu, s]
+
+        
+
+        
     @expose('json')
-    def defeatmonster(self,uid,gridid):
+    def defeatmonster(self,uid,gridid, kind):
+        print "defeatmonster", uid, gridid, kind
+        kind = int(kind)
         listsoldier=[]
         l2=[]
         mlist=[]
@@ -1367,7 +1408,6 @@ class RootController(BaseController):
         s=''
         muu=0
         try:
-            
             u=checkopdata(uid)
             monsterstr=u.monsterlist
             nobility=u.nobility
@@ -1381,6 +1421,7 @@ class RootController(BaseController):
                 if gridid==ml[1]:
                     monsterid=int(ml[0])
                     break
+
             if monsterid==-1:
                 return dict(id=0)
             listsoldier=returnSoldier(u)
@@ -1389,45 +1430,25 @@ class RootController(BaseController):
             if u.monster>=60:
                 k=k+u.monster-60+1
             
-            
-            
-            
-            
-            if up-k<0:
-                return dict(id=30)
-            else:
-                
-                
-                
-                
-                
-                
-                if u.lev<=8:
-                    mu=int((k+2-1)/2)
-                    u.exp=u.exp+(int(k+4-1)/4)
-                elif u.lev>8 and u.lev<=14:
-                    mu=int((3*k+5-1)/5)
-                    u.exp=u.exp+int((2*k+5-1)/5)
+            if kind == 0:#kill by caesar
+                powerlost = -1
+                if u.cae >= 1:
+                    mu, s = defeatMonReward(u, monsterid, k)          
                 else:
-                    mu=int((65*k+100-1)/100)
-                    u.exp=u.exp+int((k+2-1)/2)
-                powerlost=mu
-                
-                
-                u.corn=u.corn+mu*30
-                if monsterid%3==0:
-                    t=1
-                elif monsterid%3==1:
-                    t=2
+                    return dict(id=0, reason = "cae not enough")
+            else:#kill by soldier
+                if up-k<0:#power not enough
+                    return dict(id=30)
                 else:
-                    t=3
-                s=getbonusbattle(u,t)
-                mu=u.infantrypower-mu
-                if mu>=0:
-                    u.infantrypower=mu
-                else:
-                    u.infantrypower=0
-                    u.cavalrypower=u.cavalrypower+mu
+                    mu, s = defeatMonReward(u, monsterid, k)
+                    powerlost=mu
+                    mu=u.infantrypower-mu
+                    if mu>=0:
+                        u.infantrypower=mu
+                    else:
+                        u.infantrypower=0
+                        u.cavalrypower=u.cavalrypower+mu
+            #mon string
             i=0
             for m in mlist:
                 ml=m.split(',')
@@ -1438,19 +1459,20 @@ class RootController(BaseController):
                     else:
                         mstr=mstr+';'+m
             u.monsterlist=mstr
-            
+            #monlost
             card=0
             u.monlost=powerlost
             u.monpower=k
             
+            #mondefeat changed 
             count=u.monsterdefeat.split(';')
             ct=[]
             if count!=None and len(count)>0:
                 for c in count:
                     ct.append(int(c))
                 if monsterid!=-1:
-                    ct[int(monsterid/3)]=ct[int(monsterid/3)]+1
-                if ct[int(monsterid/3)]==10:
+                    ct[int(monsterid/3)] += 1
+                if ct[int(monsterid/3)]==10:#get Monster Card
                     card=1
                 elif ct[int(monsterid/3)]==25:
                     card=2
@@ -1469,9 +1491,6 @@ class RootController(BaseController):
                     else:
                         ss=ss+';'+str(cc)
                 u.monsterdefeat=ss
-             
-            
-            replacecache(uid,u)
             return dict(id=1,cardid=card,powerlost=powerlost,infantrypower=u.infantrypower,cavalrypower=u.cavalrypower,specialgoods=s)  
         except InvalidRequestError:
             return dict(id=0)
@@ -2545,6 +2564,7 @@ class RootController(BaseController):
         print "find New map"
         
         kind = user.nobility + 1
+        print "Move map kind", kind
         
         #maps = DBSession.query(Map).filter_by(map_kind=kind).filter(Map.num < mapKind[kind]).all()
         if kind >= 3:
@@ -3264,58 +3284,82 @@ class RootController(BaseController):
                 print "failed!"
             return dict(wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods=nu.specialgoods,time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=c1[0],city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
    
+    global getSpecial
+    def getSpecial(user):
+        spe = user.specialgoods.split(";")
+        res = []
+        for s in spe:
+            s = s.split(',')
+            res.append([s[0], int(s[1])])
+        return res
+    global setSpecial
+    def setSpecial(spe):
+        res = ""
+        i = 0
+        for s in spe:
+            if i == 0:
+                res += s[0]+','+str(s[1])
+                i += 1
+            else:
+                res += ';'+s[0]+','+str(s[1])
+        return res
+    global EmpireLevel
+    EmpireLevel = [20, 25]
+    #cae, specialgoods coin food people PopulationUpbound manaBoundary
+    global EmpireCost
+    EmpireCost = [
+    [100, [["a",30], ["b", 30], ["c", 30]], 100000, 1000, 100, 100, 5], 
+    [100, [["a", 50], ["b", 50], ["c", 50]], 1000000, 10000, 200, 200, 5] 
+    ]
+    global checkSpe
+    def checkSpe(cost, spe):
+        for i in cost:
+            pos = int(i[0], 36)- int('a', 36)
+            if spe[pos][1] < i[1]:
+                return False
+        return True
+    global costSpe
+    def costSpe(cost, spe):
+        for i in cost:
+            pos = int(i[0], 36)- int('a', 36)
+            spe[pos][1] -= i[1]
+        return spe 
+
     @expose('json')
     def upgradecastle(self, userid, lev, type):
-        #try:
         userid = int(userid)
         u=checkopdata(userid)
         lev = int(lev)
         type = int(type)
-        if u.lev < 20:
-            return dict(id=0, reason="lev < 20")
+        lev -= 1
+        if lev >= len(EmpireCost):
+            return dict(id=0, reason="not open such Level")
+        if u.lev < EmpireLevel[lev]:
+            return dict(id=0, reason="user lev < ")
         print "upgrade Castal", userid, lev, type
-        num_a = 0
-        num_b = 0
-        num_c = 0
-        i = 0
-        specialgoods = u.specialgoods.split(';')
-        num_a = int(specialgoods[0].split(',')[1])
-        num_b = int(specialgoods[1].split(',')[1])
-        num_c = int(specialgoods[2].split(',')[1])
+        cost = EmpireCost[lev]
         m = DBSession.query(Mana).filter_by(userid=userid).one()
-        if lev == 1:
-            if type == 1:#by money
-                if num_a >= 30 and num_b >= 30 and num_c >= 30 and u.corn >= 100000 and u.food >= 1000 and (u.population-u.labor_num) >= 100:
-                    num_a -= 30
-                    num_b -= 30
-                    num_c -= 30
-                    u.corn -= 100000
-                    u.food -= 1000
-                    u.labor_num += 100
-                    city = DBSession.query(warMap).filter_by(userid=userid).one()
-                    city_id = city.city_id
-                    castle = DBSession.query(businessWrite).filter_by(city_id=city_id).filter_by(ground_id=0).one()
-                    castle.object_id += 1
-                    newspecialgoods = 'a,'+str(num_a)+';'+'b,'+str(num_b)+';'+'c,'+str(num_c)+';'+specialgoods[3]+';'+specialgoods[4]+';'+specialgoods[5]+';'+specialgoods[6]+';'+specialgoods[7]+';'+specialgoods[8]+';'+specialgoods[9]+';'+specialgoods[10]+';'+specialgoods[11]
-                    u.specialgoods = newspecialgoods
-                    u.populationupbound += 100
-                    m.boundary += 5
+        city = DBSession.query(warMap).filter_by(userid=userid).one()
+        city_id = city.city_id
+        castle = DBSession.query(businessWrite).filter_by(city_id=city_id).filter_by(ground_id=0).one()
+        if type == 1:#by money
+            spe = getSpecial(u)
+            if u.corn < cost[2] or u.food < cost[3] or (u.population-u.labor_num) < cost[4] or not checkSpe(cost[1], spe):
+                return dict(id=0, reason="resource not enough")
+            u.corn -= cost[2]
+            u.food -= cost[3]
+            u.labor_num += cost[4]
+            costSpe(cost[1], spe)
+            u.specialgoods = setSpecial(spe)
+        else:#by caesars
+            if u.cae < cost[0]:
+                return dict(id=0, reason = "cae not enough")
+            u.cae -= cost[0]
 
-                    return dict(id=1, result="the castle is lev 2")
-                else:
-                    return dict(id=0, reason="good not enough")
-            else:
-                if u.cae >= 100:
-                    u.cae -= 100
-                    city = DBSession.query(warMap).filter_by(userid=userid).one()
-                    city_id = city.city_id
-                    castle = DBSession.query(businessWrite).filter_by(city_id=city_id).filter_by(ground_id=0).one()
-                    castle.object_id += 1
-                    u.populationupbound += 100
-                    m.boundary += 5
-                    return dict(id=1, result="the castle is lev 2")
-        else:
-            return dict(id=0, reason="do not have the level") 
+        u.populationupbound += cost[5]
+        m.boundary += cost[5]
+        castle.object_id = lev+1
+        return dict(id=1)
     global NobilityName
     NobilityName = ['三等平民','二等平民','一等平民',
                 '三等子爵','二等子爵','一等子爵', 
