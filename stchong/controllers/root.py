@@ -2944,6 +2944,7 @@ class RootController(BaseController):
             user=checkopdata(ruser.userid)
             ds=DBSession.query(Datesurprise).filter_by(uid=user.userid).one()
             bonus=loginBonus(user)
+            print "login bonus", bonus
             lbonus=bonus
             s=DBSession.query(warMap).filter_by(userid=user.userid).one()
             stt= getCity(s.city_id)
