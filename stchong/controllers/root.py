@@ -3343,7 +3343,7 @@ class RootController(BaseController):
             u.cae -= cost[0]
 
         u.populationupbound += cost[5]
-        m.boundary += cost[5]
+        m.boundary += cost[6]
         castle.object_id = lev+1
         return dict(id=1)
     global NobilityName
