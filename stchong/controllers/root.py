@@ -3290,12 +3290,12 @@ class RootController(BaseController):
                 res += ';'+s[0]+','+str(s[1])
         return res
     global EmpireLevel
-    EmpireLevel = [20, 25]
+    EmpireLevel = [20, 30]
     #cae, specialgoods coin food people PopulationUpbound manaBoundary
     global EmpireCost
     EmpireCost = [
     [100, [["a",30], ["b", 30], ["c", 30]], 100000, 1000, 100, 100, 5], 
-    [100, [["a", 50], ["b", 50], ["c", 50]], 1000000, 10000, 200, 200, 5] 
+    [200, [["d", 30], ["e", 30], ["f", 30]], 500000, 5000, 500, 500, 8] 
     ]
     global checkSpe
     def checkSpe(cost, spe):
