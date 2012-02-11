@@ -138,8 +138,9 @@ class RootController(BaseController):
     godbuild=[[10000,500,0,50,250,7200],[10000,500,0,50,250,7200],[10000,500,0,50,250,7200],[10000,500,0,50,250,7200],[20000,1000,5,100,250,21600],[20000,1000,5,100,250,21600],[20000,1000,5,100,250,21600],[20000,1000,5,100,250,21600],[50000,2000,10,170,250,43200],[50000,2000,10,170,250,43200],[50000,2000,10,170,250,43200],[50000,2000,10,170,250,43200],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[500000,10000,30,350,250,86400],[500000,10000,30,350,250,86400],[500000,10000,30,350,250,86400],[500000,10000,30,350,250,86400]]
     
     statuebuilding = [[27,80000,600,20,7200],[30,-8,700,40,14400],[32,120000,950,80,21600],[34,-12,1200,60,28800],[37,200000,1600,120,36000],[40,-20,2500,100,43200]]
-    
-    decorationbuild=[[10,5,1],[20,5,1],[30,5,1],[50,5,4],[-1,50,5],[100,6,6],[100,6,6],[100,6,6],[100,6,6],[100,6,6],[100,6,6],[200,8,7],[-3,170,8],[400,15,9],[600,20,10],[800,25,11],[1000,30,12],[900,35,13],[1200,40,14],[2000,50,15],[-5,300,10],[1500,60,16],[1500,60,16],[1500,60,16],[1600,65,18],[1600,65,18],[1600,65,18],[1600,65,18],[-3,150,15],[-3,150,15],[-3,150,15],[-3,150,15],[1800,70,20],[1800,70,20],[1800,70,20],[2000,80,25],[2000,80,25],[2000,80,25],[-10,300,20],[5000,90,3],[-5,150,3],[-10,300,3],[2000,30,17],[2000,30,17],[-10,300,20],[-2,120,30],[-5,150,40],[-6,155,40],[-7,160,40],[-8,165,40],[-88,-2,25],[-50,-1,10],[5000,90,6],[-45,-1,8],[5000,90,6],[5000,90,15],[-45,-1,20],[100,10,3],[-40,-1,5],[-42,-1,7],[10000,130,7],[-46,-1,20],[5500,100,30]]
+    #corn person level
+    decorationbuild=[[10,5,1],[20,5,1],[30,5,1],[50,5,4],[-1,50,5],[100,6,6],[100,6,6],[100,6,6],[100,6,6],[100,6,6],[100,6,6],[200,8,7],[-3,170,8],[400,15,9],[600,20,10],[800,25,11],[1000,30,12],[900,35,13],[1200,40,14],[2000,50,15],[-5,300,10],[1500,60,16],[1500,60,16],[1500,60,16],[1600,65,18],[1600,65,18],[1600,65,18],[1600,65,18],[-3,150,15],[-3,150,15],[-3,150,15],[-3,150,15],[1800,70,20],[1800,70,20],[1800,70,20],[2000,80,25],[2000,80,25],[2000,80,25],[-10,300,20],[5000,90,3],[-5,150,3],[-10,300,3],[2000,30,17],[2000,30,17],[-10,300,20],[-2,120,30],[-5,150,40],[-6,155,40],[-7,160,40],[-8,165,40],[-88,-2,25],[-50,-1,10],[5000,90,6],[-45,-1,8],[5000,90,6],[5000,90,15],[-45,-1,20],[100,10,3],[-40,-1,5],[-42,-1,7],[10000,130,7],[-46,-1,20],[5500,100,30], 
+    [-5, 150, 3], [900, 30, 5], [-40, -1, 6], [-2, 100, 8] ]
     
     Plant_Price=[[50,1,20,600,1],[165,3,50,2700,1],[-1,8,120,3600,5],[700,7,150,9360,5],[1440,12,300,22680,7],[-3,25,430,14400,7],[230,5,52,1800,13],[600,9,80,5400,16],[-2,30,280,9000,10],[1210,15,200,11520,20],[3000,25,410,29160,25],[-5,50,650,25200,15]]
     beginTime=(2011,1,1,0,0,0,0,0,0)
@@ -1311,42 +1312,36 @@ class RootController(BaseController):
         u.corn=u.corn+u.monlost*30
         u.monlost=0
         return dict(monstertime=u.monstertime)
+    global getMonList
+    def getMonList(u):
+        ml = u.monsterlist.split(";")
+        res = []
+        for m in ml:
+            m = m.split(',')
+            res.append([int(m[0]), int(m[1])])
+        return res
+
     @expose('json')
     def foodlost(self,uid):
         print "foodlost " + str(uid)
+        user=checkopdata(uid)
+        foodlost=0
+        ds=None
         try:
-            user=checkopdata(uid)
-            foodlost=0
-            ds=None
-            try:
-                ds=DBSession.query(Datesurprise).filter_by(uid=user.userid).one()   
-            except:
-                return dict(foodlost=0)
-            """
-            if ds.monfood==0 or ds.monfood==None :
-                ds.monfood = 1
-            elif ds.monfood < 2:
-                ds.monfood += 1
-            """
-            if ds.monfood == 2:
-                ds.monfood += 1
-                monlist = user.monsterlist
-                monlist = monlist.split(';')
-                length = len(monlist)
-                if length > 0:
-                    res = monlist[0].split(',')
-                    if len(res) < 2:
-                        return dict(foodlost = 0)
-                #foodlost = (0.03 + length*1.0/200) * user.food
-                #foodlost = int(foodlost)
-                foodlost = 0
-                user.food -= foodlost
-                
-                print "lostfood " + str(foodlost)
-                return dict(foodlost=foodlost)
-        except :
-            return dict(foodlost=0)
-        return dict(foodlost = 0)
+            ds=DBSession.query(Datesurprise).filter_by(uid=user.userid).one()   
+        except:
+            return dict(id=1, foodlost=0)
+        if ds.monfood < 1:
+            ds.monfood += 1
+        elif ds.monfood == 1:#2 rob food
+            ds.monfood += 1 #3 robbed yet
+            monlist = getMonList(user)
+            print "monlist len", len(monlist)
+            if len(monlist) > 0:
+                foodlost = min(2000, user.food/100)
+            print "lostfood " + str(foodlost)
+            return dict(id=1, foodlost=foodlost)
+        return dict(id=1, foodlost = 0)
     #defeat lost
     #reward add
     #state changed
@@ -2746,9 +2741,6 @@ class RootController(BaseController):
                 user.monstertime=t+1800
                 user.monsterlist=''
                 
-                
-                
-                
                 user.corn=user.corn+3000
                 user.currenttask=task[1]
                 user.taskstring='0'
@@ -3144,16 +3136,10 @@ class RootController(BaseController):
                 sub=recalev(user,v)
             except:
                 sub=-1
-            if ds.monfood==0 or ds.monfood==None :
-                ds.monfood = 1
-            elif ds.monfood < 2:
-                ds.monfood += 1
-            elif ds.monfood == 2:
-                ds.monfood = 2
             if user.newcomer<3:
                 return dict(loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood-1,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,newstate=user.newcomer,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
             if user_kind==0:
-                return dict(loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood-1,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
+                return dict(loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
             else:
                 return dict(loginNum = user.logincard, wonNum = wonNum, wonBonus = wonBonus,sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,hid=user.hid,foodlost=ds.monfood-1,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,headid=user.hid,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,invitestring=user.invitestring,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum = user.catapult)
                     
@@ -5615,8 +5601,10 @@ class RootController(BaseController):
         if ground_id >= 425 and ground_id <= 429:
             return buildGod(user, city_id, ground_id, grid_id, 425, 429)
 
+        #corn popUp level
         if ground_id >=500 and ground_id <=599:
             print "build decoration " + str(decorationbuild[ground_id-500][1])
+            #corn > 0
             if decorationbuild[ground_id-500][0]>0 and user.corn >= decorationbuild[ground_id-500][0]:
                 if decorationbuild[ground_id-500][1] > 0 :
                     user.corn = user.corn - decorationbuild[ground_id-500][0]
@@ -5627,7 +5615,7 @@ class RootController(BaseController):
                     return dict(id=1,result="build decoration suc")
                 else:
                     try:
-                        user.corn = user.corn - decorationbuild[ground_id-500][0]
+                        user.corn -= decorationbuild[ground_id-500][0]
                         m = DBSession.query(Mana).filter_by(userid=user_id).one()
                         m.boundary = m.boundary - decorationbuild[ground_id-500][1]
                         building = businessWrite(city_id = city_id, ground_id=ground_id, grid_id=grid_id, object_id = -1, producttime = 0, finish = 1)
@@ -5636,10 +5624,17 @@ class RootController(BaseController):
                         return dict(id=1,result="build decoration suc")
                     except:
                         return dict(id = 0, reason="can not find mana")
-            elif decorationbuild[ground_id-500][0]<0 and user.cae + decorationbuild[ground_id-500][0]>=0:
+            #cae < 0
+            elif decorationbuild[ground_id-500][0]<0: 
+                costCae = decorationbuild[ground_id-500][0]
+                if decorationbuild[ground_id-500][1] < 0:
+                    costCae /= 2
+                    
+                if user.cae + costCae < 0:
+                    return dict(id=0, reason = "cae not enough")
                 if decorationbuild[ground_id-500][1] > 0 :
-                    user.cae = user.cae + decorationbuild[ground_id-500][0]
-                    user.populationupbound=user.populationupbound+decorationbuild[ground_id-500][1]
+                    user.cae = user.cae + costCae
+                    user.populationupbound += decorationbuild[ground_id-500][1]
                     building = businessWrite(city_id = city_id, ground_id=ground_id, grid_id=grid_id, object_id = -1, producttime = 0, finish = 1)
                     DBSession.add(building)
                     DBSession.flush()
@@ -5649,7 +5644,7 @@ class RootController(BaseController):
                     return dict(id=1,result="build decoration suc")
                 else:
                     try:
-                        user.cae = user.cae + decorationbuild[ground_id-500][0]
+                        user.cae += costCae
                         m = DBSession.query(Mana).filter_by(userid=user_id).one()
                         m.boundary = m.boundary - decorationbuild[ground_id-500][1]
                         building = businessWrite(city_id = city_id, ground_id=ground_id, grid_id=grid_id, object_id = -1, producttime = 0, finish = 1)
@@ -5697,7 +5692,7 @@ class RootController(BaseController):
                     
                     user.populationupbound += 100
 
-                    dragon = Dragon(uid = user_id, bid = building.bid, friNum = 0, state=0,  health = 0, name = 'ÎÒµÄ³èÎï', kind = 0, friList= '[]', lastFeed = 0, trainNum = 0, attack=0)
+                    dragon = Dragon(uid = user_id, bid = building.bid, friNum = 0, state=0,  health = 0, name = 'My Pet', kind = 0, friList= '[]', lastFeed = 0, trainNum = 0, attack=0)
                     DBSession.add(dragon)
                     return dict(id=1, result = "build dragon suc")
             return dict(id = 0, reason = "dragon fail lev or food or corn need")
