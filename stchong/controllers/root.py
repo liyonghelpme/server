@@ -1429,6 +1429,7 @@ class RootController(BaseController):
                 powerlost = -1
                 if u.cae >= 1:
                     mu, s = defeatMonReward(u, monsterid, k)          
+                    u.cae -= 1
                 else:
                     return dict(id=0, reason = "cae not enough")
             else:#kill by soldier
