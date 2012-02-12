@@ -4158,7 +4158,15 @@ class RootController(BaseController):
             emptyInfo = mapEmptyInfo1(uid, warmap.mapid)
         except:
             print 'get emptyinfo fail'
-        return dict(empty=emptyInfo, nobility=nob,emptyResult = emptybattle['result'], battleresult=battleresult,subno=u.subno, defence=u.defencepower, minus=min[1], corn=u.corn, cae = u.cae, inf = u.infantrypower, cav = u.cavalrypower, catapult = u.catapult) 
+        dragonAtt = 0
+        dragonHealth = 0
+        try:
+            dragon = DBSession.query(Dragon).filter_by(uid=uid).one()
+            dragonAtt = dragon.attack
+            dragonHealth = dragon.health
+        except:
+            print "no dragon"
+        return dict(empty=emptyInfo, nobility=nob,emptyResult = emptybattle['result'], battleresult=battleresult,subno=u.subno, defence=u.defencepower, minus=min[1], corn=u.corn, cae = u.cae, inf = u.infantrypower, cav = u.cavalrypower, catapult = u.catapult, dragonAtt = dragonAtt, dragonHealth = dragonHealth) 
     def callost(myFull, eneFull, myPure, enePure, type):
     	lost = [0, 0]
     	attackLost = [[40, 50, 70, 90], [15, 20, 20, 20] ]
@@ -4437,6 +4445,14 @@ class RootController(BaseController):
             res.append(data)
             
         return dict(result = res)#only when user delete emptyBattle will it work
+    global DragonInitAttack
+    DragonInitAttack = [100, 250, 1000, 300, 1200, 1500]
+    global DragonKindAttack
+    DragonKindAttack = [5, 6, 10, 7, 12, 17]
+    global DragonExtraAttack
+    DragonExtraAttack = [0, 3, 3]
+    global YoungDragon
+    YoungDragon = 3
     def warresult2(uid):
         uid = int(uid)
         t=int(time.mktime(time.localtime())-time.mktime(beginTime))
@@ -4467,7 +4483,19 @@ class RootController(BaseController):
             attFullPow += b.allypower
             print "attack full power " + str(attFullPow)
 
+
             defPurePow = defence.infantrypower + defence.cavalrypower
+
+            dragon = None
+            try:
+                dragon = DBSession.query(Dragon).filter_by(uid=uid).one()
+                att = DBSession.query(PetAtt).filter_by(pid=dragon.pid).one()
+                dragonAtt = DragonKindAttack[dragon.kind]+DragonExtraAttack[att.att]
+                if dragon.state >= YoungDragon:#young dragon
+                    datt = max(dragon.attack + dragon.health*dragonAtt+DragonInitAttack[dragon.kind], 0)
+                    defPurePow += datt
+            except:
+                print "defence no dragon"
             defFullPow = defPurePow
             defGod = calGod(defence.userid, defPurePow)
             defFullPow += defGod
@@ -4497,12 +4525,27 @@ class RootController(BaseController):
             
             leftIn = defence.infantrypower - lost[1]
             leftCa = defence.cavalrypower + min(leftIn, 0)
-            #leftCatapult = defence.catapult + min(leftCa, 0)
             leftDef = defence.defencepower + min(leftCa, 0)
+            lostDragon = min(leftDef, 0) 
+
             leftIn = max(leftIn, 0)
             leftCa = max(leftCa, 0)
-            #leftCatapult = max(leftCatapult, 0)
             leftDef = max(leftDef, 0)
+            if lostDragon < 0:
+                lostDragon = -lostDragon
+                if dragon != None and dragon.state >= YoungDragon:#young dragon
+                    attBound = dragon.attack/10
+                    leftDraAtt = dragon.attack - min(lostDragon, attBound)
+                    if lostDragon > dragon.attack:
+                        lostDragon -= dragon.attack
+                        healBound = dragon.health/20
+                        leftDraHealth = dragon.health - min(lostDragon/dragonAtt, healBound)
+                    leftDraAtt = max(leftDraAtt, 0)
+                    leftDraHealth = max(leftDraHealth, 0)
+                    dragon.attack = leftDraAtt
+                    dragon.health = leftDraHealth
+                    print "def lost dragon", dragon.attack, dragon.health
+
             defLostIn = defence.infantrypower - leftIn
             defLostCa = defence.cavalrypower - leftCa
             #defLostCatapult = defence.catapult - leftCatapult
@@ -5350,6 +5393,7 @@ class RootController(BaseController):
     def trainDragon(self, uid, gid, cid):
         uid = int(uid)
         try:
+            mana = DBSession.query(Mana).filter_by(userid = uid).one()
             building = DBSession.query(businessWrite).filter_by(city_id=cid).filter_by(grid_id=gid).one()
             dragon = DBSession.query(Dragon).filter(Dragon.bid == building.bid).one()
         except InvalidRequestError:
@@ -5359,12 +5403,13 @@ class RootController(BaseController):
         if dragon.uid == uid:
             trainNum = dragon.trainNum
             print "train dragon "+str(trainNum)
-            if trainNum < 100:
+            if trainNum < 100 and mana.mana >= 2:
+                mana.mana -= 2
                 dragon.trainNum += 1
-                dragon.attack +=1
+                dragon.attack += 10
                 return dict(id=1, result="train dragon suc")
             else: 
-                return dict(id=0,reason="trainNum>100")
+                return dict(id=0,reason="trainNum>100 or mana < 2")
         else:
             return dict(id=0,reason="not himself dragon")
     @expose('json')
@@ -5455,7 +5500,7 @@ class RootController(BaseController):
                         dragon.state = 2
                         dragon.health = 9
                         dragon.attack = 0
-                        dragon.name = 'ÎÒµÄ³èÎï'
+                        dragon.name = 'My Pet'
                         return dict(id=1, result = "buy suc corn")
                     return dict(id=0, reason="need corn")
                 else:
