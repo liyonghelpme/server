@@ -126,8 +126,10 @@ class RootController(BaseController):
     global battlebonus
     admin = AdminController(model, DBSession, config_type=TGAdminConfig)
     
-    housebuild=[[500,10,0,0,3,600,None,1],[1400,30,0,1,8,1200,'a,1',1],[2800,0,70,2,15,2400,'a,2;b,3',1],[int(500*1.1),10,0,0,3,600,None,1],[int(1400*1.1),30,0,1,8,1200,'a,1',1],[int(2800*1.1),0,70,2,15,2400,'a,2;b,3',1],[int(500*1.2),10,0,0,3,600,None,1],[int(1400*1.2),30,0,1,8,1200,'a,1',1],[int(2800*1.2),0,70,2,15,2400,'a,2;b,3',1],[int(500*1.3),10,0,0,3,600,None,1],[int(1400*1.3),30,0,1,8,1200,'a,1',1],[int(2800*1.3),0,70,2,15,2400,'a,2;b,3',1],[1500,60,0,0,5,1800,None,5],[4800,120,0,3,13,4800,'b,2;c,2',5],[9000,0,100,4,24,9000,'c,2;d,3',5],[int(1500*1.1),60,0,0,5,1800,None,5],[int(4800*1.1),120,0,3,13,4800,'b,2;c,2',5],[int(9000*1.1),0,100,4,24,9000,'c,2;d,3',5],[int(1500*1.2),60,0,0,5,1800,None,5],[int(4800*1.2),120,0,3,13,4800,'b,2;c,2',5],[int(9000*1.2),0,100,4,24,9000,'c,2;d,3',5],[int(1500*1.3),60,0,0,5,1800,None,5],[int(4800*1.3),120,0,3,13,4800,'b,2;c,2',5],[int(9000*1.3),0,100,4,24,9000,'c,2;d,3',5],[7300,400,0,0,13,15840,None,10],[15000,0,150,4,21,24480,'f,2;g,2',10],[19000,0,-150,5,30,30600,'g,2;h,3',10],[int(7300*1.1),400,0,0,13,15840,None,10],[int(15000*1.1),0,150,4,21,24480,'f,2;g,2',10],[int(19000*1.1),0,-150,5,30,30600,'g,2;h,3',10],[int(7300*1.2),400,0,0,13,15840,None,10],[int(15000*1.2),0,150,4,21,24480,'f,2;g,2',10],[int(19000*1.2),0,-150,5,30,30600,'g,2;h,3',10],[int(7300*1.3),400,0,0,13,15840,None,10],[int(15000*1.3),0,150,4,21,24480,'f,2;g,2',10],[int(19000*1.3),0,-150,5,30,30600,'g,2;h,3',10],[3500,200,0,0,11,5400,None,15],[6600,0,120,5,25,11160,'d,2;e,2',15],[11000,0,-120,6,39,21240,'e,2;f,3',15],[int(3500*1.1),200,0,0,11,5400,None,15],[int(6600*1.1),0,120,5,25,11160,'d,2;e,2',15],[int(11000*1.1),0,-120,6,39,21240,'e,2;f,3',15],[int(3500*1.2),200,0,0,11,5400,None,15],[int(6600*1.2),0,120,5,25,11160,'d,2;e,2',15],[int(11000*1.2),0,-120,6,39,21240,'e,2;f,3',15],[int(3500*1.3),200,0,0,11,5400,None,15],[int(6600*1.3),0,120,5,25,11160,'d,2;e,2',15],[int(11000*1.3),0,-120,6,39,21240,'e,2;f,3',15],[10500,600,0,0,20,25200,None,20],[15500,0,200,7,32,36720,'h,2;i,2',20],[19500,0,-200,8,43,71640,'i,2;j,2',20],[int(10500*1.1),600,0,0,20,25200,None,20],[int(15500*1.1),0,200,7,32,36720,'h,2;i,2',20],[int(19500*1.1),0,-200,8,43,71640,'i,2;j,2',20],[int(10500*1.2),600,0,0,20,25200,None,20],[int(15500*1.2),0,200,7,32,36720,'h,2;i,2',20],[int(19500*1.2),0,-200,8,43,71640,'i,2;j,2',20],[int(10500*1.3),600,0,0,20,25200,None,20],[int(15500*1.3),0,200,7,32,36720,'h,2;i,2',20],[int(19500*1.3),0,-200,8,43,71640,'i,2;j,2',20],[-10,0,0,0,15,7560,None,5],[20000,0,300,12,25,15480,'b,2;c,2',5],[25000,0,-300,15,40,30600,'c,2;d,3',5],[int(-10*1.1),0,0,0,15,7560,None,5],[int(20000*1.1),0,300,12,25,15480,'b,2;c,2',5],[int(25000*1.1),0,-300,15,40,30600,'c,2;d,3',5],[int(-10*1.2),0,0,0,15,7560,None,5],[int(20000*1.2),0,300,12,25,15480,'b,2;c,2',5],[int(25000*1.2),0,-300,15,40,30600,'c,2;d,3',5],[int(-10*1.3),0,0,0,15,7560,None,5],[int(20000*1.3),0,300,12,25,15480,'b,2;c,2',5],[int(25000*1.3),0,-300,15,40,30600,'c,2;d,3',5],[-8,0,0,0,20,12240,None,3],[22000,0,310,15,30,19800,'a,2;f,2',3],[26000,0,-310,20,50,28800,'d,2;i,4',3],[int(-9),0,0,0,20,12240,None,3],[int(1.1*22000),0,310,15,30,19800,'a,2;f,2',3],[int(1.1*26000),0,-310,20,50,28800,'d,2;i,4',3]]
-    
+    #coin food wood caesars exp buildTime specials size 
+    housebuild=[[500,10,0,0,3,600,None,1],[1400,30,0,1,8,1200,'a,1',1],[2800,0,70,2,15,2400,'a,2;b,3',1],[int(500*1.1),10,0,0,3,600,None,1],[int(1400*1.1),30,0,1,8,1200,'a,1',1],[int(2800*1.1),0,70,2,15,2400,'a,2;b,3',1],[int(500*1.2),10,0,0,3,600,None,1],[int(1400*1.2),30,0,1,8,1200,'a,1',1],[int(2800*1.2),0,70,2,15,2400,'a,2;b,3',1],[int(500*1.3),10,0,0,3,600,None,1],[int(1400*1.3),30,0,1,8,1200,'a,1',1],[int(2800*1.3),0,70,2,15,2400,'a,2;b,3',1],[1500,60,0,0,5,1800,None,5],[4800,120,0,3,13,4800,'b,2;c,2',5],[9000,0,100,4,24,9000,'c,2;d,3',5],[int(1500*1.1),60,0,0,5,1800,None,5],[int(4800*1.1),120,0,3,13,4800,'b,2;c,2',5],[int(9000*1.1),0,100,4,24,9000,'c,2;d,3',5],[int(1500*1.2),60,0,0,5,1800,None,5],[int(4800*1.2),120,0,3,13,4800,'b,2;c,2',5],[int(9000*1.2),0,100,4,24,9000,'c,2;d,3',5],[int(1500*1.3),60,0,0,5,1800,None,5],[int(4800*1.3),120,0,3,13,4800,'b,2;c,2',5],[int(9000*1.3),0,100,4,24,9000,'c,2;d,3',5],[7300,400,0,0,13,15840,None,10],[15000,0,150,4,21,24480,'f,2;g,2',10],[19000,0,-150,5,30,30600,'g,2;h,3',10],[int(7300*1.1),400,0,0,13,15840,None,10],[int(15000*1.1),0,150,4,21,24480,'f,2;g,2',10],[int(19000*1.1),0,-150,5,30,30600,'g,2;h,3',10],[int(7300*1.2),400,0,0,13,15840,None,10],[int(15000*1.2),0,150,4,21,24480,'f,2;g,2',10],[int(19000*1.2),0,-150,5,30,30600,'g,2;h,3',10],[int(7300*1.3),400,0,0,13,15840,None,10],[int(15000*1.3),0,150,4,21,24480,'f,2;g,2',10],[int(19000*1.3),0,-150,5,30,30600,'g,2;h,3',10],[3500,200,0,0,11,5400,None,15],[6600,0,120,5,25,11160,'d,2;e,2',15],[11000,0,-120,6,39,21240,'e,2;f,3',15],[int(3500*1.1),200,0,0,11,5400,None,15],[int(6600*1.1),0,120,5,25,11160,'d,2;e,2',15],[int(11000*1.1),0,-120,6,39,21240,'e,2;f,3',15],[int(3500*1.2),200,0,0,11,5400,None,15],[int(6600*1.2),0,120,5,25,11160,'d,2;e,2',15],[int(11000*1.2),0,-120,6,39,21240,'e,2;f,3',15],[int(3500*1.3),200,0,0,11,5400,None,15],[int(6600*1.3),0,120,5,25,11160,'d,2;e,2',15],[int(11000*1.3),0,-120,6,39,21240,'e,2;f,3',15],[10500,600,0,0,20,25200,None,20],[15500,0,200,7,32,36720,'h,2;i,2',20],[19500,0,-200,8,43,71640,'i,2;j,2',20],[int(10500*1.1),600,0,0,20,25200,None,20],[int(15500*1.1),0,200,7,32,36720,'h,2;i,2',20],[int(19500*1.1),0,-200,8,43,71640,'i,2;j,2',20],[int(10500*1.2),600,0,0,20,25200,None,20],[int(15500*1.2),0,200,7,32,36720,'h,2;i,2',20],[int(19500*1.2),0,-200,8,43,71640,'i,2;j,2',20],[int(10500*1.3),600,0,0,20,25200,None,20],[int(15500*1.3),0,200,7,32,36720,'h,2;i,2',20],[int(19500*1.3),0,-200,8,43,71640,'i,2;j,2',20],[-10,0,0,0,15,7560,None,5],[20000,0,300,12,25,15480,'b,2;c,2',5],[25000,0,-300,15,40,30600,'c,2;d,3',5],[int(-10*1.1),0,0,0,15,7560,None,5],[int(20000*1.1),0,300,12,25,15480,'b,2;c,2',5],[int(25000*1.1),0,-300,15,40,30600,'c,2;d,3',5],[int(-10*1.2),0,0,0,15,7560,None,5],[int(20000*1.2),0,300,12,25,15480,'b,2;c,2',5],[int(25000*1.2),0,-300,15,40,30600,'c,2;d,3',5],[int(-10*1.3),0,0,0,15,7560,None,5],[int(20000*1.3),0,300,12,25,15480,'b,2;c,2',5],[int(25000*1.3),0,-300,15,40,30600,'c,2;d,3',5],[-8,0,0,0,20,12240,None,3],[22000,0,310,15,30,19800,'a,2;f,2',3],[26000,0,-310,20,50,28800,'d,2;i,4',3],[int(-9),0,0,0,20,12240,None,3],[int(1.1*22000),0,310,15,30,19800,'a,2;f,2',3],[int(1.1*26000),0,-310,20,50,28800,'d,2;i,4',3],
+    [-2, 0, 0, 0, 10, 2*3600+1800, None, 2], [5500, 200, 0, 5, 15, 5*3600, "b,2;f,2", 2], [8000, 0, 100, 10, 30, 10*3600+360*3, "e,2;i,4", 2] 
+    ]
     resourcebuild=[[1000,0,80,0,5,0],[-10,0,0,0,15,10],[-15,0,0,0,40,20],[-20,0,0,0,70,30],[10000,600,120,0,20,10],[28500,1000,250,0,30,18]]
     
     milbuild=[[4000,130,100,0,0,5,3600,None,1],[9000,0,20,200,5,10,11520,'a,3',1],[20000,0,50,-200,10,20,22680,'b,3;c,4',1],[12000,320,130,0,0,15,7200,None,5],[25000,0,20,500,7,20,14760,'b,3',5],[50000,0,50,-500,15,35,28440,'c,3;d,4',5],[6000,150,90,0,0,7,10800,None,5],[12000,0,20,300,3,15,21600,'c,3',5],[25000,0,50,-300,7,30,32400,'d,3;e,4',5], [20000, 400, 200, 0, 0, 20, 18000, None, 25], [45000, 0, 50, 400, 20, 50, 27000, 'a,8;b,8', 25], [100000, 0, 50, -400, 40, 100, 36000, 'c,15;g,15', 25]]
@@ -136,13 +138,17 @@ class RootController(BaseController):
     godbuild=[[10000,500,0,50,250,7200],[10000,500,0,50,250,7200],[10000,500,0,50,250,7200],[10000,500,0,50,250,7200],[20000,1000,5,100,250,21600],[20000,1000,5,100,250,21600],[20000,1000,5,100,250,21600],[20000,1000,5,100,250,21600],[50000,2000,10,170,250,43200],[50000,2000,10,170,250,43200],[50000,2000,10,170,250,43200],[50000,2000,10,170,250,43200],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[500000,10000,30,350,250,86400],[500000,10000,30,350,250,86400],[500000,10000,30,350,250,86400],[500000,10000,30,350,250,86400]]
     
     statuebuilding = [[27,80000,600,20,7200],[30,-8,700,40,14400],[32,120000,950,80,21600],[34,-12,1200,60,28800],[37,200000,1600,120,36000],[40,-20,2500,100,43200]]
-    
-    decorationbuild=[[10,5,1],[20,5,1],[30,5,1],[50,5,4],[-1,50,5],[100,6,6],[100,6,6],[100,6,6],[100,6,6],[100,6,6],[100,6,6],[200,8,7],[-3,170,8],[400,15,9],[600,20,10],[800,25,11],[1000,30,12],[900,35,13],[1200,40,14],[2000,50,15],[-5,300,10],[1500,60,16],[1500,60,16],[1500,60,16],[1600,65,18],[1600,65,18],[1600,65,18],[1600,65,18],[-3,150,15],[-3,150,15],[-3,150,15],[-3,150,15],[1800,70,20],[1800,70,20],[1800,70,20],[2000,80,25],[2000,80,25],[2000,80,25],[-10,300,20],[5000,90,3],[-5,150,3],[-10,300,3],[2000,30,17],[2000,30,17],[-10,300,20],[-2,120,30],[-5,150,40],[-6,155,40],[-7,160,40],[-8,165,40],[-88,-2,25],[-50,-1,10],[5000,90,6],[-45,-1,8],[5000,90,6],[5000,90,15],[-45,-1,20],[100,10,3],[-40,-1,5],[-42,-1,7],[10000,130,7],[-46,-1,20],[5500,100,30]]
+    #corn person level
+    decorationbuild=[[10,5,1],[20,5,1],[30,5,1],[50,5,4],[-1,50,5],[100,6,6],[100,6,6],[100,6,6],[100,6,6],[100,6,6],[100,6,6],[200,8,7],[-3,170,8],[400,15,9],[600,20,10],[800,25,11],[1000,30,12],[900,35,13],[1200,40,14],[2000,50,15],[-5,300,10],[1500,60,16],[1500,60,16],[1500,60,16],[1600,65,18],[1600,65,18],[1600,65,18],[1600,65,18],[-3,150,15],[-3,150,15],[-3,150,15],[-3,150,15],[1800,70,20],[1800,70,20],[1800,70,20],[2000,80,25],[2000,80,25],[2000,80,25],[-10,300,20],[5000,90,3],[-5,150,3],[-10,300,3],[2000,30,17],[2000,30,17],[-10,300,20],[-2,120,30],[-5,150,40],[-6,155,40],[-7,160,40],[-8,165,40],[-88,-2,25],[-50,-1,10],[5000,90,6],[-45,-1,8],[5000,90,6],[5000,90,15],[-45,-1,20],[100,10,3],[-40,-1,5],[-42,-1,7],[10000,130,7],[-46,-1,20],[5500,100,30], 
+    [-5, 150, 3], [900, 30, 5], [-40, -1, 6], [-2, 100, 8] ]
     
     Plant_Price=[[50,1,20,600,1],[165,3,50,2700,1],[-1,8,120,3600,5],[700,7,150,9360,5],[1440,12,300,22680,7],[-3,25,430,14400,7],[230,5,52,1800,13],[600,9,80,5400,16],[-2,30,280,9000,10],[1210,15,200,11520,20],[3000,25,410,29160,25],[-5,50,650,25200,15]]
     beginTime=(2011,1,1,0,0,0,0,0,0)
     
-    houses=[[10,20,1,1800,1],[15,30,2,1800,1],[20,40,5,1800,1],[10,20,1,1800,1],[15,30,2,1800,1],[20,40,5,1800,1],[10,20,1,1800,1],[15,30,2,1800,1],[20,40,5,1800,1],[10,20,1,1800,1],[15,30,2,1800,1],[20,40,5,1800,1],[32,64,3,7560,1],[43,86,7,7560,1],[55,110,11,7560,1],[32,64,3,7560,1],[43,86,7,7560,1],[55,110,11,7560,1],[32,64,3,7560,1],[43,86,7,7560,1],[55,110,11,7560,1],[32,64,3,7560,1],[43,86,7,7560,1],[55,110,11,7560,1],[70,140,7,18720,2],[83,174,14,18720,2],[100,200,21,18720,2],[70,140,7,18720,2],[83,174,14,18720,2],[100,200,21,18720,2],[70,140,7,18720,2],[83,174,14,18720,2],[100,200,21,18720,2],[70,140,7,18720,2],[83,174,14,18720,2],[100,200,21,18720,2],[50,90,6,12600,2],[62,116,10,12600,3],[75,142,17,12600,3],[50,90,6,12600,2],[62,116,10,12600,3],[75,142,17,12600,3],[50,90,6,12600,2],[62,116,10,12600,3],[75,142,17,12600,3],[50,90,6,12600,2],[62,116,10,12600,3],[75,142,17,12600,3],[95,190,12,29880,3],[115,230,24,29800,3],[135,270,36,29800,3],[95,190,12,29880,3],[115,230,24,29800,3],[135,270,36,29800,3],[95,190,12,29880,3],[115,230,24,29800,3],[135,270,36,29800,3],[95,190,12,29880,3],[115,230,24,29800,3],[135,270,36,29800,3],[100,150,15,14400,4],[150,225,25,14400,4],[200,300,35,14400,4],[100,150,15,14400,4],[150,225,25,14400,4],[200,300,35,14400,4],[100,150,15,14400,4],[150,225,25,14400,4],[200,300,35,14400,4],[100,150,15,14400,4],[150,225,25,14400,4],[200,300,35,14400,4],[110,170,17,21600,0],[165,245,26,21600,0],[230,339,39,21600,0],[110,170,17,21600,0],[165,245,26,21600,0],[230,339,39,21600,0]]
+    #population food exp time 
+    houses=[[10,20,1,1800,1],[15,30,2,1800,1],[20,40,5,1800,1],[10,20,1,1800,1],[15,30,2,1800,1],[20,40,5,1800,1],[10,20,1,1800,1],[15,30,2,1800,1],[20,40,5,1800,1],[10,20,1,1800,1],[15,30,2,1800,1],[20,40,5,1800,1],[32,64,3,7560,1],[43,86,7,7560,1],[55,110,11,7560,1],[32,64,3,7560,1],[43,86,7,7560,1],[55,110,11,7560,1],[32,64,3,7560,1],[43,86,7,7560,1],[55,110,11,7560,1],[32,64,3,7560,1],[43,86,7,7560,1],[55,110,11,7560,1],[70,140,7,18720,2],[83,174,14,18720,2],[100,200,21,18720,2],[70,140,7,18720,2],[83,174,14,18720,2],[100,200,21,18720,2],[70,140,7,18720,2],[83,174,14,18720,2],[100,200,21,18720,2],[70,140,7,18720,2],[83,174,14,18720,2],[100,200,21,18720,2],[50,90,6,12600,2],[62,116,10,12600,3],[75,142,17,12600,3],[50,90,6,12600,2],[62,116,10,12600,3],[75,142,17,12600,3],[50,90,6,12600,2],[62,116,10,12600,3],[75,142,17,12600,3],[50,90,6,12600,2],[62,116,10,12600,3],[75,142,17,12600,3],[95,190,12,29880,3],[115,230,24,29800,3],[135,270,36,29800,3],[95,190,12,29880,3],[115,230,24,29800,3],[135,270,36,29800,3],[95,190,12,29880,3],[115,230,24,29800,3],[135,270,36,29800,3],[95,190,12,29880,3],[115,230,24,29800,3],[135,270,36,29800,3],[100,150,15,14400,4],[150,225,25,14400,4],[200,300,35,14400,4],[100,150,15,14400,4],[150,225,25,14400,4],[200,300,35,14400,4],[100,150,15,14400,4],[150,225,25,14400,4],[200,300,35,14400,4],[100,150,15,14400,4],[150,225,25,14400,4],[200,300,35,14400,4],[110,170,17,21600,0],[165,245,26,21600,0],[230,339,39,21600,0],[110,170,17,21600,0],[165,245,26,21600,0],[230,339,39,21600,0],
+    [30, 60, 4, 4*3600+1800, 0], [40, 80, 7, 4*3600+1800, 0], [50, 100, 12, 4*3600+1800, 0]
+    ]
     
     soldie=[[750,90,30,3,7200],[2400,270,90,3,21600],[4800,540,180,3,43200],[1600,180,30,3,7200],[5000,540,90,3,21600],[10000,1080,180,3,43200],[2400,270,30,3,7200],[7500,810,90,3,21600],[15000,1620,180,3,43200],[2000,150,15,6,7200],[6300,450,45,6,21600],[12600,900,90,6,43200],[2600,300,15,6,7200],[7900,900,45,6,21600],[15800,1800,90,6,43200],[3300,450,15,6,7200],[10000,1350,45,6,21600],[20000,2700,90,6,43200],[150,10,2,9,7200],[500,30,6,9,21600],[1000,60,12,9,43200],[310,20,2,9,7200],[990,60,6,9,21600],[1980,120,12,9,43200],[480,30,2,9,7200],[1500,90,6,9,21600],[3000,180,12,9,43200]]
     global catapult
@@ -1113,7 +1119,7 @@ class RootController(BaseController):
                 s=s+';'+str(n[0])+','+str(n[1])
         u.specialgoods=s        
         return s
-    def getbonusbattle(u,k):
+    def getbonusbattle(u,k):#user kind 
         num1=[]
         restr=''
         num2=[]
@@ -1134,12 +1140,7 @@ class RootController(BaseController):
             while j<k:
                 a1=alphabet[num2[j]]
                 if a1==x1:
-                    
                     y1=y1+1
-                    
-                    
-                    
-                    
                     break
                 j=j+1
             j=0
@@ -1311,44 +1312,87 @@ class RootController(BaseController):
         u.corn=u.corn+u.monlost*30
         u.monlost=0
         return dict(monstertime=u.monstertime)
+    global getMonList
+    def getMonList(u):
+        ml = u.monsterlist.split(";")
+        res = []
+        for m in ml:
+            m = m.split(',')
+            try:
+                res.append([int(m[0]), int(m[1])])
+            except:
+                print "error monster"
+        return res
+
     @expose('json')
     def foodlost(self,uid):
         print "foodlost " + str(uid)
+        user=checkopdata(uid)
+        foodlost=0
+        ds=None
         try:
-            user=checkopdata(uid)
-            foodlost=0
-            ds=None
-            try:
-                ds=DBSession.query(Datesurprise).filter_by(uid=user.userid).one()   
-            except:
-                return dict(foodlost=0)
-            """
-            if ds.monfood==0 or ds.monfood==None :
-                ds.monfood = 1
-            elif ds.monfood < 2:
-                ds.monfood += 1
-            """
-            if ds.monfood == 2:
-                ds.monfood += 1
-                monlist = user.monsterlist
-                monlist = monlist.split(';')
-                length = len(monlist)
-                if length > 0:
-                    res = monlist[0].split(',')
-                    if len(res) < 2:
-                        return dict(foodlost = 0)
-                #foodlost = (0.03 + length*1.0/200) * user.food
-                #foodlost = int(foodlost)
-                foodlost = 0
-                user.food -= foodlost
-                
-                print "lostfood " + str(foodlost)
-                return dict(foodlost=foodlost)
-        except :
-            return dict(foodlost=0)
-        return dict(foodlost = 0)
+            ds=DBSession.query(Datesurprise).filter_by(uid=user.userid).one()   
+        except:
+            return dict(id=1, foodlost=0)
+        if ds.monfood < 1:
+            ds.monfood += 1
+        elif ds.monfood == 1:#2 rob food
+            ds.monfood += 1 #3 robbed yet
+            monlist = getMonList(user)
+            print "monlist len", len(monlist)
+            if len(monlist) > 0:
+                foodlost = min(2000, user.food/100)
+            print "lostfood " + str(foodlost)
+            return dict(id=1, foodlost=foodlost)
+        return dict(id=1, foodlost = 0)
+    #defeat lost
+    #reward add
+    #state changed
+    global defeatMonReward
+    def defeatMonReward(u, monsterid, k):
+        #exp
+        if u.lev<=8:
+            mu=int((k+2-1)/2)
+            u.exp=u.exp+(int(k+4-1)/4)
+        elif u.lev>8 and u.lev<=14:
+            mu=int((3*k+5-1)/5)
+            u.exp=u.exp+int((2*k+5-1)/5)
+        else:
+            mu=int((65*k+100-1)/100)
+            u.exp=u.exp+int((k+2-1)/2)
+        #corn
+        u.corn=u.corn+mu*30
+        if monsterid%3==0:
+            t=1
+        elif monsterid%3==1:
+            t=2
+        else:
+            t=3
+        #specials
+        s=getbonusbattle(u,t)
+
+        """
+        i=0
+        for m in mlist:
+            ml=m.split(',')
+            if ml[1]!=gridid:
+                if i==0:
+                    mstr=mstr+m
+                    i=1
+                else:
+                    mstr=mstr+';'+m
+        #monster string
+        u.monsterlist=mstr
+        """
+        return [mu, s]
+
+        
+
+        
     @expose('json')
-    def defeatmonster(self,uid,gridid):
+    def defeatmonster(self,uid,gridid, kind):
+        print "defeatmonster", uid, gridid, kind
+        kind = int(kind)
         listsoldier=[]
         l2=[]
         mlist=[]
@@ -1362,7 +1406,6 @@ class RootController(BaseController):
         s=''
         muu=0
         try:
-            
             u=checkopdata(uid)
             monsterstr=u.monsterlist
             nobility=u.nobility
@@ -1376,6 +1419,7 @@ class RootController(BaseController):
                 if gridid==ml[1]:
                     monsterid=int(ml[0])
                     break
+
             if monsterid==-1:
                 return dict(id=0)
             listsoldier=returnSoldier(u)
@@ -1384,45 +1428,26 @@ class RootController(BaseController):
             if u.monster>=60:
                 k=k+u.monster-60+1
             
-            
-            
-            
-            
-            if up-k<0:
-                return dict(id=30)
-            else:
-                
-                
-                
-                
-                
-                
-                if u.lev<=8:
-                    mu=int((k+2-1)/2)
-                    u.exp=u.exp+(int(k+4-1)/4)
-                elif u.lev>8 and u.lev<=14:
-                    mu=int((3*k+5-1)/5)
-                    u.exp=u.exp+int((2*k+5-1)/5)
+            if kind == 0:#kill by caesar
+                powerlost = -1
+                if u.cae >= 1:
+                    mu, s = defeatMonReward(u, monsterid, k)          
+                    u.cae -= 1
                 else:
-                    mu=int((65*k+100-1)/100)
-                    u.exp=u.exp+int((k+2-1)/2)
-                powerlost=mu
-                
-                
-                u.corn=u.corn+mu*30
-                if monsterid%3==0:
-                    t=1
-                elif monsterid%3==1:
-                    t=2
+                    return dict(id=0, reason = "cae not enough")
+            else:#kill by soldier
+                if up-k<0:#power not enough
+                    return dict(id=30)
                 else:
-                    t=3
-                s=getbonusbattle(u,t)
-                mu=u.infantrypower-mu
-                if mu>=0:
-                    u.infantrypower=mu
-                else:
-                    u.infantrypower=0
-                    u.cavalrypower=u.cavalrypower+mu
+                    mu, s = defeatMonReward(u, monsterid, k)
+                    powerlost=mu
+                    mu=u.infantrypower-mu
+                    if mu>=0:
+                        u.infantrypower=mu
+                    else:
+                        u.infantrypower=0
+                        u.cavalrypower=u.cavalrypower+mu
+            #mon string
             i=0
             for m in mlist:
                 ml=m.split(',')
@@ -1433,19 +1458,20 @@ class RootController(BaseController):
                     else:
                         mstr=mstr+';'+m
             u.monsterlist=mstr
-            
+            #monlost
             card=0
             u.monlost=powerlost
             u.monpower=k
             
+            #mondefeat changed 
             count=u.monsterdefeat.split(';')
             ct=[]
             if count!=None and len(count)>0:
                 for c in count:
                     ct.append(int(c))
                 if monsterid!=-1:
-                    ct[int(monsterid/3)]=ct[int(monsterid/3)]+1
-                if ct[int(monsterid/3)]==10:
+                    ct[int(monsterid/3)] += 1
+                if ct[int(monsterid/3)]==10:#get Monster Card
                     card=1
                 elif ct[int(monsterid/3)]==25:
                     card=2
@@ -1464,9 +1490,6 @@ class RootController(BaseController):
                     else:
                         ss=ss+';'+str(cc)
                 u.monsterdefeat=ss
-             
-            
-            replacecache(uid,u)
             return dict(id=1,cardid=card,powerlost=powerlost,infantrypower=u.infantrypower,cavalrypower=u.cavalrypower,specialgoods=s)  
         except InvalidRequestError:
             return dict(id=0)
@@ -2540,6 +2563,7 @@ class RootController(BaseController):
         print "find New map"
         
         kind = user.nobility + 1
+        print "Move map kind", kind
         
         #maps = DBSession.query(Map).filter_by(map_kind=kind).filter(Map.num < mapKind[kind]).all()
         if kind >= 3:
@@ -2628,11 +2652,12 @@ class RootController(BaseController):
         return s
     @expose('json')
     def readAll(self, city_id):
-        read(city_id)
+        read1(city_id)
         return dict(id=1)
-    
     def read(city_id):
-        """
+        return 0
+    global read1
+    def read1(city_id):
         try:
             s=''
             i=0
@@ -2655,7 +2680,6 @@ class RootController(BaseController):
                 return 2
         except InvalidRequestError:
             return 0
-        """
     @expose('json')
     def changename(self,userid,newname):
         
@@ -2720,9 +2744,6 @@ class RootController(BaseController):
                 task=tasknew(user.userid)
                 user.monstertime=t+1800
                 user.monsterlist=''
-                
-                
-                
                 
                 user.corn=user.corn+3000
                 user.currenttask=task[1]
@@ -2902,7 +2923,7 @@ class RootController(BaseController):
     @expose('json')
     
     def logsign(self,papayaid,user_kind,md5):
-        print "login from 1"
+        print "login from 1", papayaid
         user=None
         oid=papayaid
         user_kind=int(user_kind)
@@ -2926,6 +2947,7 @@ class RootController(BaseController):
             user=checkopdata(ruser.userid)
             ds=DBSession.query(Datesurprise).filter_by(uid=user.userid).one()
             bonus=loginBonus(user)
+            print "login bonus", bonus
             lbonus=bonus
             s=DBSession.query(warMap).filter_by(userid=user.userid).one()
             stt= getCity(s.city_id)
@@ -3119,18 +3141,12 @@ class RootController(BaseController):
                 sub=recalev(user,v)
             except:
                 sub=-1
-            if ds.monfood==0 or ds.monfood==None :
-                ds.monfood = 1
-            elif ds.monfood < 2:
-                ds.monfood += 1
-            elif ds.monfood == 2:
-                ds.monfood = 2
             if user.newcomer<3:
-                return dict(loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood-1,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,newstate=user.newcomer,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
+                return dict(loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,newstate=user.newcomer,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
             if user_kind==0:
-                return dict(loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood-1,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
+                return dict(loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
             else:
-                return dict(loginNum = user.logincard, wonNum = wonNum, wonBonus = wonBonus,sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,hid=user.hid,foodlost=ds.monfood-1,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,headid=user.hid,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,invitestring=user.invitestring,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum = user.catapult)
+                return dict(loginNum = user.logincard, wonNum = wonNum, wonBonus = wonBonus,sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,hid=user.hid,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,headid=user.hid,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,invitestring=user.invitestring,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum = user.catapult)
                     
         except InvalidRequestError:
             newuser=operationalData(labor_num=280,population=380,exp=0,corn=1000,cae=1,nobility=-1,infantry1_num=30,cavalry1_num=0,scout1_num=0,person_god=0,wealth_god=0,food_god=0,war_god=0,user_kind=user_kind,otherid=oid,lev=1,empirename='我的领地',food=100)
@@ -3247,70 +3263,97 @@ class RootController(BaseController):
             except InvalidRequestError:
                 x=0
             
-            conn = httplib.HTTPConnection(SERVER_NAME)
-            
-            url_send = "/a/misc/wonderempire_event?uid="+papayaid+"&event=1"
-            conn.request('GET',url_send)
-            res = conn.getresponse()
-            
-            if res.status == 200:
-                print "succeeded!"
-            else:
-                print "failed!"
+            try:
+                conn = httplib.HTTPConnection(SERVER_NAME)
+                
+                url_send = "/a/misc/wonderempire_event?uid="+papayaid+"&event=1"
+                conn.request('GET',url_send)
+                res = conn.getresponse()
+                
+                if res.status == 200:
+                    print "succeeded!"
+                else:
+                    print "failed!"
+            except:
+                print "register error"
             return dict(wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods=nu.specialgoods,time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=c1[0],city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
    
+    global getSpecial
+    def getSpecial(user):
+        spe = user.specialgoods.split(";")
+        res = []
+        for s in spe:
+            s = s.split(',')
+            res.append([s[0], int(s[1])])
+        return res
+    global setSpecial
+    def setSpecial(spe):
+        res = ""
+        i = 0
+        for s in spe:
+            if i == 0:
+                res += s[0]+','+str(s[1])
+                i += 1
+            else:
+                res += ';'+s[0]+','+str(s[1])
+        return res
+    global EmpireLevel
+    EmpireLevel = [20, 30]
+    #cae, specialgoods coin food people PopulationUpbound manaBoundary
+    global EmpireCost
+    EmpireCost = [
+    [100, [["a",30], ["b", 30], ["c", 30]], 100000, 1000, 100, 100, 5], 
+    [200, [["d", 30], ["e", 30], ["f", 30]], 500000, 5000, 500, 500, 8] 
+    ]
+    global checkSpe
+    def checkSpe(cost, spe):
+        for i in cost:
+            pos = int(i[0], 36)- int('a', 36)
+            if spe[pos][1] < i[1]:
+                return False
+        return True
+    global costSpe
+    def costSpe(cost, spe):
+        for i in cost:
+            pos = int(i[0], 36)- int('a', 36)
+            spe[pos][1] -= i[1]
+        return spe 
+
     @expose('json')
     def upgradecastle(self, userid, lev, type):
-        #try:
         userid = int(userid)
         u=checkopdata(userid)
         lev = int(lev)
         type = int(type)
-        if u.lev < 20:
-            return dict(id=0, reason="lev < 20")
+        lev -= 1
+        if lev >= len(EmpireCost):
+            return dict(id=0, reason="not open such Level")
+        if u.lev < EmpireLevel[lev]:
+            return dict(id=0, reason="user lev < ")
         print "upgrade Castal", userid, lev, type
-        num_a = 0
-        num_b = 0
-        num_c = 0
-        i = 0
-        specialgoods = u.specialgoods.split(';')
-        num_a = int(specialgoods[0].split(',')[1])
-        num_b = int(specialgoods[1].split(',')[1])
-        num_c = int(specialgoods[2].split(',')[1])
+        cost = EmpireCost[lev]
         m = DBSession.query(Mana).filter_by(userid=userid).one()
-        if lev == 1:
-            if type == 1:#by money
-                if num_a >= 30 and num_b >= 30 and num_c >= 30 and u.corn >= 100000 and u.food >= 1000 and (u.population-u.labor_num) >= 100:
-                    num_a -= 30
-                    num_b -= 30
-                    num_c -= 30
-                    u.corn -= 100000
-                    u.food -= 1000
-                    u.labor_num += 100
-                    city = DBSession.query(warMap).filter_by(userid=userid).one()
-                    city_id = city.city_id
-                    castle = DBSession.query(businessWrite).filter_by(city_id=city_id).filter_by(ground_id=0).one()
-                    castle.object_id += 1
-                    newspecialgoods = 'a,'+str(num_a)+';'+'b,'+str(num_b)+';'+'c,'+str(num_c)+';'+specialgoods[3]+';'+specialgoods[4]+';'+specialgoods[5]+';'+specialgoods[6]+';'+specialgoods[7]+';'+specialgoods[8]+';'+specialgoods[9]+';'+specialgoods[10]+';'+specialgoods[11]
-                    u.specialgoods = newspecialgoods
-                    u.populationupbound += 100
-                    m.boundary += 5
+        city = DBSession.query(warMap).filter_by(userid=userid).one()
+        city_id = city.city_id
+        castle = DBSession.query(businessWrite).filter_by(city_id=city_id).filter_by(ground_id=0).one()
+        if type == 1:#by money
+            spe = getSpecial(u)
+            if u.corn < cost[2] or u.food < cost[3] or (u.population-u.labor_num) < cost[4] or not checkSpe(cost[1], spe):
+                return dict(id=0, reason="resource not enough")
+            u.corn -= cost[2]
+            u.food -= cost[3]
+            u.labor_num += cost[4]
+            costSpe(cost[1], spe)
+            u.specialgoods = setSpecial(spe)
+        else:#by caesars
+            if u.cae < cost[0]:
+                return dict(id=0, reason = "cae not enough")
+            u.cae -= cost[0]
 
-                    return dict(id=1, result="the castle is lev 2")
-                else:
-                    return dict(id=0, reason="good not enough")
-            else:
-                if u.cae >= 100:
-                    u.cae -= 100
-                    city = DBSession.query(warMap).filter_by(userid=userid).one()
-                    city_id = city.city_id
-                    castle = DBSession.query(businessWrite).filter_by(city_id=city_id).filter_by(ground_id=0).one()
-                    castle.object_id += 1
-                    u.populationupbound += 100
-                    m.boundary += 5
-                    return dict(id=1, result="the castle is lev 2")
-        else:
-            return dict(id=0, reason="do not have the level") 
+        u.populationupbound += cost[5]
+        m.boundary += cost[6]
+        castle.object_id = lev+1
+        return dict(id=1)
     global NobilityName
     NobilityName = ['三等平民','二等平民','一等平民',
                 '三等子爵','二等子爵','一等子爵', 
@@ -4123,7 +4166,15 @@ class RootController(BaseController):
             emptyInfo = mapEmptyInfo1(uid, warmap.mapid)
         except:
             print 'get emptyinfo fail'
-        return dict(empty=emptyInfo, nobility=nob,emptyResult = emptybattle['result'], battleresult=battleresult,subno=u.subno, defence=u.defencepower, minus=min[1], corn=u.corn, cae = u.cae, inf = u.infantrypower, cav = u.cavalrypower, catapult = u.catapult) 
+        dragonAtt = 0
+        dragonHealth = 0
+        try:
+            dragon = DBSession.query(Dragon).filter_by(uid=uid).one()
+            dragonAtt = dragon.attack
+            dragonHealth = dragon.health
+        except:
+            print "no dragon"
+        return dict(empty=emptyInfo, nobility=nob,emptyResult = emptybattle['result'], battleresult=battleresult,subno=u.subno, defence=u.defencepower, minus=min[1], corn=u.corn, cae = u.cae, inf = u.infantrypower, cav = u.cavalrypower, catapult = u.catapult, dragonAtt = dragonAtt, dragonHealth = dragonHealth) 
     def callost(myFull, eneFull, myPure, enePure, type):
     	lost = [0, 0]
     	attackLost = [[40, 50, 70, 90], [15, 20, 20, 20] ]
@@ -4402,6 +4453,14 @@ class RootController(BaseController):
             res.append(data)
             
         return dict(result = res)#only when user delete emptyBattle will it work
+    global DragonInitAttack
+    DragonInitAttack = [100, 250, 1000, 300, 1200, 1500]
+    global DragonKindAttack
+    DragonKindAttack = [5, 6, 10, 7, 12, 17]
+    global DragonExtraAttack
+    DragonExtraAttack = [0, 3, 3]
+    global YoungDragon
+    YoungDragon = 3
     def warresult2(uid):
         uid = int(uid)
         t=int(time.mktime(time.localtime())-time.mktime(beginTime))
@@ -4432,7 +4491,19 @@ class RootController(BaseController):
             attFullPow += b.allypower
             print "attack full power " + str(attFullPow)
 
+
             defPurePow = defence.infantrypower + defence.cavalrypower
+
+            dragon = None
+            try:
+                dragon = DBSession.query(Dragon).filter_by(uid=uid).one()
+                att = DBSession.query(PetAtt).filter_by(pid=dragon.pid).one()
+                dragonAtt = DragonKindAttack[dragon.kind]+DragonExtraAttack[att.att]
+                if dragon.state >= YoungDragon:#young dragon
+                    datt = max(dragon.attack + dragon.health*dragonAtt+DragonInitAttack[dragon.kind], 0)
+                    defPurePow += datt
+            except:
+                print "defence no dragon"
             defFullPow = defPurePow
             defGod = calGod(defence.userid, defPurePow)
             defFullPow += defGod
@@ -4462,12 +4533,28 @@ class RootController(BaseController):
             
             leftIn = defence.infantrypower - lost[1]
             leftCa = defence.cavalrypower + min(leftIn, 0)
-            #leftCatapult = defence.catapult + min(leftCa, 0)
             leftDef = defence.defencepower + min(leftCa, 0)
+            lostDragon = min(leftDef, 0) 
+
             leftIn = max(leftIn, 0)
             leftCa = max(leftCa, 0)
-            #leftCatapult = max(leftCatapult, 0)
             leftDef = max(leftDef, 0)
+            if lostDragon < 0:
+                lostDragon = -lostDragon
+                if dragon != None and dragon.state >= YoungDragon:#young dragon
+                    attBound = dragon.attack/10
+                    leftDraAtt = dragon.attack - min(lostDragon, attBound)
+                    leftDraHealth = dragon.health
+                    if lostDragon > dragon.attack:
+                        lostDragon -= dragon.attack
+                        healBound = dragon.health/20
+                        leftDraHealth = dragon.health - min(lostDragon/dragonAtt, healBound)
+                    leftDraAtt = max(leftDraAtt, 0)
+                    leftDraHealth = max(leftDraHealth, 0)
+                    dragon.attack = leftDraAtt
+                    dragon.health = leftDraHealth
+                    print "def lost dragon", dragon.attack, dragon.health
+
             defLostIn = defence.infantrypower - leftIn
             defLostCa = defence.cavalrypower - leftCa
             #defLostCatapult = defence.catapult - leftCatapult
@@ -5317,6 +5404,7 @@ class RootController(BaseController):
     def trainDragon(self, uid, gid, cid):
         uid = int(uid)
         try:
+            mana = DBSession.query(Mana).filter_by(userid = uid).one()
             building = DBSession.query(businessWrite).filter_by(city_id=cid).filter_by(grid_id=gid).one()
             dragon = DBSession.query(Dragon).filter(Dragon.bid == building.bid).one()
         except InvalidRequestError:
@@ -5326,12 +5414,13 @@ class RootController(BaseController):
         if dragon.uid == uid:
             trainNum = dragon.trainNum
             print "train dragon "+str(trainNum)
-            if trainNum < 100:
+            if trainNum < 100 and mana.mana >= 2:
+                mana.mana -= 2
                 dragon.trainNum += 1
-                dragon.attack +=1
+                dragon.attack += 10
                 return dict(id=1, result="train dragon suc")
             else: 
-                return dict(id=0,reason="trainNum>100")
+                return dict(id=0,reason="trainNum>100 or mana < 2")
         else:
             return dict(id=0,reason="not himself dragon")
     @expose('json')
@@ -5422,7 +5511,7 @@ class RootController(BaseController):
                         dragon.state = 2
                         dragon.health = 9
                         dragon.attack = 0
-                        dragon.name = '�ҵĳ���'
+                        dragon.name = 'My Pet'
                         return dict(id=1, result = "buy suc corn")
                     return dict(id=0, reason="need corn")
                 else:
@@ -5433,7 +5522,7 @@ class RootController(BaseController):
                         dragon.state = 2
                         dragon.health = 9
                         dragon.attack = 0
-                        dragon.name = '�ҵĳ���'
+                        dragon.name = 'My Pet'
                         return dict(id=1, result = "buy suc cae")
                     return dict(id=0, reason="need cae")
             return dict(id=0, reason="kind out of range")
@@ -5569,8 +5658,10 @@ class RootController(BaseController):
         if ground_id >= 425 and ground_id <= 429:
             return buildGod(user, city_id, ground_id, grid_id, 425, 429)
 
+        #corn popUp level
         if ground_id >=500 and ground_id <=599:
             print "build decoration " + str(decorationbuild[ground_id-500][1])
+            #corn > 0
             if decorationbuild[ground_id-500][0]>0 and user.corn >= decorationbuild[ground_id-500][0]:
                 if decorationbuild[ground_id-500][1] > 0 :
                     user.corn = user.corn - decorationbuild[ground_id-500][0]
@@ -5581,7 +5672,7 @@ class RootController(BaseController):
                     return dict(id=1,result="build decoration suc")
                 else:
                     try:
-                        user.corn = user.corn - decorationbuild[ground_id-500][0]
+                        user.corn -= decorationbuild[ground_id-500][0]
                         m = DBSession.query(Mana).filter_by(userid=user_id).one()
                         m.boundary = m.boundary - decorationbuild[ground_id-500][1]
                         building = businessWrite(city_id = city_id, ground_id=ground_id, grid_id=grid_id, object_id = -1, producttime = 0, finish = 1)
@@ -5590,10 +5681,17 @@ class RootController(BaseController):
                         return dict(id=1,result="build decoration suc")
                     except:
                         return dict(id = 0, reason="can not find mana")
-            elif decorationbuild[ground_id-500][0]<0 and user.cae + decorationbuild[ground_id-500][0]>=0:
+            #cae < 0
+            elif decorationbuild[ground_id-500][0]<0: 
+                costCae = decorationbuild[ground_id-500][0]
+                if decorationbuild[ground_id-500][1] < 0:
+                    costCae /= 2
+                    
+                if user.cae + costCae < 0:
+                    return dict(id=0, reason = "cae not enough")
                 if decorationbuild[ground_id-500][1] > 0 :
-                    user.cae = user.cae + decorationbuild[ground_id-500][0]
-                    user.populationupbound=user.populationupbound+decorationbuild[ground_id-500][1]
+                    user.cae = user.cae + costCae
+                    user.populationupbound += decorationbuild[ground_id-500][1]
                     building = businessWrite(city_id = city_id, ground_id=ground_id, grid_id=grid_id, object_id = -1, producttime = 0, finish = 1)
                     DBSession.add(building)
                     DBSession.flush()
@@ -5603,7 +5701,7 @@ class RootController(BaseController):
                     return dict(id=1,result="build decoration suc")
                 else:
                     try:
-                        user.cae = user.cae + decorationbuild[ground_id-500][0]
+                        user.cae += costCae
                         m = DBSession.query(Mana).filter_by(userid=user_id).one()
                         m.boundary = m.boundary - decorationbuild[ground_id-500][1]
                         building = businessWrite(city_id = city_id, ground_id=ground_id, grid_id=grid_id, object_id = -1, producttime = 0, finish = 1)
