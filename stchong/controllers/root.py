@@ -1318,7 +1318,10 @@ class RootController(BaseController):
         res = []
         for m in ml:
             m = m.split(',')
-            res.append([int(m[0]), int(m[1])])
+            try:
+                res.append([int(m[0]), int(m[1])])
+            except:
+                print "error monster"
         return res
 
     @expose('json')
@@ -2649,11 +2652,12 @@ class RootController(BaseController):
         return s
     @expose('json')
     def readAll(self, city_id):
-        read(city_id)
+        read1(city_id)
         return dict(id=1)
-    
     def read(city_id):
-        """
+        return 0
+    global read1
+    def read1(city_id):
         try:
             s=''
             i=0
@@ -2676,7 +2680,6 @@ class RootController(BaseController):
                 return 2
         except InvalidRequestError:
             return 0
-        """
     @expose('json')
     def changename(self,userid,newname):
         
@@ -2920,7 +2923,7 @@ class RootController(BaseController):
     @expose('json')
     
     def logsign(self,papayaid,user_kind,md5):
-        print "login from 1"
+        print "login from 1", papayaid
         user=None
         oid=papayaid
         user_kind=int(user_kind)
@@ -3260,16 +3263,19 @@ class RootController(BaseController):
             except InvalidRequestError:
                 x=0
             
-            conn = httplib.HTTPConnection(SERVER_NAME)
-            
-            url_send = "/a/misc/wonderempire_event?uid="+papayaid+"&event=1"
-            conn.request('GET',url_send)
-            res = conn.getresponse()
-            
-            if res.status == 200:
-                print "succeeded!"
-            else:
-                print "failed!"
+            try:
+                conn = httplib.HTTPConnection(SERVER_NAME)
+                
+                url_send = "/a/misc/wonderempire_event?uid="+papayaid+"&event=1"
+                conn.request('GET',url_send)
+                res = conn.getresponse()
+                
+                if res.status == 200:
+                    print "succeeded!"
+                else:
+                    print "failed!"
+            except:
+                print "register error"
             return dict(wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods=nu.specialgoods,time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=c1[0],city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
    
     global getSpecial
@@ -4536,6 +4542,7 @@ class RootController(BaseController):
                 if dragon != None and dragon.state >= YoungDragon:#young dragon
                     attBound = dragon.attack/10
                     leftDraAtt = dragon.attack - min(lostDragon, attBound)
+                    leftDraHealth = dragon.health
                     if lostDragon > dragon.attack:
                         lostDragon -= dragon.attack
                         healBound = dragon.health/20
@@ -5511,7 +5518,7 @@ class RootController(BaseController):
                         dragon.state = 2
                         dragon.health = 9
                         dragon.attack = 0
-                        dragon.name = 'ÎÒµÄ³èÎï'
+                        dragon.name = 'My Pet'
                         return dict(id=1, result = "buy suc cae")
                     return dict(id=0, reason="need cae")
             return dict(id=0, reason="kind out of range")
