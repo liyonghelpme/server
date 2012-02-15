@@ -1746,8 +1746,6 @@ class RootController(BaseController):
     @expose('json')
     def helpopen(self,user_id,fuser_id):
         t=int(time.mktime(time.localtime())-time.mktime(beginTime))
-        
-        
         u1=checkopdata(user_id)
         u2=checkopdata(fuser_id)
         papayaid1=u1.otherid
@@ -1759,17 +1757,13 @@ class RootController(BaseController):
                 u2.treasurebox=u2.treasurebox+';'+str(papayaid1)
                 u1.corn=u1.corn+1000
                 addnews(int(fuser_id),u1.otherid,5,t,u1.user_kind)
-                replacecache(user_id,u1)
-                replacecache(fuser_id,u2)
                 return dict(id=1)
             else:
                 return dict(id=0)
         else:
             u2.treasurebox=str(papayaid1)
-            u1.corn=u1.corn+1000
+            u1.corn=u1.corn+100
             addnews(int(fuser_id),u1.otherid,5,t,u1.user_kind)
-            replacecache(user_id,u1)
-            replacecache(fuser_id,u2)
             return dict(id=1)
     @expose('json')
     def selfopen(self,user_id):
@@ -2573,7 +2567,7 @@ class RootController(BaseController):
         try:
             cursor.execute(mapNum)
         except:
-            con = MySQLdb.connect(host='localhost', passwd=passwd, user='root', db='stcHong')
+            con = MySQLdb.connect(host='localhost', passwd=passwd, user='root', db=model.db)
             cursor = con.cursor()
             cursor.execute(mapNum)
         mapNum = cursor.fetchall()
@@ -3149,7 +3143,7 @@ class RootController(BaseController):
                 return dict(loginNum = user.logincard, wonNum = wonNum, wonBonus = wonBonus,sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,hid=user.hid,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,headid=user.hid,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,invitestring=user.invitestring,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum = user.catapult)
                     
         except InvalidRequestError:
-            newuser=operationalData(labor_num=280,population=380,exp=0,corn=1000,cae=1,nobility=-1,infantry1_num=30,cavalry1_num=0,scout1_num=0,person_god=0,wealth_god=0,food_god=0,war_god=0,user_kind=user_kind,otherid=oid,lev=1,empirename='我的领地',food=100)
+            newuser=operationalData(labor_num=280,population=380,exp=0,corn=1000,cae=1,nobility=-1,infantry1_num=30,cavalry1_num=0,scout1_num=0,person_god=0,wealth_god=0,food_god=0,war_god=0,user_kind=user_kind,otherid=oid,lev=1,empirename='My Empire',food=100)
             DBSession.add(newuser)
             newuser = DBSession.query(operationalData).filter_by(otherid = oid).one()
             c1=DBSession.query('LAST_INSERT_ID()')
@@ -5477,7 +5471,7 @@ class RootController(BaseController):
                     print "need more food"
                     return dict(id=0, reason="food not enough")
                 friend.food -= needFood
-                friend.corn += 1000
+                friend.corn += 100
                 friList.append(uotherid)
                 dragon.friList = json.dumps(friList)
                 dragon.lastFeed |= 2
@@ -5543,7 +5537,6 @@ class RootController(BaseController):
     
     @expose('json')
     def activeDragon(self, uid, fid, gid, cid):
-        
         caeCost = 1
         uid = int(uid)
         user = checkopdata(uid)
@@ -5601,7 +5594,7 @@ class RootController(BaseController):
                        return dict(id=0, reason = "you help yet")
                     except:
                         friList.append(uotherid)
-                user.corn += 1000
+                user.corn += 100
                 dragon.friList = json.dumps(friList)
                 dragon.friNum += 1
                 return dict(id=1, leftNum=needFri-dragon.friNum)

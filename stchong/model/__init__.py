@@ -14,7 +14,8 @@ import MySQLdb
 # session object appropriate for the current web request.
 passwd = 'badperson3'
 user = 'root'
-con = MySQLdb.connect(host='localhost', passwd=passwd, user=user, db='stcHong')
+db = 'stcHong2'
+con = MySQLdb.connect(host='localhost', passwd=passwd, user=user, db='stcHong2')
 cursor = con.cursor()
 maker = sessionmaker(autoflush=True, autocommit=False,
                      extension=ZopeTransactionExtension())
