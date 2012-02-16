@@ -2856,9 +2856,11 @@ class RootController(BaseController):
                     addmana = (t-m.lasttime)/300
                 m.mana = m.mana + addmana
                 m.lasttime = m.lasttime + addmana*300
+                if m.mana > m.boundary:
+                    m.mana = m.boundary
                 return dict(id=1,mana=m.mana,boundary=boundary,result="add mana suc")
             else:
-                return dict(id=0,reason="mana >= boundary")
+                return dict(id=1,mana=m.mana, boundary=boundary, reason="mana >= boundary")
         except:
             return dict(id=0,reason="try failed")
 
