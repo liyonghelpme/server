@@ -130,11 +130,11 @@ class RootController(BaseController):
     housebuild= [[500, 10, 0, 0, 3, 600, None, 0], [1400, 30, 0, 2, 8, 1200, 'a,1', 0], [2800, 0, 70, 4, 15, 2400, 'a,2;b,3', 0], [550, 10, 0, 0, 3, 600, None, 0], [1540, 30, 0, 2, 8, 1200, 'a,1', 0], [3080, 0, 70, 4, 15, 2400, 'a,2;b,3', 0], [600, 10, 0, 0, 3, 600, None, 0], [1680, 30, 0, 2, 8, 1200, 'a,1', 0], [3360, 0, 70, 4, 15, 2400, 'a,2;b,3', 0], [650, 10, 0, 0, 3, 600, None, 0], [1820, 30, 0, 2, 8, 1200, 'a,1', 0], [3640, 0, 70, 4, 15, 2400, 'a,2;b,3', 0], [1500, 60, 0, 0, 5, 1800, None, 0], [4800, 120, 0, 6, 13, 4320, 'b,2;c,2', 0], [9000, 0, 100, 10, 24, 9000, 'c,2;d,3', 0], [1650, 60, 0, 0, 5, 1800, None, 0], [5280, 120, 0, 6, 13, 4320, 'b,2;c,2', 0], [9900, 0, 100, 10, 24, 9000, 'c,2;d,3', 0], [1800, 60, 0, 0, 5, 1800, None, 0], [5760, 120, 0, 6, 13, 4320, 'b,2;c,2', 0], [10800, 0, 100, 10, 24, 9000, 'c,2;d,3', 0], [1950, 60, 0, 0, 5, 1800, None, 0], [6240, 120, 0, 6, 13, 4320, 'b,2;c,2', 0], [11700, 0, 100, 10, 24, 9000, 'c,2;d,3', 0], [7300, 400, 0, 0, 13, 15840, None, 0], [15000, 0, 150, 15, 21, 24480, 'f,2;g,2', 0], [19000, 0, -150, 16, 30, 30600, 'g,2;h,3', 0], [8030, 400, 0, 0, 13, 15840, None, 0], [16500, 0, 150, 15, 21, 24480, 'f,2;g,2', 0], [20900, 0, -150, 16, 30, 30600, 'g,2;h,3', 0], [8760, 400, 0, 0, 13, 15840, None, 0], [18000, 0, 150, 15, 21, 24480, 'f,2;g,2', 0], [22800, 0, -150, 16, 30, 30600, 'g,2;h,3', 0], [9490, 400, 0, 0, 13, 15840, None, 0], [19500, 0, 150, 15, 21, 24480, 'f,2;g,2', 0], [24700, 0, -150, 16, 30, 30600, 'g,2;h,3', 0], [3500, 200, 0, 0, 11, 5400, None, 0], [6600, 0, 120, 8, 25, 11160, 'd,2;e,2', 0], [11000, 0, -120, 11, 39, 21240, 'e,2;f,3', 0], [3850, 200, 0, 0, 11, 5400, None, 0], [7260, 0, 120, 8, 25, 11160, 'd,2;e,2', 0], [12100, 0, -120, 11, 39, 21240, 'e,2;f,3', 0], [4200, 200, 0, 0, 11, 5400, None, 0], [7920, 0, 120, 8, 25, 11160, 'd,2;e,2', 0], [13200, 0, -120, 11, 39, 21240, 'e,2;f,3', 0], [4550, 200, 0, 0, 11, 5400, None, 0], [8580, 0, 120, 8, 25, 11160, 'd,2;e,2', 0], [14300, 0, -120, 11, 39, 21240, 'e,2;f,3', 0], [10500, 600, 0, 0, 20, 25200, None, 0], [15500, 0, 200, 16, 32, 36720, 'h,2;i,2', 0], [19500, 0, -200, 19, 43, 68040, 'i,2;j,3', 0], [11550, 600, 0, 0, 20, 25200, None, 0], [17050, 0, 200, 16, 32, 36720, 'h,2;i,2', 0], [21450, 0, -200, 19, 43, 68040, 'i,2;j,3', 0], [12600, 600, 0, 0, 20, 25200, None, 0], [18600, 0, 200, 16, 32, 36720, 'h,2;i,2', 0], [23400, 0, -200, 19, 43, 68040, 'i,2;j,3', 0], [13650, 600, 0, 0, 20, 25200, None, 0], [20150, 0, 200, 16, 32, 36720, 'h,2;i,2', 0], [25350, 0, -200, 19, 43, 68040, 'i,2;j,3', 0], [-10, 0, 0, 0, 15, 7560, None, 0], [20000, 0, 300, 18, 25, 15480, 'b,2;c,2', 0], [25000, 0, -300, 20, 40, 30600, 'c,2;d,3', 0], [-11, 0, 0, 0, 15, 7560, None, 0], [22000, 0, 300, 18, 25, 15480, 'b,2;c,2', 0], [27500, 0, -300, 20, 40, 30600, 'c,2;d,3', 0], [-12, 0, 0, 0, 15, 7560, None, 0], [24000, 0, 300, 18, 25, 15480, 'b,2;c,2', 0], [30000, 0, -300, 20, 40, 30600, 'c,2;d,3', 0], [-13, 0, 0, 0, 15, 7560, None, 0], [26000, 0, 300, 18, 25, 15480, 'b,2;c,2', 0], [32500, 0, -300, 20, 40, 30600, 'c,2;d,3', 0], [-15, 0, 0, 0, 18, 11520, None, 0], [14000, 0, 160, 13, 28, 21600, 'a,2;f,2', 0], [18500, 0, -160, 16, 44, 29880, 'd,2;i,4', 0], [-20, 0, 0, 0, 30, 2520, None, 0], [20000, 0, 200, 20, 44, 4680, 'a,2;f,2', 0], [28000, 0, -200, 22, 60, 7200, 'd,2;i,4', 0], [-15, 0, 0, 0, 29, 18000, None, 0], [14400, 0, 170, 14, 43, 31680, 'i,5', 0], [19200, 0, -170, 17, 58, 46800, 'j,4', 0]]
 
 
-    resourcebuild=[[1000,0,80,0,5,0],[-10,0,0,0,15,10],[-15,0,0,0,40,20],[-20,0,0,0,70,30],[10000,600,120,0,20,10],[28500,1000,250,0,30,18]]
+    resourcebuild=[[1000,0,80,0,5,0],[-20,0,0,0,15,10],[-50,0,0,0,40,20],[-100,0,0,0,70,30],[10000,600,120,0,20,10],[28500,1000,250,0,30,18]]
     #coin food person wood cae exp time spe level 
     milbuild=[[4000,130,100,0,0,5,3600,None,1],[9000,0,20,200,5,10,11520,'a,3',1],[20000,0,50,-200,10,20,22680,'b,3;c,4',1],[12000,320,130,0,0,15,7200,None,5],[25000,0,20,500,7,20,14760,'b,3',5],[50000,0,50,-500,15,35,28440,'c,3;d,4',5],[6000,150,90,0,0,7,10800,None,5],[12000,0,20,300,3,15,21600,'c,3',5],[25000,0,50,-300,7,30,32400,'d,3;e,4',5], [20000, 400, 200, 0, 0, 20, 18000, None, 25], [45000, 0, 50, 400, 20, 50, 27000, 'a,8;b,8', 25], [100000, 0, 50, -400, 40, 100, 36000, 'c,15;g,15', 25]]
     #coin food person wood cae bexp time spe level
-    businessbuild = [[300, 20, 20, 0, 0, 3, 600, None, 0], [500, 30, 5, 0, 3, 7, 1800, 'a,1', 0], [1100, 0, 10, 70, 5, 11, 3600, 'a,2;b,3', 0], [1200, 45, 40, 0, 0, 5, 3600, None, 0], [1800, 0, 10, 100, 5, 9, 10440, 'b,2;c,2', 0], [3000, 0, 15, 900, 8, 14, 15120, 'c,2;d,3', 0], [-10, 0, 0, 0, 0, 15, 5400, None, 0], [5000, 0, 0, 120, 10, 20, 14400, 'b,2;c,2', 0], [7000, 0, 0, 880, 15, 25, 23400, 'c,2;d,3', 0], [2000, 80, 50, 0, 0, 7, 19800, None, 0], [3300, 0, 15, 150, 10, 9, 35280, 'd,2;e,2', 0], [4500, 0, 20, 850, 13, 11, 46800, 'e,2;f,3', 0], [5000, 100, 70, 0, 0, 9, 8280, None, 0], [7000, 0, 20, 170, 18, 11, 22320, 'f,2;g,2', 0], [13500, 0, 25, 830, 24, 13, 28800, 'g,2;h,3', 0], [-8, 0, 0, 0, 0, 25, 20520, None, 0], [9000, 0, 0, 200, 19, 30, 25200, 'd,2;e,2', 0], [11000, 0, 0, 800, 22, 35, 33120, 'e,2;f,3', 0], [7200, 130, 90, 0, 0, 20, 21600, None, 0], [11000, 0, 25, 210, 25, 33, 28800, 'h,2;i,2', 0], [19900, 0, 30, 790, 30, 45, 36720, 'i,2;j,3', 0], [8000, 170, 110, 0, 0, 29, 30600, None, 0], [13000, 0, 30, 230, 27, 45, 37440, 'j,2;k,2', 0], [21000, 0, 35, 770, 30, 61, 46800, 'k,2;l,3', 0], [-30, 0, 0, 0, 0, 35, 25200, None, 0], [13000, 0, 0, 250, 30, 45, 30240, 'h,2;i,2', 0], [17000, 0, 0, 750, 33, 60, 39600, 'i,2;j,3', 0], [20000, 500, 55, 0, 0, 15, 11160, None, 0], [25000, 0, 18, 250, 31, 20, 20800, 'b,5', 0], [33000, 0, 27, 750, 40, 25, 31680, 'c,5', 0], [-20, 0, 0, 0, 0, 23, 7200, None, 0], [10000, 0, 130, 150, 20, 30, 14400, 'e,3;c,2', 0], [15000, 0, 40, 850, 25, 39, 21600, 'a,5', 0]]
+    businessbuild = [[300, 20, 20, 0, 0, 3, 600, None, 0], [500, 30, 5, 0, 3, 7, 1800, 'a,1', 0], [1100, 0, 10, 70, 5, 11, 3600, 'a,2;b,3', 0], [1200, 45, 40, 0, 0, 5, 3600, None, 0], [1800, 0, 10, 100, 5, 9, 10440, 'b,2;c,2', 0], [3000, 0, 15, -100, 8, 14, 15120, 'c,2;d,3', 0], [-10, 0, 0, 0, 0, 15, 5400, None, 0], [5000, 0, 0, 120, 10, 20, 14400, 'b,2;c,2', 0], [7000, 0, 0, -120, 15, 25, 23400, 'c,2;d,3', 0], [2000, 80, 50, 0, 0, 7, 19800, None, 0], [3300, 0, 15, 150, 10, 9, 35280, 'd,2;e,2', 0], [4500, 0, 20, -150, 13, 11, 46800, 'e,2;f,3', 0], [5000, 100, 70, 0, 0, 9, 8280, None, 0], [7000, 0, 20, 170, 18, 11, 22320, 'f,2;g,2', 0], [13500, 0, 25, -170, 24, 13, 28800, 'g,2;h,3', 0], [-8, 0, 0, 0, 0, 25, 20520, None, 0], [9000, 0, 0, 200, 19, 30, 25200, 'd,2;e,2', 0], [11000, 0, 0, -200, 22, 35, 33120, 'e,2;f,3', 0], [7200, 130, 90, 0, 0, 20, 21600, None, 0], [11000, 0, 25, 210, 25, 33, 28800, 'h,2;i,2', 0], [19900, 0, 30, -210, 30, 45, 36720, 'i,2;j,3', 0], [8000, 170, 110, 0, 0, 29, 30600, None, 0], [13000, 0, 30, 230, 27, 45, 37440, 'j,2;k,2', 0], [21000, 0, 35, -230, 30, 61, 46800, 'k,2;l,3', 0], [-30, 0, 0, 0, 0, 35, 25200, None, 0], [13000, 0, 0, 250, 30, 45, 30240, 'h,2;i,2', 0], [17000, 0, 0, -250, 33, 60, 39600, 'i,2;j,3', 0], [20000, 500, 55, 0, 0, 15, 11160, None, 0], [25000, 0, 18, 250, 31, 20, 20800, 'b,5', 0], [33000, 0, 27, -250, 40, 25, 31680, 'c,5', 0], [-20, 0, 0, 0, 0, 23, 7200, None, 0], [10000, 0, 130, 150, 20, 30, 14400, 'e,3;c,2', 0], [15000, 0, 40, -150, 25, 39, 21600, 'a,5', 0]]
     """
     businessbuild=[[300,20,20,0,0,3,600,None,1],[500,30,5,0,1,7,1800,'a,1',1],[1100,0,10,70,2,11,3600,'a,2;b,3',1],[1200,45,40,0,0,5,3600,None,4],[1800,50,10,100,3,9,10740,'b,2;c,2',4],[3000,70,15,-100,4,14,15120,'c,2;d,3',4],[-5,0,0,0,0,15,5400,None,6],[5000,0,0,120,6,20,14400,'b,2;c,2',6],[7000,0,0,-120,7,25,23400,'c,2;d,3',6],[2000,80,50,0,0,7,19800,None,8],[3300,0,15,150,5,9,35270,'d,2;e,2',8],[4500,0,20,-150,6,11,46800,'e,2;f,3',8],[5000,100,70,0,0,9,8280,None,15],[7000,0,20,170,7,11,22320,'f,2;g,2',15],[13500,0,25,-170,8,13,28800,'g,2;h,3',15],[-8,0,0,0,0,25,20520,None,14],[9000,130,0,200,10,30,25200,'d,2;e,2',14],[11000,0,0,-200,11,35,33120,'e,2;f,3',14],[7200,130,90,0,0,20,21600,None,21],[11000,0,25,210,9,33,28800,'h,2;i,2',21],[19900,0,30,-210,10,45,36720,'i,2;j,3',21],[8000,170,110,0,0,29,30600,None,29],[13000,0,30,230,10,45,34200,'j,2;k,2',29],[21000,0,35,-230,11,61,46800,'k,2;l,3',29],[-11,0,0,0,0,35,25200,None,24],[13000,0,0,250,12,45,30240,'h,2;i,2',24],[17000,0,0,-250,13,60,39600,'i,2;j,3',24],[10000,1000,55,0,0,8,16200,None,7],[20000,0,18,300,7,15,28800,'a,5;i,4',7],[50000,0,27,-300,10,25,41400,'c,5;d,6',7],[10000,210,100,0,0,35,10*3600,None,35],[17000,280,30,280,10,47,11.5*3600,'d,4;h,6',35],[27000,-300,40,-300,11,56,13.5*3600,'g,5;a,10',35]]
     """
@@ -144,7 +144,7 @@ class RootController(BaseController):
     #lev coin defence people time 
     statuebuilding = [[12,10000,600,10,7200],[12,-10,700,10,14400],[13,20000,1150,10,21600],[13,-20,1300,10,28800],[15,50000,3000,10,36000],[15,-50,3200,10,43200]]
     #corn person level
-    decorationbuild = [[10, 5, 1], [20, 5, 1], [30, 5, 1], [50, 7, 4], [-1, 15, 5], [250, 13, 6], [250, 13, 6], [250, 13, 6], [250, 13, 6], [-2, 18, 7], [-2, 18, 7], [200, 13, 8], [-5, 40, 8], [400, 15, 9], [600, 15, 10], [200, 12, 5], [800, 17, 11], [900, 18, 12], [8000, 67, 13], [2000, 50, 15], [-5, 45, 11], [3000, 40, 17], [3000, 40, 17], [-10, 90, 17], [3000, 41, 18], [3000, 41, 18], [-10, 93, 18], [-10, 93, 18], [4000, 45, 16], [4000, 45, 16], [-10, 91, 16], [-10, 91, 16], [800, 19, 14], [800, 19, 15], [-10, 90, 15], [6000, 65, 20], [-15, 100, 20], [6000, 65, 20], [-30, 150, 19], [3000, 45, 25], [-8, 90, 17], [-99, -1, 25], [-20, 110, 21], [-20, 110, 21], [-15, 99, 15], [-10, 89, 13], [5000, 44, 10], [5000, 44, 10], [-10, 85, 10], [-10, 85, 10], [-100, -1, 12], [-99, -1, 22], [100000, 70, 22], [-10, 80, 8], [5000, 43, 8], [8000, 60, 9], [-15, 93, 9], [-10, 91, 16], [4000, 46, 18], [1500, 24, 24], [10000, 130, 10], [3000, 40, 4], [1000, 21, 21], [-100, -1, 20], [-18, 110, 23], [-200, -3, 24], [-20, 100, 4]]
+    decorationbuild = [[10, 5, 1], [20, 5, 1], [30, 5, 1], [50, 7, 4], [-1, 15, 5], [250, 13, 6], [250, 13, 6], [250, 13, 6], [250, 13, 6], [-2, 18, 7], [-2, 18, 7], [200, 13, 8], [-5, 40, 8], [400, 15, 9], [600, 15, 10], [200, 12, 5], [800, 17, 11], [900, 18, 12], [8000, 67, 13], [2000, 50, 15], [-5, 45, 11], [3000, 40, 17], [3000, 40, 17], [-10, 90, 17], [3000, 41, 18], [3000, 41, 18], [-10, 93, 18], [-10, 93, 18], [4000, 45, 16], [4000, 45, 16], [-10, 91, 16], [-10, 91, 16], [800, 19, 14], [800, 19, 15], [-10, 90, 15], [6000, 65, 20], [-15, 100, 20], [6000, 65, 20], [-30, 150, 19], [3000, 45, 25], [-8, 90, 17], [-99, -1, 25], [-20, 110, 21], [-20, 110, 21], [-15, 99, 15], [-10, 89, 13], [5000, 44, 10], [5000, 44, 10], [-10, 85, 10], [-10, 85, 10], [-100, -1, 12], [-99, -1, 22], [10000, 70, 22], [-10, 80, 8], [5000, 43, 8], [8000, 60, 9], [-15, 93, 9], [-10, 91, 16], [4000, 46, 18], [1500, 24, 24], [10000, 130, 10], [3000, 40, 4], [1000, 21, 21], [-100, -1, 20], [-18, 110, 23], [-200, -3, 24], [-20, 100, 4]]
     
     Plant_Price=[[50,1,20,600,1],[165,3,50,2700,1],[-1,8,120,3600,5],[700,7,150,9360,5],[1440,12,300,22680,7],[-3,25,430,14400,7],[230,5,52,1800,13],[600,9,80,5400,16],[-2,30,280,9000,10],[1210,15,200,11520,20],[3000,25,410,29160,25],[-5,50,650,25200,15]]
     beginTime=(2011,1,1,0,0,0,0,0,0)
@@ -165,8 +165,8 @@ class RootController(BaseController):
     """
     production=[[100,1,1,600],[300,2,1,600],[500,5,1,600],[600,3,1,5400],[900,5,1,5400],[1200,9,1,5400],[800,5,2,1800],[1400,9,2,1800],[2100,15,2,1800],[1200,5,1,10440],[1800,9,1,10440],[2600,17,1,10440],[2300,12,2,21600],[3200,20,2,21600],[4500,29,2,21600],[2500,18,3,7200],[4400,28,3,7200],[6800,40,3,7200],[1400,10,2,11160],[2100,19,2,11160],[3100,30,2,11160],[3500,23,3,30600],[6500,34,3,30600],[8000,45,3,30600],[7500,30,12,26200],[13000,50,12,26200],[17500,70,12,26200],[1800,4,0,16200],[2600,8,0,16200],[4400,12,0,16200],[4000,28,35,6.5*3600],[6200,40,35,6.5*3600],[8100,52,35,6.5*3600]]
     """
-    
-    expanding=[[10000,10,1],[50000,30,10],[100000,50,50],[500000,70,100],[1000000,100,200],[1500000,150,400],[2000000,200,800],[2500000,300,1000],[3000000,500,2000],[5000000,1000,5000]]
+    #coin cae exp 
+    expanding=[[10000,10,10],[50000,30,20],[100000,50,40],[500000,70,70],[1000000, 100, 110],[1500000,150,150],[2000000,200,210],[2500000,300,280],[3000000,500,360],[5000000,1000,450]]
     error = ErrorController()
     EXPANDLEV=10
     
@@ -995,19 +995,19 @@ class RootController(BaseController):
     @expose('json')
     def levup(self,uid,lev):
         u=checkopdata(uid)
-        u.corn=u.corn+(int(lev))*200
-        u.lev=int(lev)
+        lev = int(lev)
+        print "levup", lev
+        u.corn=u.corn+(lev)*200
+        u.lev=lev
         tasklist=[]
         task=[-1,-1]
         if u.lev%10==0:
-            u.populationupbound=u.populationupbound+500
+            u.populationupbound += 100
             u.cae=u.cae+u.lev/10
             print inspect.stack()[0]
         if u.currenttask!='-1' and int(u.currenttask)<0:
             task=tasknew3(u)
-            
             u.taskstring='0'
-        replacecache(uid,u)
         task1=task[0]
         if task[0]<0:
             task1=-1
@@ -1016,8 +1016,8 @@ class RootController(BaseController):
         for xxs in xs:
             xxs.lev=u.lev
         if u.lev==10 and u.rate==0:
-            return dict(task=task1,tasklist=tasklist,rate=0,id=1)
-        return dict(task=task1,id=1,tasklist=tasklist)        
+            return dict(task=task1,tasklist=tasklist,rate=0,id=1, coin=u.corn, cae = u.cae, pop = u.population)
+        return dict(task=task1,id=1,tasklist=tasklist, coin=u.corn, cae = u.cae, pop = u.population)        
     def timejudge(t):
         t2=int(time.mktime(time.localtime())-time.mktime(beginTime))
         s=t2/86400-t/86400
@@ -1352,6 +1352,7 @@ class RootController(BaseController):
             if len(monlist) > 0:
                 foodlost = min(2000, user.food/100)
             print "lostfood " + str(foodlost)
+            user.food -= foodlost
             return dict(id=1, foodlost=foodlost)
         return dict(id=1, foodlost = 0)
     #defeat lost
@@ -2985,8 +2986,11 @@ class RootController(BaseController):
                 ally=DBSession.query(Ally).filter_by(uid=user.userid)
                 for a in ally :
                     papaya=checkopdata(a.fid)
-                    lisa.append(papaya.otherid)
-                    lisa.append(papaya.nobility*3+papaya.subno)
+                    try:
+                        lisa.append(papaya.otherid)
+                        lisa.append(papaya.nobility*3+papaya.subno)
+                    except:
+                        pass
                     
             except InvalidRequestError:
                 lisa=[]
@@ -3248,7 +3252,7 @@ class RootController(BaseController):
             nc=Card(uid=nuid)
             DBSession.add(nc)
             
-            nm=Mana(userid=nuid,mana=26,boundary=26,lasttime=logintime)
+            nm=Mana(userid=nuid,mana=20,boundary=20,lasttime=logintime)
             DBSession.add(nm)
             mana = nm.mana
             boundary = nm.boundary
@@ -3306,8 +3310,8 @@ class RootController(BaseController):
     #cae, specialgoods coin food people PopulationUpbound manaBoundary
     global EmpireCost
     EmpireCost = [
-    [100, [["a",30], ["b", 30], ["c", 30]], 100000, 1000, 100, 100, 5], 
-    [200, [["d", 30], ["e", 30], ["f", 30]], 500000, 5000, 500, 500, 8] 
+    [100, [["a",30], ["b", 30], ["c", 30]], 100000, 1000, 100, 0, 5], 
+    [200, [["d", 30], ["e", 30], ["f", 30]], 500000, 5000, 500, 0, 5] 
     ]
     global checkSpe
     def checkSpe(cost, spe):
@@ -3334,7 +3338,7 @@ class RootController(BaseController):
             return dict(id=0, reason="not open such Level")
         if u.lev < EmpireLevel[lev]:
             return dict(id=0, reason="user lev < ")
-        print "upgrade Castal", userid, lev, type
+
         cost = EmpireCost[lev]
         m = DBSession.query(Mana).filter_by(userid=userid).one()
         city = DBSession.query(warMap).filter_by(userid=userid).one()
@@ -3354,6 +3358,7 @@ class RootController(BaseController):
                 return dict(id=0, reason = "cae not enough")
             u.cae -= cost[0]
 
+        print "upgrade Castal", userid, lev, type, cost[2], cost[3], cost[0], cost[4]
         u.populationupbound += cost[5]
         m.boundary += cost[6]
         castle.object_id = lev+1
@@ -3490,7 +3495,6 @@ class RootController(BaseController):
         type=int(type)
         poweru=int(poweru)
         try:
-            
             u=checkopdata(uid)
             
             allyset=DBSession.query(Ally).filter_by(uid=uid)
@@ -3498,6 +3502,8 @@ class RootController(BaseController):
             for a in allyset :
                 fid=a.fid
                 f=checkopdata(fid)
+                if f == None:
+                    continue
                 helpSoldier = returnsentouryoku(f)
                 if helpSoldier < 0:
                     helpSoldier = 0
@@ -3792,17 +3798,14 @@ class RootController(BaseController):
                     u.scout1_num=u.scout1_num-killed
                     mark=1
                 v=DBSession.query(Victories).filter_by(uid=enemy_id).one()
-                replacecache(uid,u)
                 return dict(dead=killed,won=v.won,total=v.lost+v.won)
             elif type==1:
                 if m<=65:
                     killed=random.randint(1, 6)
                     u.scout2_num=u.scout2_num-killed
                     mark=1
-                
                 uv=checkopdata(enemy_id)
                 v=DBSession.query(Victories).filter_by(uid=enemy_id).one()
-                replacecache(uid,u)
                 return dict(dead=killed,won=v.won,total=v.won+v.lost,power=uv.infantrypower+uv.cavalrypower)
             elif type==2:
                 if m<=80:
@@ -3813,7 +3816,6 @@ class RootController(BaseController):
                 uv=checkopdata(enemy_id)
                 v=DBSession.query(Victories).filter_by(uid=enemy_id).one()  
                 allypower=allyhelp(uv.userid,1,uv.infantrypower+uv.cavalrypower)  
-                replacecache(uid,u)
                 return dict(dead=killed,won=v.won,total=v.lost+v.won,power=uv.infantrypower+uv.cavalrypower,allynum=allypower)
             elif type==3:
                 u.cae=u.cae-(u.nobility+1)
@@ -4279,6 +4281,8 @@ class RootController(BaseController):
         defencer = checkopdata(empty.uid)
         attStr = []
         defStr = []
+        if attacker == None or defencer == None:
+            return
         if empty.uid == attacker.userid:
             empty.inf += battle.powerin
             empty.cav += battle.powerca
@@ -5122,9 +5126,6 @@ class RootController(BaseController):
 
                 u.populationupbound += friendGod[lev][4]
                 u.exp += friendGod[lev][3]
-                p.ground_id += 1
-                p.finish = 0
-                p.producttime = ti 
 
                 if (p.ground_id-400)%4==0:
                     u.foodgodtime=-1
@@ -5138,6 +5139,12 @@ class RootController(BaseController):
                 elif (p.ground_id-400)%4==3:
                     u.war_god=0
                     u.wargodtime=-1
+
+                p.ground_id += 4
+                p.finish = 0
+                p.producttime = ti 
+
+
                 print "updateGod", coinCost, foodCost, caeCost
                 return dict(id=1, result="update ", caeCost = caeCost)
         return dict(id=0, reason="lev or resource not correct")
@@ -5155,6 +5162,8 @@ class RootController(BaseController):
         caeCost = 0
         woodCost = 0
         stoneCost = 0
+        speCost = []
+
         if type == 0:
             caeCost = cost[3]
         else:
@@ -5164,8 +5173,8 @@ class RootController(BaseController):
                 woodCost = cost[2]
             else:
                 stoneCost = -cost[2]
+            speCost = speStr2Arr(cost[6])
         spe = getSpecial(user)
-        speCost = speStr2Arr(cost[6])
         if user.corn >= coinCost and user.food >= cost[1] and user.cae >= caeCost and user.wood >= woodCost and user.stone >= stoneCost and  checkSpe(speCost, spe):
             user.corn -= coinCost
             user.food -= cost[1]
@@ -5180,13 +5189,61 @@ class RootController(BaseController):
             p.finish = 0
             p.producttime = ti 
             p.object_id = -1
-            print "updateRoom", coinCost, foodCost, caeCost, woodCost, stoneCost, speCost
+            #print "updateRoom", coinCost, cost[1], caeCost, woodCost, stoneCost, speCost
             return dict(id=1, result='room upgrade')
         return dict(id=0)
 
+    #coin food person wood cae bexp time spe level
+    global updateBusiness
+    def updateBusiness(user, p, ti, type):
+        print "updatebusi", p.ground_id
+        ground_id = (p.ground_id+1)%100
+        lev = ground_id%3
+        if lev <= (p.ground_id%100)%3:
+            return dict(id=0, reason="leve not right")
+        cost = businessbuild[ground_id]
+        print "busi cost", cost
+        coinCost = 0
+        caeCost = 0
+        perCost = 0
+        woodCost = 0
+        stoneCost = 0
+        speCost = []
+        if type == 0:
+            caeCost = cost[4]
+        else:
+            coinCost = cost[0]
+            foodCost = cost[1]
+            perCost = cost[2]
+            if cost[3] > 0:
+                woodCost = cost[3]
+            else:
+                stoneCost = -cost[3]
+            speCost = speStr2Arr(cost[7])
+
+        spe = getSpecial(user)
+        if user.corn >= coinCost and user.food >= cost[1] and (user.population-user.labor_num) >= perCost and user.cae >= caeCost and user.wood >= woodCost and user.stone >= stoneCost and  checkSpe(speCost, spe):
+            user.corn -= coinCost
+            user.food -= cost[1]
+            user.labor_num += perCost
+            user.cae -= caeCost
+            user.wood -= woodCost
+            user.stone -= stoneCost
+            spe = costSpe(speCost, spe)
+            user.specialgoods = setSpecial(spe)
+            user.exp += cost[5]
+
+            p.ground_id += 1
+            p.finish = 0
+            p.producttime = ti 
+            p.object_id = -1
+            #print "updateRoom", coinCost, cost[1], caeCost, woodCost, stoneCost, speCost
+            return dict(id=1, result='fact upgrade')
+        return dict(id=0, reason = 'resource')
     @expose('json')
     def updatebuilding(self,user_id,city_id,ground_id,grid_id,type):
         ground_id=int(ground_id)
+        print "updatebuilding", ground_id
         try:
             ca=0
             cae=0
@@ -5206,8 +5263,10 @@ class RootController(BaseController):
                 return updateFriGod(u, p, ti, type)
             if ground_id >= 400 and ground_id < 420:
                 return updateGod(u, p, ti, type)
-            if ground_id >= 100 and ground_id < 200:
-                return updateRoom(u, p, ti, type)
+            #if ground_id >= 100 and ground_id < 200:
+            #    return updateRoom(u, p, ti, type)
+            #if ground_id >= 300 and ground_id < 400:
+            #    return updateBusiness(u, p, ti, type)
 
             lis=getGround_id(int(ground_id))
             if lis==None:
@@ -5789,6 +5848,7 @@ class RootController(BaseController):
             return dict(id=1,result = "build statue suc")
         else:
             return dict(id=0,reason = "statue lev or pop failed")
+    #time food coin exp personMax caecost
     global buildNormalGod
     def buildNormalGod(user, city_id, ground_id, grid_id):
         curTime=int(time.mktime(time.localtime())-time.mktime(beginTime))
@@ -5891,7 +5951,7 @@ class RootController(BaseController):
             user.labor_num += cost[2]
             user.cae -= caeCost
             user.exp += cost[4]
-            building = businessWrite(city_id=city_id, ground_id=ground_id, grid_id=grid_id, object_id=-1, producttime = curTime, finish = 0)
+            building = businessWrite(city_id=city_id, ground_id=ground_id, grid_id=grid_id, object_id=-1, producttime = curTime, finish = 1)
             DBSession.add(building)
             print "buildFarm", coinCost, caeCost, cost[1], cost[2] 
             return dict(id=1, result="farm suc")
@@ -5948,6 +6008,7 @@ class RootController(BaseController):
         return dict(id=0, reason='no such building') 
     @expose('json')
     def planting(self,user_id,city_id,grid_id,object_id,type):
+        print "plant", object_id, type
         try:
             if int(type)==0:
                 price=Plant_Price[int(object_id)][0]
@@ -5958,13 +6019,16 @@ class RootController(BaseController):
             
             u=checkopdata(user_id)
             p=DBSession.query(businessWrite).filter_by(city_id=int(city_id)).filter_by(grid_id=int(grid_id)).one()
-            ptime=p.producttime
-            if ptime>0:
-                return dict(id=1)
+            if p.object_id != -1:
+                return dict(id=0, reason = "working")
+            #if p.finish == 0:
+            #    p.finish = 1
+                
+            #if ptime>0:
+            #    return dict(id=1)
             if price<0:
                 sub=u.cae+price
-                if sub>=0 and ptime==0:
-                    
+                if sub>=0:
                     if u.cae>sub:
                         u.cae=sub
                         print inspect.stack()[0]
@@ -5974,20 +6038,15 @@ class RootController(BaseController):
                     ti=int(time.mktime(time.localtime())-time.mktime(beginTime))
                     p.object_id=int(object_id)
                     p.producttime=ti
-                    read(city_id)
-                    replacecache(u.userid,u)
                     return dict(id=1)
                 else:
                     return dict(id=0)
-            elif u.corn-price>=0  and ptime==0:
+            elif u.corn-price>=0:
                 sub=u.corn-price
-                
                 u.corn=sub
                 ti=int(time.mktime(time.localtime())-time.mktime(beginTime))
                 p.object_id=int(object_id)
                 p.producttime=ti
-                read(city_id)
-                replacecache(u.userid,u)
                 return dict(id=1)
             else:
                 return dict(id=0)
@@ -6912,6 +6971,8 @@ class RootController(BaseController):
                return dict(id=0)
         except InvalidRequestError:
             return dict(id=0)
+    global CataSpe
+    CataSpe = [[['a', 5], ['b', 5]], [['a', 8], ['c', 8]], [['g', 12], ['i', 12]] ]
     @expose('json')
     def producecatapult(self,user_id,city_id,grid_id,cata_id,type):
         try:
@@ -6953,7 +7014,7 @@ class RootController(BaseController):
                             return dict(id=0,reason="specialgoods not enough")
                         num_a -= 5
                         num_b -=5
-                    specialgoods = "a,"+str(num_a)+";b,"+str(num_b)+";c,"+str(num_c)+";d,"+str(num_d)+";e,"+str(num_e)+";f,"+str(num_f)+";g,"+str(num_g)+";h,"+str(num_h)+";i,"+str(num_i)+";j,"+str(num_j)+";k,"+str(num_k)+";l,"+str(num_l)
+                    u.specialgoods = "a,"+str(num_a)+";b,"+str(num_b)+";c,"+str(num_c)+";d,"+str(num_d)+";e,"+str(num_e)+";f,"+str(num_f)+";g,"+str(num_g)+";h,"+str(num_h)+";i,"+str(num_i)+";j,"+str(num_j)+";k,"+str(num_k)+";l,"+str(num_l)
                     u.corn -= catapult[cataid][0]
                     u.wood -= catapult[cataid][1]
                     u.stone -= catapult[cataid][2]
