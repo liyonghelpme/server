@@ -135,7 +135,7 @@ class RootController(BaseController):
     milbuild=[[4000,130,100,0,0,5,3600,None,1],[9000,0,20,200,5,10,11520,'a,3',1],[20000,0,50,-200,10,20,22680,'b,3;c,4',1],[12000,320,130,0,0,15,7200,None,5],[25000,0,20,500,7,20,14760,'b,3',5],[50000,0,50,-500,15,35,28440,'c,3;d,4',5],[6000,150,90,0,0,7,10800,None,5],[12000,0,20,300,3,15,21600,'c,3',5],[25000,0,50,-300,7,30,32400,'d,3;e,4',5], [20000, 400, 200, 0, 0, 20, 18000, None, 25], [45000, 0, 50, 400, 20, 50, 27000, 'a,8;b,8', 25], [100000, 0, 50, -400, 40, 100, 36000, 'c,15;g,15', 25]]
     businessbuild=[[300,20,20,0,0,3,600,None,1],[500,30,5,0,1,7,1800,'a,1',1],[1100,0,10,70,2,11,3600,'a,2;b,3',1],[1200,45,40,0,0,5,3600,None,4],[1800,50,10,100,3,9,10740,'b,2;c,2',4],[3000,70,15,-100,4,14,15120,'c,2;d,3',4],[-5,0,0,0,0,15,5400,None,6],[5000,0,0,120,6,20,14400,'b,2;c,2',6],[7000,0,0,-120,7,25,23400,'c,2;d,3',6],[2000,80,50,0,0,7,19800,None,8],[3300,0,15,150,5,9,35270,'d,2;e,2',8],[4500,0,20,-150,6,11,46800,'e,2;f,3',8],[5000,100,70,0,0,9,8280,None,15],[7000,0,20,170,7,11,22320,'f,2;g,2',15],[13500,0,25,-170,8,13,28800,'g,2;h,3',15],[-8,0,0,0,0,25,20520,None,14],[9000,130,0,200,10,30,25200,'d,2;e,2',14],[11000,0,0,-200,11,35,33120,'e,2;f,3',14],[7200,130,90,0,0,20,21600,None,21],[11000,0,25,210,9,33,28800,'h,2;i,2',21],[19900,0,30,-210,10,45,36720,'i,2;j,3',21],[8000,170,110,0,0,29,30600,None,29],[13000,0,30,230,10,45,34200,'j,2;k,2',29],[21000,0,35,-230,11,61,46800,'k,2;l,3',29],[-11,0,0,0,0,35,25200,None,24],[13000,0,0,250,12,45,30240,'h,2;i,2',24],[17000,0,0,-250,13,60,39600,'i,2;j,3',24],[10000,1000,55,0,0,8,16200,None,7],[20000,0,18,300,7,15,28800,'a,5;i,4',7],[50000,0,27,-300,10,25,41400,'c,5;d,6',7],[10000,210,100,0,0,35,10*3600,None,35],[17000,280,30,280,10,47,11.5*3600,'d,4;h,6',35],[27000,-300,40,-300,11,56,13.5*3600,'g,5;a,10',35]]
     
-    godbuild=[[10000,500,0,50,250,7200],[10000,500,0,50,250,7200],[10000,500,0,50,250,7200],[10000,500,0,50,250,7200],[20000,1000,5,100,250,21600],[20000,1000,5,100,250,21600],[20000,1000,5,100,250,21600],[20000,1000,5,100,250,21600],[50000,2000,10,170,250,43200],[50000,2000,10,170,250,43200],[50000,2000,10,170,250,43200],[50000,2000,10,170,250,43200],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[100000,5000,15,250,250,64800],[500000,10000,30,350,250,86400],[500000,10000,30,350,250,86400],[500000,10000,30,350,250,86400],[500000,10000,30,350,250,86400]]
+    godbuild=[[10000,500,0,50,100,7200],[10000,500,0,50,100,7200],[10000,500,0,50,100,7200],[10000,500,0,50,100,7200],[20000,1000,5,100,100,21600],[20000,1000,5,100,100,21600],[20000,1000,5,100,100,21600],[20000,1000,5,100,100,21600],[50000,2000,10,170,100,43200],[50000,2000,10,170,100,43200],[50000,2000,10,170,100,43200],[50000,2000,10,170,100,43200],[100000,5000,15,250,100,64800],[100000,5000,15,250,100,64800],[100000,5000,15,250,100,64800],[100000,5000,15,250,100,64800],[500000,10000,30,350,100,86400],[500000,10000,30,350,100,86400],[500000,10000,30,350,100,86400],[500000,10000,30,350,100,86400]]
     
     statuebuilding = [[27,80000,600,20,7200],[30,-8,700,40,14400],[32,120000,950,80,21600],[34,-12,1200,60,28800],[37,200000,1600,120,36000],[40,-20,2500,100,43200]]
     #corn person level
@@ -983,6 +983,9 @@ class RootController(BaseController):
         u.cae=u.cae+5
         print inspect.stack()[0]
         return dict(id=1)
+    global LevUpPop
+    LevUpPop = 100
+
     @expose('json')
     def levup(self,uid,lev):
         u=checkopdata(uid)
@@ -991,12 +994,11 @@ class RootController(BaseController):
         tasklist=[]
         task=[-1,-1]
         if u.lev%10==0:
-            u.populationupbound=u.populationupbound+500
+            u.populationupbound=u.populationupbound+LevUpPop
             u.cae=u.cae+u.lev/10
             print inspect.stack()[0]
         if u.currenttask!='-1' and int(u.currenttask)<0:
             task=tasknew3(u)
-            
             u.taskstring='0'
         replacecache(uid,u)
         task1=task[0]
@@ -1744,11 +1746,11 @@ class RootController(BaseController):
             return dict(id=1)
         except InvalidRequestError:
             return dict(id=0)
+    global OpenReward
+    OpenReward = 100
     @expose('json')
     def helpopen(self,user_id,fuser_id):
         t=int(time.mktime(time.localtime())-time.mktime(beginTime))
-        
-        
         u1=checkopdata(user_id)
         u2=checkopdata(fuser_id)
         papayaid1=u1.otherid
@@ -1758,7 +1760,7 @@ class RootController(BaseController):
             length=len(s)
             if length<u2.treasurenum:
                 u2.treasurebox=u2.treasurebox+';'+str(papayaid1)
-                u1.corn=u1.corn+1000
+                u1.corn=u1.corn+OpenReward
                 addnews(int(fuser_id),u1.otherid,5,t,u1.user_kind)
                 replacecache(user_id,u1)
                 replacecache(fuser_id,u2)
@@ -2923,8 +2925,10 @@ class RootController(BaseController):
             return dict(id=1,card=card)
         except InvalidRequestError:
             return dict(id=0)
+
+    global InitMana
+    InitMana = 20
     @expose('json')
-    
     def logsign(self,papayaid,user_kind,md5):
         print "login from 1", papayaid
         user=None
@@ -3016,7 +3020,7 @@ class RootController(BaseController):
                 lasttime = m.lasttime
                 m.mana = mana
             except:#first login after we have mana
-                boundary = 26
+                boundary = InitMana
                 lasttime = logintime
                 clevel = [5,15,45,85,135]
                 if user.nobility > -1:
@@ -3041,14 +3045,6 @@ class RootController(BaseController):
                 for monsternum in monsterlist:
                     if int(monsternum) > clevel[4] or int(monsternum) == clevel[4]:
                         boundary = boundary + 2
-#                    elif int(monsternum > clevel[3] or monsternum == clevel[3]):
-#                        boundary = boundary + 4
-#                    elif int(monsternum > clevel[2] or monsternum == clevel[2]):
-#                        boundary = boundary + 3
-#                    elif int(monsternum > clevel[1] or monsternum == clevel[1]):
-#                        boundary = boundary + 2
-#                    elif int(monsternum > clevel[0] or monsternum == clevel[0]):
-#                        boundary = boundary + 1
                     else:
                         boundary = boundary + 0
                 nm=Mana(userid=user.userid,mana=boundary,boundary=boundary,lasttime=logintime)
@@ -3247,7 +3243,7 @@ class RootController(BaseController):
             nc=Card(uid=nuid)
             DBSession.add(nc)
             
-            nm=Mana(userid=nuid,mana=26,boundary=26,lasttime=logintime)
+            nm=Mana(userid=nuid,mana=InitMana,boundary=InitMana,lasttime=logintime)
             DBSession.add(nm)
             mana = nm.mana
             boundary = nm.boundary
@@ -5279,7 +5275,7 @@ class RootController(BaseController):
     global friendGod
     global friGodReward
     global monGodReward
-    friendGod = [[2*3600, 500, 10000, 50, 250, 0], [6*3600, 1000, 20000, 100, 250, 5], [12*3600, 2000, 50000, 170, 250, 10], [18*3600, 5000, 100000, 250, 250, 15], [24*3600, 10000, 500000, 350, 250, 30]]
+    friendGod = [[2*3600, 500, 10000, 50, 100, 0], [6*3600, 1000, 20000, 100, 100, 5], [12*3600, 2000, 50000, 170, 100, 10], [18*3600, 5000, 100000, 250, 100, 15], [24*3600, 10000, 500000, 350, 100, 30]]
     friGodReward = [5, 10, 20, 30, 50]
     monGodReward = [[8,12,16,20,24],[30,35,40,45,50],[12,16,20,24,28],[40,45,50,55,60],[20,24,28,32,36],[60,65,70,75,80]]
     global initH
@@ -5421,7 +5417,9 @@ class RootController(BaseController):
             else: 
                 return dict(id=0,reason="trainNum>100 or mana < 2")
         else:
-            return dict(id=0,reason="not himself dragon")
+            return dict(id=0,reason="not himself dragon")   
+    global TrainReward
+    TrainReward = 100
     @expose('json')
     def feed(self, uid, gid, cid):
         uid = int(uid)
@@ -5476,7 +5474,7 @@ class RootController(BaseController):
                     print "need more food"
                     return dict(id=0, reason="food not enough")
                 friend.food -= needFood
-                friend.corn += 1000
+                friend.corn += 100
                 friList.append(uotherid)
                 dragon.friList = json.dumps(friList)
                 dragon.lastFeed |= 2
