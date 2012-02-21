@@ -1343,6 +1343,7 @@ class RootController(BaseController):
             if len(monlist) > 0:
                 foodlost = min(2000, user.food/100)
             print "lostfood " + str(foodlost)
+            user.food -= foodlost
             return dict(id=1, foodlost=foodlost)
         return dict(id=1, foodlost = 0)
     #defeat lost
