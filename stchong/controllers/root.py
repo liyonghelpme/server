@@ -1318,7 +1318,10 @@ class RootController(BaseController):
         res = []
         for m in ml:
             m = m.split(',')
-            res.append([int(m[0]), int(m[1])])
+            try:
+                res.append([int(m[0]), int(m[1])])
+            except:
+                pass
         return res
 
     @expose('json')
