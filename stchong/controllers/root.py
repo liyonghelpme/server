@@ -2864,7 +2864,7 @@ class RootController(BaseController):
                     m.mana = m.boundary
                 return dict(id=1,mana=m.mana,boundary=boundary,result="add mana suc")
             else:
-                return dict(id=0,reason="mana >= boundary")
+                return dict(id=1,mana=m.mana, boundary=boundary, reason="mana >= boundary")
         except:
             return dict(id=0,reason="try failed")
 
