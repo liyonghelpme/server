@@ -114,7 +114,7 @@ class RootController(BaseController):
     global getresource
     global warresult2
     global calGod
-    global getbonusbattle2
+    #global getbonusbattle2
     global defenceplist
     global appsecret
     global tasknew
@@ -197,7 +197,8 @@ class RootController(BaseController):
     md5string='0800717193'
     log=logging.getLogger('root')
     CACHEOP=10
-    appsecret='FA6AMZKT77L4e4bc0a6'
+    #appsecret='FA6AMZKT77L4e4bc0a6'
+    appsecret = 'O0c4WvFX46fL4f41d37d'
     SERVER_NAME = "cn.papayamobile.com"
     
     tasklist=[[['查看帮助文档','不耻下问是良好美德，点击Menu键（或设置图标）查看帮助文档~','查看帮助文档 0/1',100,5,'0,0'],['种植粮食','地主家也没有余粮了，伤不起呀！快去种点啥吧，，','开垦农田 0/1;种植胡萝卜 0/6',300,10,'1,1!0$1','2,1!0$6'],['店铺收税','咱也是地主啦！快去店铺收税吧','普通面包房收税 0/250',100,5,'2,100!0$250']]]
@@ -257,7 +258,6 @@ class RootController(BaseController):
         else:
             msgs = DBSession.query(Message.mid, Message.uid, Message.mess, Message.time, Message.read, operationalData.otherid).filter_by(fid=uid).filter(Message.uid==operationalData.userid).order_by(desc(Message.time)).slice(start, end).all()
         for m in msgs:
-           
             ms = DBSession.query(Message).filter_by(mid=m[0]).one()
             ms.read = 1
         DBSession.flush()
@@ -1128,17 +1128,21 @@ class RootController(BaseController):
                 s=s+';'+str(n[0])+','+str(n[1])
         u.specialgoods=s        
         return s
+    global SpeNum
+    SpeNum = 12
+
     def getbonusbattle(u,k):#user kind 
         num1=[]
         restr=''
         num2=[]
         j=0
         nobility=u.nobility
-        while j<k:
-            index=random.randint(0,11)
-            if inornot(index,num2)==False:
-                num2.append(index)
-                j=j+1
+        if random.randint(0, 1) == 1:
+            while j<k:
+                index=random.randint(0,SpeNum-1)
+                if inornot(index,num2)==False:
+                    num2.append(index)
+                    j=j+1
         j=0
         a1=random.choice(alphabet)
         strr=u.specialgoods.split(';')
@@ -1174,56 +1178,6 @@ class RootController(BaseController):
         
         return s      
     
-              
-    def getbonusbattle3(u,k,type):
-        num1=[]
-        restr=''
-        num2=[]
-        j=0
-        nobility=u.nobility
-        while j<k:
-            index=random.randint(0,11)
-            if inornot(index,num2)==False:
-                num2.append(index)
-                j=j+1
-        j=0
-        a1=random.choice(alphabet)
-        strr=u.specialgoods.split(';')
-        for x in strr:
-            strx=x.split(',')
-            x1=strx[0]
-            y1=int(strx[1])
-            while j<k:
-                a1=alphabet[num2[j]]
-                if a1==x1:
-                    if type==1:
-                        y1=y1+1
-                    else:
-                        y1=y1-1
-                        if y1<0:
-                            y1=0
-                    break
-                j=j+1
-            num1.append([x1,y1])
-        i=0
-        s=''
-        for n in num1:
-            if i==0:
-                s=s+str(n[0])+','+str(n[1])
-                i=1
-            else:
-                s=s+';'+str(n[0])+','+str(n[1])
-        u.specialgoods=s
-        i=0
-        s=''
-        for x in num2:
-            if i==0:
-                s=s+str(x)
-                i=1
-            else:
-                s=s+'!'+str(x)
-        return s
-
     def returnSoldier(u):
         soldier=[]
         soldier.append(u.infantry1_num)
@@ -1240,7 +1194,6 @@ class RootController(BaseController):
     
     @expose('json')
     def monsterrefresh(self,userid,monsterstr):
-        
         midlist=[]
         u=checkopdata(userid)
         u.monsterlist=monsterstr
@@ -1252,15 +1205,8 @@ class RootController(BaseController):
         for monster in monsterlist:
             mm=monster.split(',')
             midlist.append(int(mm[0]))
-        i=0
-        
-        
-        
-        
         
         u.monster=u.monster+1 
-        replacecache(userid,u)
-        
         return dict(id=1) 
     @expose('json')
     def delaymonster(self,uid):
@@ -1381,19 +1327,6 @@ class RootController(BaseController):
         #specials
         s=getbonusbattle(u,t)
 
-        """
-        i=0
-        for m in mlist:
-            ml=m.split(',')
-            if ml[1]!=gridid:
-                if i==0:
-                    mstr=mstr+m
-                    i=1
-                else:
-                    mstr=mstr+';'+m
-        #monster string
-        u.monsterlist=mstr
-        """
         return [mu, s]
 
         
