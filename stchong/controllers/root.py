@@ -1250,15 +1250,7 @@ class RootController(BaseController):
         for monster in monsterlist:
             mm=monster.split(',')
             midlist.append(int(mm[0]))
-        i=0
-        
-        
-        
-        
-        
         u.monster=u.monster+1 
-        replacecache(userid,u)
-        
         return dict(id=1) 
     @expose('json')
     def delaymonster(self,uid):
@@ -5687,8 +5679,8 @@ class RootController(BaseController):
             #cae < 0
             elif decorationbuild[ground_id-500][0]<0: 
                 costCae = decorationbuild[ground_id-500][0]
-                if decorationbuild[ground_id-500][1] < 0:
-                    costCae /= 2
+                #if decorationbuild[ground_id-500][1] < 0:
+                #    costCae /= 2
                     
                 if user.cae + costCae < 0:
                     return dict(id=0, reason = "cae not enough")
