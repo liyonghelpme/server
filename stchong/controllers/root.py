@@ -561,7 +561,12 @@ class RootController(BaseController):
         u=checkopdata(uid)
         if u.currenttask==None or u.currenttask=='' or int(u.currenttask)<0 or int(u.currenttask)>len(taskbonus)-1:
             return dict(task=-1)
-        u.corn=u.corn+taskbonus[int(u.currenttask)][1][0]
+        cur = int(u.currenttask)
+        print "reward", taskbonus[cur]
+        if taskbonus[cur][1][0] < 0:
+            u.cae += -taskbonus[cur][1][0]
+        else:
+            u.corn=u.corn+taskbonus[int(u.currenttask)][1][0]
         u.exp=u.exp+taskbonus[int(u.currenttask)][1][1]  
         t=tasknew(uid)   
         task=t[0]
