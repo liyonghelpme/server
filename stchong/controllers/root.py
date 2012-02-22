@@ -570,7 +570,12 @@ class RootController(BaseController):
         u=checkopdata(uid)
         if u.currenttask==None or u.currenttask=='' or int(u.currenttask)<0 or int(u.currenttask)>len(taskbonus)-1:
             return dict(task=-1)
-        u.corn=u.corn+taskbonus[int(u.currenttask)][1][0]
+        cur = int(u.currenttask)
+        print "reward", taskbonus[cur]
+        if taskbonus[cur][1][0] < 0:
+            u.cae += -taskbonus[cur][1][0]
+        else:
+            u.corn=u.corn+taskbonus[int(u.currenttask)][1][0]
         u.exp=u.exp+taskbonus[int(u.currenttask)][1][1]  
         t=tasknew(uid)   
         task=t[0]
@@ -992,6 +997,9 @@ class RootController(BaseController):
         u.cae=u.cae+5
         print inspect.stack()[0]
         return dict(id=1)
+    global LevUpPop
+    LevUpPop = 100
+
     @expose('json')
     def levup(self,uid,lev):
         u=checkopdata(uid)
@@ -1002,7 +1010,7 @@ class RootController(BaseController):
         tasklist=[]
         task=[-1,-1]
         if u.lev%10==0:
-            u.populationupbound += 100
+            u.populationupbound=u.populationupbound+LevUpPop
             u.cae=u.cae+u.lev/10
             print inspect.stack()[0]
         if u.currenttask!='-1' and int(u.currenttask)<0:
@@ -1686,6 +1694,8 @@ class RootController(BaseController):
             return dict(id=1)
         except InvalidRequestError:
             return dict(id=0)
+    global OpenReward
+    OpenReward = 100
     @expose('json')
     def helpopen(self,user_id,fuser_id):
         t=int(time.mktime(time.localtime())-time.mktime(beginTime))
@@ -1698,7 +1708,7 @@ class RootController(BaseController):
             length=len(s)
             if length<u2.treasurenum:
                 u2.treasurebox=u2.treasurebox+';'+str(papayaid1)
-                u1.corn=u1.corn+1000
+                u1.corn=u1.corn+OpenReward
                 addnews(int(fuser_id),u1.otherid,5,t,u1.user_kind)
                 return dict(id=1)
             else:
@@ -2859,6 +2869,9 @@ class RootController(BaseController):
             return dict(id=1,card=card)
         except InvalidRequestError:
             return dict(id=0)
+
+    global InitMana
+    InitMana = 20
     @expose('json')
     def logsign(self,papayaid,user_kind,md5):
         print "login from 1", papayaid
@@ -2954,7 +2967,7 @@ class RootController(BaseController):
                 lasttime = m.lasttime
                 m.mana = mana
             except:#first login after we have mana
-                boundary = 20
+                boundary = InitMana
                 lasttime = logintime
                 clevel = [5,15,45,85,135]
                 if user.nobility > -1:
@@ -2979,14 +2992,6 @@ class RootController(BaseController):
                 for monsternum in monsterlist:
                     if int(monsternum) > clevel[4] or int(monsternum) == clevel[4]:
                         boundary = boundary + 2
-#                    elif int(monsternum > clevel[3] or monsternum == clevel[3]):
-#                        boundary = boundary + 4
-#                    elif int(monsternum > clevel[2] or monsternum == clevel[2]):
-#                        boundary = boundary + 3
-#                    elif int(monsternum > clevel[1] or monsternum == clevel[1]):
-#                        boundary = boundary + 2
-#                    elif int(monsternum > clevel[0] or monsternum == clevel[0]):
-#                        boundary = boundary + 1
                     else:
                         boundary = boundary + 0
                 nm=Mana(userid=user.userid,mana=boundary,boundary=boundary,lasttime=logintime)
@@ -3185,7 +3190,7 @@ class RootController(BaseController):
             nc=Card(uid=nuid)
             DBSession.add(nc)
             
-            nm=Mana(userid=nuid,mana=20,boundary=20,lasttime=logintime)
+            nm=Mana(userid=nuid,mana=InitMana,boundary=InitMana,lasttime=logintime)
             DBSession.add(nm)
             mana = nm.mana
             boundary = nm.boundary
@@ -5492,7 +5497,9 @@ class RootController(BaseController):
             else: 
                 return dict(id=0,reason="trainNum>100 or mana < 2")
         else:
-            return dict(id=0,reason="not himself dragon")
+            return dict(id=0,reason="not himself dragon")   
+    global TrainReward
+    TrainReward = 100
     @expose('json')
     def feed(self, uid, gid, cid):
         uid = int(uid)
