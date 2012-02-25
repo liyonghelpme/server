@@ -4501,7 +4501,7 @@ class RootController(BaseController):
             defFullPow = defPurePow
             defGod = calGod(defence.userid, defPurePow)
             defFullPow += defGod
-            defFullPow += defence.defencepower
+            #defFullPow += defence.defencepower
             defFullPow += allyhelp(defence.userid, 1, defPurePow)
             print "defence full power " + str(defFullPow)
             
@@ -4525,14 +4525,16 @@ class RootController(BaseController):
             attack.cavalrypower += returnCa
             attack.catapult += returnCatapult
             
-            leftIn = defence.infantrypower - lost[1]
+            leftDef = defence.defencepower - lost[1]
+            leftIn = defence.infantrypower + min(leftDef, 0)
             leftCa = defence.cavalrypower + min(leftIn, 0)
-            leftDef = defence.defencepower + min(leftCa, 0)
+
             lostDragon = min(leftDef, 0) 
 
+            leftDef = max(leftDef, 0)
             leftIn = max(leftIn, 0)
             leftCa = max(leftCa, 0)
-            leftDef = max(leftDef, 0)
+
             if lostDragon < 0:
                 lostDragon = -lostDragon
                 if dragon != None and dragon.state >= YoungDragon:#young dragon
@@ -4554,10 +4556,12 @@ class RootController(BaseController):
             #defLostCatapult = defence.catapult - leftCatapult
             defLostDef = defence.defencepower - leftDef
             print "defence left inf cav def " + str(leftIn) + ' ' + str(leftCa) +' ' + str(leftDef)
+
+            defence.defencepower = leftDef
             defence.infantrypower = leftIn
             defence.cavalrypower = leftCa
             #defence.catapult = leftCatapult
-            defence.defencepower = leftDef
+
 
             attReward = ""
             defReward = ""
@@ -6905,7 +6909,7 @@ class RootController(BaseController):
                         if p.ground_id==401:
                             u.person_god_lev=1
                         elif p.ground_id==405:
-                            u.persn_god_lev=2
+                            u.person_god_lev=2
                         elif p.ground_id==409:
                             u.person_god_lev=3
                         elif p.ground_id==413:

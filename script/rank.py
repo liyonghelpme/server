@@ -11,7 +11,7 @@ logfile = open("/root/tg2env/stchong/ranklog","a")
 logfile.write("####### wonder_empire daily rank at "+time.strftime("%Y-%m-%d %H:%M:%S ",time.localtime())+" #######\n")
 #0userid,1corn,2otherid,3lev,4food
 #sql = "select userid,corn,otherid,lev,food,exp from operationalData where userid >3260 and userid!=3613 and userid!=3829 and userid!=5500 and userid!=10770 and userid!=13336 and userid!=3397"
-sql = "select userid,corn,otherid,lev,food,exp from operationalData where userid >3260 and userid!=3613 and userid!=3829 and userid!=5500 and userid!=10770 and userid!=13336"
+sql = "select userid,corn,otherid,lev,food,exp from operationalData where userid >3260 and userid!=3613 and userid!=3829 and userid!=5500 and userid!=10770 and userid!=13336 limit 999"
 cursor.execute(sql)
 results = cursor.fetchall()
 temp = []
@@ -21,6 +21,7 @@ food_ranks = []
 exp_ranks = []
 ranks_item = []
 
+print len(results)
 for r in results:
     user = list(r)
     temp.append(user)
@@ -142,6 +143,7 @@ for r in food_ranks:
     ranks_item = []
     i = i + 1
 
+print "insert"
 #insert into ranks
 #0userid,1otherid,2fortunerank,3corn,4foodrank,5food,6exprank,7exp,8lev
 cursor.execute("delete from rank where userid > 3260")
@@ -153,10 +155,11 @@ for r in exp_ranks:
     param = (r[0],r[1],0,0,r[2],r[3],r[4],r[5],r[6],r[7],r[8])
     cursor.execute(sql,param)
 
+
 #merit rank
 #0uid,1won,2power(except out power in battle)
 #sql = "select victories.uid,victories.won,operationalData.infantrypower+operationalData.cavalrypower+operationalData.defencepower,operationalData.nobility*3+operationalData.subno from victories,operationalData where uid > 3260 and userid!=3613 and userid!=5500 and userid!=3829 and userid!=10770 and userid!=13336 and userid!=3397  and victories.uid=operationalData.userid"
-sql = "select victories.uid,victories.won,operationalData.infantrypower+operationalData.cavalrypower+operationalData.defencepower,operationalData.nobility*3+operationalData.subno from victories,operationalData where uid > 3260 and userid!=3613 and userid!=5500 and userid!=3829 and userid!=10770 and userid!=13336 and victories.uid=operationalData.userid"
+sql = "select victories.uid,victories.won,operationalData.infantrypower+operationalData.cavalrypower+operationalData.defencepower,operationalData.nobility*3+operationalData.subno from victories,operationalData where uid > 3260 and userid!=3613 and userid!=5500 and userid!=3829 and userid!=10770 and userid!=13336 and victories.uid=operationalData.userid limit 999"
 cursor.execute(sql)
 results = cursor.fetchall()
 temp = []
