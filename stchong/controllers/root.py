@@ -4503,7 +4503,7 @@ class RootController(BaseController):
             defFullPow = defPurePow
             defGod = calGod(defence.userid, defPurePow)
             defFullPow += defGod
-            defFullPow += defence.defencepower
+            #defFullPow += defence.defencepower
             defFullPow += allyhelp(defence.userid, 1, defPurePow)
             print "defence full power " + str(defFullPow)
             
@@ -4527,9 +4527,10 @@ class RootController(BaseController):
             attack.cavalrypower += returnCa
             attack.catapult += returnCatapult
             
-            leftIn = defence.infantrypower - lost[1]
+            leftDef = defence.defencepower - lost[1]
+            leftIn = defence.infantrypower + min(leftDef, 0)
             leftCa = defence.cavalrypower + min(leftIn, 0)
-            leftDef = defence.defencepower + min(leftCa, 0)
+
             lostDragon = min(leftDef, 0) 
 
             leftIn = max(leftIn, 0)
@@ -6636,7 +6637,7 @@ class RootController(BaseController):
                if p.ground_id==401:
                    u.person_god_lev=1
                elif p.ground_id==405:
-                   u.persn_god_lev=2
+                   u.person_god_lev=2
                elif p.ground_id==409:
                    u.person_god_lev=3
                elif p.ground_id==413:
