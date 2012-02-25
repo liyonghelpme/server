@@ -18,7 +18,7 @@ while True:
     now -= begin
     bon = int(now - 24*3600*30)
 
-    con = MySQLdb.connect(host='localhost', user='root', passwd='badperson3', db = 'stcHong', charset = 'utf8')
+    con = MySQLdb.connect(host='localhost', user='root', passwd='2e4n5k2w2x', db = 'stcHong', charset = 'utf8')
     cursor = con.cursor()
     s = 'update operationalData set empirename = \'empty\', infantrypower = 0, cavalrypower = 0, defencepower = 0, logintime = '+str(bon) + ' where userid != 2800 and logintime < ' + str(bon)
     exe(s)

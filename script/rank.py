@@ -11,7 +11,7 @@ logfile = open("/root/tg2env/stchong/ranklog","a")
 logfile.write("####### wonder_empire daily rank at "+time.strftime("%Y-%m-%d %H:%M:%S ",time.localtime())+" #######\n")
 #0userid,1corn,2otherid,3lev,4food
 #sql = "select userid,corn,otherid,lev,food,exp from operationalData where userid >3260 and userid!=3613 and userid!=3829 and userid!=5500 and userid!=10770 and userid!=13336 and userid!=3397"
-sql = "select userid,corn,otherid,lev,food,exp from operationalData where userid >3260 and userid!=3613 and userid!=3829 and userid!=5500 and userid!=10770 and userid!=13336"
+sql = "select userid,corn,otherid,lev,food,exp from operationalData where userid >3260 and userid!=3613 and userid!=3829 and userid!=5500 and userid!=10770 and userid!=13336 limit 999"
 cursor.execute(sql)
 results = cursor.fetchall()
 temp = []

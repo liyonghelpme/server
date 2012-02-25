@@ -1744,7 +1744,7 @@ class RootController(BaseController):
         except InvalidRequestError:
             return dict(id=0)
     global OpenReward
-    OpenReward = 100
+    OpenReward = 1000
     @expose('json')
     def helpopen(self,user_id,fuser_id):
         t=int(time.mktime(time.localtime())-time.mktime(beginTime))
@@ -4455,6 +4455,8 @@ class RootController(BaseController):
     DragonExtraAttack = [0, 3, 3]
     global YoungDragon
     YoungDragon = 3
+    global LostDraHeal
+    LostDraHeal = 100
     def warresult2(uid):
         uid = int(uid)
         t=int(time.mktime(time.localtime())-time.mktime(beginTime))
@@ -4490,7 +4492,7 @@ class RootController(BaseController):
 
             dragon = None
             try:
-                dragon = DBSession.query(Dragon).filter_by(uid=uid).one()
+                dragon = DBSession.query(Dragon).filter_by(uid=b.enemy_id).one()
                 att = DBSession.query(PetAtt).filter_by(pid=dragon.pid).one()
                 dragonAtt = DragonKindAttack[dragon.kind]+DragonExtraAttack[att.att]
                 if dragon.state >= YoungDragon:#young dragon
@@ -4541,7 +4543,7 @@ class RootController(BaseController):
                     leftDraHealth = dragon.health
                     if lostDragon > dragon.attack:
                         lostDragon -= dragon.attack
-                        healBound = dragon.health/20
+                        healBound = dragon.health/LostDraHeal
                         leftDraHealth = dragon.health - min(lostDragon/dragonAtt, healBound)
                     leftDraAtt = max(leftDraAtt, 0)
                     leftDraHealth = max(leftDraHealth, 0)
@@ -5416,7 +5418,7 @@ class RootController(BaseController):
         else:
             return dict(id=0,reason="not himself dragon")   
     global TrainReward
-    TrainReward = 100
+    TrainReward = 1000
     @expose('json')
     def feed(self, uid, gid, cid):
         uid = int(uid)
