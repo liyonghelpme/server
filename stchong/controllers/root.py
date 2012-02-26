@@ -4531,7 +4531,7 @@ class RootController(BaseController):
             leftIn = defence.infantrypower + min(leftDef, 0)
             leftCa = defence.cavalrypower + min(leftIn, 0)
 
-            lostDragon = min(leftDef, 0) 
+            lostDragon = min(leftCa, 0) 
 
             leftIn = max(leftIn, 0)
             leftCa = max(leftCa, 0)
@@ -4545,7 +4545,7 @@ class RootController(BaseController):
                     if lostDragon > dragon.attack:
                         lostDragon -= dragon.attack
                         healBound = dragon.health/LostDraHeal
-                        leftDraHealth = dragon.health - min(lostDragon/dragonAtt, healBound)
+                        leftDraHealth = dragon.health - min(lostDragon/dragonAtt, 1)
                     leftDraAtt = max(leftDraAtt, 0)
                     leftDraHealth = max(leftDraHealth, 0)
                     dragon.attack = leftDraAtt
