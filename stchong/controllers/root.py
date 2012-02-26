@@ -108,7 +108,6 @@ class RootController(BaseController):
     global judgemd5
     global CACHEOP
     global addcache
-    global replacecache
     global cachewriteback
     global callost
     global getresource
@@ -206,7 +205,6 @@ class RootController(BaseController):
     def share(self,uid):
         u=checkopdata(uid)
         u.corn=u.corn+100
-        replacecache(uid,u)
         return dict(id=1)
     def judgemd5(string,md5s):
         src=string+'-'+md5string
@@ -336,7 +334,6 @@ class RootController(BaseController):
     def sethead(self,hid,uid):
         u=checkopdata(uid)
         u.hid=int(hid)
-        replacecache(uid,u)
         return dict(id=1)
     @expose('json')
     def sendinvite(self,uid,invitestring):
@@ -362,8 +359,6 @@ class RootController(BaseController):
                 nf2=Friend(uid=u.userid,fotherid=ub.otherid)
                 DBSession.add(nf2)
                 DBSession.commit()
-            replacecache(u.userid,u)
-            replacecache(uid,ub)
             return dict(id=1)
         except:
             return dict(id=0)
@@ -382,7 +377,6 @@ class RootController(BaseController):
                 uf.invitestring=istring
             else:
                 uf.invitestring=uf.invitestring+';'+istring
-            replacecache(fid,uf)
             
             return 2
         except:
@@ -505,7 +499,6 @@ class RootController(BaseController):
             
             u=checkopdata(uid)
             
-            replacecache(uid,u)
             return dict(tasklist=tl)
         except:
             return dict(id=tl)
@@ -522,7 +515,6 @@ class RootController(BaseController):
         task=wartasknew(uid)
         u.warcurrenttask=task[1]
         u.wartaskstring='0'
-        replacecache(uid,u)
         if task[0]<0:
             return dict(task=-1)
         return dict(task=task[0])    
@@ -539,7 +531,6 @@ class RootController(BaseController):
         task=tasknew(uid)
         u.currenttask=task[1]
         u.taskstring='0'
-        replacecache(uid,u)
         if task[0]<0:
             return dict(task=-1)
         return dict(task=task[0])
@@ -559,7 +550,6 @@ class RootController(BaseController):
         u.warcurrenttask=t2   
         u.wartaskstring='0'
         
-        replacecache(uid,u)
         if task<0:
             task=-1
         return dict(task=task,tid=t2)         
@@ -584,7 +574,6 @@ class RootController(BaseController):
         u.currenttask=t2   
         u.taskstring='0'
         
-        replacecache(uid,u)
         if task<0:
             task=-1
         return dict(task=task,tid=t2) 
@@ -594,7 +583,6 @@ class RootController(BaseController):
         
         u=checkopdata(uid)
         u.wartaskstring=taskstring
-        replacecache(uid,u)
         return dict(id=1)        
     @expose('json')
     def taskstep(self,uid,taskstring):
@@ -602,7 +590,6 @@ class RootController(BaseController):
         
         u=checkopdata(uid)
         u.taskstring=taskstring
-        replacecache(uid,u)
         return dict(id=1)
     @expose('json')
     def tasknew2(self,uid):
@@ -610,7 +597,6 @@ class RootController(BaseController):
         if u.currenttask=='-1' or u.currenttask=='':
             u.currenttask=str(0)
             u.taskstring='0'
-            replacecache(uid,u)
             return [taskbonus[0][0],0]
         else:
             if int(u.currenttask)>=len(taskbonus):
@@ -624,20 +610,17 @@ class RootController(BaseController):
                     return dict(id=u.currenttask)
                 u.currenttask=str(ct+1)
                 u.taskstring='0'
-                replacecache(uid,u)
                 return dict(ct=ct,t=u.currenttask,tid=taskbonus[ct+1][0])  
     def wartasknew(uid):
         u=checkopdata(uid)
         if u.warcurrenttask=='-1' or u.warcurrenttask=='':
             u.warcurrenttask=str(0)
             u.wartaskstring='0'
-            replacecache(uid,u)
             return [wartaskbonus[0][0],0]
         else:
             if int(u.warcurrenttask)>=len(wartaskbonus)-1 or int(u.warcurrenttask)<=(-len(wartaskbonus)+1):
                 u.warcurrenttask=str(-int(u.warcurrenttask))
                 u.wartaskstring=''
-                replacecache(uid,u)
                 return [-1,u.warcurrenttask]
             else:
                 if int(u.warcurrenttask)<0:
@@ -649,7 +632,6 @@ class RootController(BaseController):
                 
                 u.warcurrenttask=str(int(u.warcurrenttask)+1)
                 u.wartaskstring='0'
-                replacecache(uid,u)
                 return [wartaskbonus[ct+1][0],u.warcurrenttask]                  
     
     def tasknew(uid):
@@ -657,13 +639,11 @@ class RootController(BaseController):
         if u.currenttask=='-1' or u.currenttask=='':
             u.currenttask=str(0)
             u.taskstring='0'
-            replacecache(uid,u)
             return [taskbonus[0][0],0]
         else:
             if int(u.currenttask)>=len(taskbonus)-1 or int(u.currenttask)<=(-len(taskbonus)+1):
                 u.currenttask=str(-int(u.currenttask))
                 u.taskstring=''
-                replacecache(uid,u)
                 return [-1,u.currenttask]
             else:
                 if int(u.currenttask)<0:
@@ -671,24 +651,20 @@ class RootController(BaseController):
                 ct=int(u.currenttask)
                 if taskbonus[ct+1][2]>u.lev:
                     u.currenttask=str(-int(u.currenttask))
-                    replacecache(uid,u)
                     return [-1,u.currenttask]
                 u.currenttask=str(int(u.currenttask)+1)
                 u.taskstring='0'
-                replacecache(uid,u)
                 return [taskbonus[ct+1][0],u.currenttask]
     def tasknew3(u):
         
         if u.currenttask=='-1' or u.currenttask=='':
             u.currenttask=str(0)
             u.taskstring='0'
-            replacecache(uid,u)
             return [taskbonus[0][0],0]
         else:
             if int(u.currenttask)>=len(taskbonus)-1 or int(u.currenttask)<=(-len(taskbonus)+1):
                 u.currenttask=str(-int(u.currenttask))
                 u.taskstring=''
-                replacecache(u.userid,u)
                 return [-1,u.currenttask]
             else:
                 if int(u.currenttask)<0:
@@ -696,11 +672,9 @@ class RootController(BaseController):
                 ct=int(u.currenttask)
                 if taskbonus[ct+1][2]>u.lev:
                     u.currenttask=str(-int(u.currenttask))
-                    replacecache(u.userid,u)
                     return [-1,u.currenttask]
                 u.currenttask=str(int(u.currenttask)+1)
                 u.taskstring='0'
-                replacecache(u.userid,u)
                 return [taskbonus[ct+1][0],u.currenttask]
     @expose('json')
     def newtask(self,uid,taskid):
@@ -800,7 +774,6 @@ class RootController(BaseController):
     def testwritecache(self,uid):
         u=checkopdata(uid)
         u.invitestring='testcache'
-        replacecache(uid,u)
         
         return dict(string=u.invitestring)
     @expose('json')
@@ -896,8 +869,6 @@ class RootController(BaseController):
             return u
         except:
             return None       
-    def replacecache(uid,u):
-        return 1
         
         
     def deleteopdata(uid):
@@ -1151,39 +1122,41 @@ class RootController(BaseController):
                 if inornot(index,num2)==False:
                     num2.append(index)
                     j=j+1
-        j=0
-        a1=random.choice(alphabet)
-        strr=u.specialgoods.split(';')
-        for x in strr:
-            strx=x.split(',')
-            x1=strx[0]
-            y1=int(strx[1])
-            while j<k:
-                a1=alphabet[num2[j]]
-                if a1==x1:
-                    y1=y1+1
-                    break
-                j=j+1
             j=0
-            num1.append([x1,y1])
-        i=0
-        s=''
-        for n in num1:
-            if i==0:
-                s=s+str(n[0])+','+str(n[1])
-                i=1
-            else:
-                s=s+';'+str(n[0])+','+str(n[1])
-        u.specialgoods=s
-        i=0
-        s=''
-        for x in num2:
-            if i==0:
-                s=s+str(x)
-                i=1
-            else:
-                s=s+'!'+str(x)
-        
+            a1=random.choice(alphabet)
+            strr=u.specialgoods.split(';')
+            for x in strr:
+                strx=x.split(',')
+                x1=strx[0]
+                y1=int(strx[1])
+                while j<k:
+                    a1=alphabet[num2[j]]
+                    if a1==x1:
+                        y1=y1+1
+                        break
+                    j=j+1
+                j=0
+                num1.append([x1,y1])
+            i=0
+            s=''
+            for n in num1:
+                if i==0:
+                    s=s+str(n[0])+','+str(n[1])
+                    i=1
+                else:
+                    s=s+';'+str(n[0])+','+str(n[1])
+            u.specialgoods=s
+            i=0
+            s=''
+            for x in num2:
+                if i==0:
+                    s=s+str(x)
+                    i=1
+                else:
+                    s=s+'!'+str(x)
+        else:
+            s = ''
+
         return s      
     
     def returnSoldier(u):
@@ -1576,7 +1549,6 @@ class RootController(BaseController):
                         n.time=t
                     except:
                         addnews(war.userid,u.otherid,1,t,u.user_kind) 
-                replacecache(uid,u)  
                 return dict(id=1)
         except InvalidRequestError:
             return dict(id=0)         
@@ -1638,7 +1610,6 @@ class RootController(BaseController):
                 u.allynum=u.allynum+1
                 newally=Ally(uid=uid,fid=fid)
                 DBSession.add(newally)  
-                replacecache(uid,u)
                 return dict(id=1)
             else:
                 return dict(id=0) 
@@ -1658,7 +1629,6 @@ class RootController(BaseController):
                 u.allynum=0
             a1=DBSession.query(Ally).filter_by(uid=uid).filter_by(fid=fid).one()            
             DBSession.delete(a1)      
-            replacecache(uid,u)
             return dict(id=1)
         except InvalidRequestError:
             return dict(id=0)                                  
@@ -1690,7 +1660,6 @@ class RootController(BaseController):
             u=checkopdata(user_id)
             u.treasurenum=int(num)
             u.treasurebox=''
-            replacecache(user_id,u)
             return dict(id=1)
         except InvalidRequestError:
             return dict(id=0)
@@ -1747,7 +1716,6 @@ class RootController(BaseController):
             u.treasurenum=0
             u.treasurebox=''
             num=opentreasurebox(u)
-            replacecache(user_id,u)
             return dict(id=1,specialgoods=num)
         except:
             return dict(id=0)
@@ -1902,7 +1870,6 @@ class RootController(BaseController):
                 else:
                     strre=strre+';'+tempstr
             u.specialgoods=strre
-            replacecache(u.userid,u)
             return strre
         else:
             return ''            
@@ -2632,7 +2599,6 @@ class RootController(BaseController):
         
         u=checkopdata(userid)
         u.empirename=newname
-        replacecache(userid,u)
         return dict(id=1,newname=newname)
     @expose('json')
     def newcomplete(self,uid,level):
@@ -2651,7 +2617,6 @@ class RootController(BaseController):
                 user.food=120
                 user.population=380
                 user.labor_num=280
-                replacecache(uid,user)
                 return dict(id=user.newcomer)
             elif level==2:
                 user.newcomer=level
@@ -2712,7 +2677,6 @@ class RootController(BaseController):
                         xx.lev=3
                 except InvalidRequestError:
                     x=[]              
-            replacecache(uid,user)
             return dict(task=task[0],id=user.newcomer)
         except :
             return dict(id=0)
@@ -3420,7 +3384,6 @@ class RootController(BaseController):
                     u.corn=u.corn-corn
                     u.food=u.food-food
                     u.defencepower=u.defencepower+defencenum
-                    replacecache(uid,u)
                     return dict(id=1)
                 else:
                     return dict(id=0) 
@@ -4436,8 +4399,6 @@ class RootController(BaseController):
             attFullPow += attGod
             attFullPow += b.allypower
             print "attack full power " + str(attFullPow)
-
-
             defPurePow = defence.infantrypower + defence.cavalrypower
 
             dragon = None
@@ -4936,6 +4897,7 @@ class RootController(BaseController):
         return dict(id=1, result="move suc")
     @expose('json')
     def godbless(self,uid,godtype,caetype):
+        print "godbless", caetype
         uid=int(uid)
         u=checkopdata(uid)
         m = DBSession.query(Mana).filter_by(userid=int(uid)).one()
@@ -6093,7 +6055,6 @@ class RootController(BaseController):
                 u.exp=u.exp+tu[1]
                 p.object_id=-1 
                 read(city_id)
-                replacecache(u.userid,u)
                 return dict(id=1)
             if type==0 and mark==0:
                 tu=Plant_Price[p.object_id]
@@ -6111,7 +6072,6 @@ class RootController(BaseController):
             p.object_id=-1
             
             read(city_id)
-            replacecache(u.userid,u)
             return dict(id=1,tu=tu[2])
         except InvalidRequestError:
             return dict(id=0)
@@ -6270,8 +6230,6 @@ class RootController(BaseController):
                 if flag==1:
                     m.mana = temp_mana
 #                    u.cae = temp_cae
-                read(city_id)
-#                replacecache(u.userid,u)
                 return dict(id=1,expadd=expadd,foodadd=foodadd)
             else:
                 return dict(id=0,reason="mana not enough")
@@ -6522,8 +6480,6 @@ class RootController(BaseController):
            else:
                p.producttime=0        
            p.finish=1
-           read(city_id)
-           replacecache(u.userid,u)
            return dict(id=1)
         except InvalidRequestError:
            return dict(id=0)
@@ -6757,7 +6713,7 @@ class RootController(BaseController):
                         if p.ground_id==401:
                             u.person_god_lev=1
                         elif p.ground_id==405:
-                            u.persn_god_lev=2
+                            u.person_god_lev=2
                         elif p.ground_id==409:
                             u.person_god_lev=3
                         elif p.ground_id==413:
@@ -6811,8 +6767,6 @@ class RootController(BaseController):
                 u.food=u.food-food
                 p.producttime=ti
                 p.object_id = 0
-                read(city_id)
-                replacecache(u.userid,u)
                 return dict(id=1)
             else :
                 return dict(f=u.food-food,id=0)
@@ -6833,8 +6787,6 @@ class RootController(BaseController):
                 p.producttime=0
                 p.object_id = -1
                 u.exp=u.exp+houses[p.ground_id-100][2]
-                read(city_id)
-                replacecache(u.userid,u)
                 return dict(id=1)               
             if u.person_god==1 and t-u.popgodtime<3600 :
                 if u.person_god_lev==1:
@@ -6877,8 +6829,6 @@ class RootController(BaseController):
             p.producttime=0
             p.object_id = -1
             u.exp=u.exp+houses[p.ground_id-100][2]
-            read(city_id)
-            replacecache(u.userid,u)
             return dict(id=1)
         except InvalidRequestError:
             return dict(id=0)
@@ -6904,8 +6854,6 @@ class RootController(BaseController):
                p.object_id=sid
                ti=int(time.mktime(time.localtime())-time.mktime(beginTime))
                p.producttime=ti
-               read(city_id)
-               replacecache(u.userid,u)
                return dict(id=1)
            else:
                return dict(id=0)
@@ -7008,8 +6956,6 @@ class RootController(BaseController):
                p.producttime=0
                u.exp=u.exp+soldiernum[int(sid)]
                p.object_id=-1 
-               read(city_id)
-               replacecache(u.userid,u)
                return dict(id=1)           
            if mark==0 and int(sid)>=0 and int(sid)<9:
                if int(sid)>=0 and int(sid)<=2:
@@ -7044,8 +6990,6 @@ class RootController(BaseController):
            u.exp=u.exp+soldiernum[int(sid)]
            p.producttime=0
            p.object_id=-1
-           read(city_id)
-           replacecache(u.userid,u)
            return dict(id=1)
         except InvalidRequestError:
             return dict(id=0)
@@ -7063,8 +7007,6 @@ class RootController(BaseController):
            if p.producttime!=1 and p.producttime!=0 and ti-p.producttime>3*86400:
                u.exp=u.exp+production[p.ground_id-300][1]
                p.producttime=ti
-               read(city_id)
-               replacecache(u.userid,u)
                return dict(id=1)               
            if ti-p.producttime>=production[p.ground_id-300][3] or p.producttime==0:
                if u.wealth_god==1 and ti-u.wealthgodtime<3600:
@@ -7107,8 +7049,6 @@ class RootController(BaseController):
                    u.corn=u.corn+int(production[p.ground_id-300][0]*int(factor*10)/10)
                u.exp=u.exp+production[p.ground_id-300][1]
                p.producttime=ti
-               read(city_id)
-               replacecache(u.userid,u)
                return dict(id=1)
            else:
                return dict(id=0)
@@ -7141,7 +7081,6 @@ class RootController(BaseController):
                 else:
                     return dict(id=0)
             u.exp=u.exp+expanding[u.landkind-1][2]
-            replacecache(u.userid,u)
             return dict(id=1)
         except InvalidRequestError:
             return dict(id=0)
