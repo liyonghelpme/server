@@ -113,7 +113,6 @@ class RootController(BaseController):
     global getresource
     global warresult2
     global calGod
-    #global getbonusbattle2
     global defenceplist
     global appsecret
     global tasknew
@@ -134,9 +133,6 @@ class RootController(BaseController):
     milbuild=[[4000,130,100,0,0,5,3600,None,1],[9000,0,20,200,5,10,11520,'a,3',1],[20000,0,50,-200,10,20,22680,'b,3;c,4',1],[12000,320,130,0,0,15,7200,None,5],[25000,0,20,500,7,20,14760,'b,3',5],[50000,0,50,-500,15,35,28440,'c,3;d,4',5],[6000,150,90,0,0,7,10800,None,5],[12000,0,20,300,3,15,21600,'c,3',5],[25000,0,50,-300,7,30,32400,'d,3;e,4',5], [20000, 400, 200, 0, 0, 20, 18000, None, 25], [45000, 0, 50, 400, 20, 50, 27000, 'a,8;b,8', 25], [100000, 0, 50, -400, 40, 100, 36000, 'c,15;g,15', 25]]
     #coin food person wood cae bexp time spe level
     businessbuild = [[300, 20, 20, 0, 0, 3, 600, None, 0], [500, 30, 5, 0, 3, 7, 1800, 'a,1', 0], [1100, 0, 10, 70, 5, 11, 3600, 'a,2;b,3', 0], [1200, 45, 40, 0, 0, 5, 3600, None, 0], [1800, 0, 10, 100, 5, 9, 10440, 'b,2;c,2', 0], [3000, 0, 15, -100, 8, 14, 15120, 'c,2;d,3', 0], [-10, 0, 0, 0, 0, 15, 5400, None, 0], [5000, 0, 0, 120, 10, 20, 14400, 'b,2;c,2', 0], [7000, 0, 0, -120, 15, 25, 23400, 'c,2;d,3', 0], [2000, 80, 50, 0, 0, 7, 19800, None, 0], [3300, 0, 15, 150, 10, 9, 35280, 'd,2;e,2', 0], [4500, 0, 20, -150, 13, 11, 46800, 'e,2;f,3', 0], [5000, 100, 70, 0, 0, 9, 8280, None, 0], [7000, 0, 20, 170, 18, 11, 22320, 'f,2;g,2', 0], [13500, 0, 25, -170, 24, 13, 28800, 'g,2;h,3', 0], [-8, 0, 0, 0, 0, 25, 20520, None, 0], [9000, 0, 0, 200, 19, 30, 25200, 'd,2;e,2', 0], [11000, 0, 0, -200, 22, 35, 33120, 'e,2;f,3', 0], [7200, 130, 90, 0, 0, 20, 21600, None, 0], [11000, 0, 25, 210, 25, 33, 28800, 'h,2;i,2', 0], [19900, 0, 30, -210, 30, 45, 36720, 'i,2;j,3', 0], [8000, 170, 110, 0, 0, 29, 30600, None, 0], [13000, 0, 30, 230, 27, 45, 37440, 'j,2;k,2', 0], [21000, 0, 35, -230, 30, 61, 46800, 'k,2;l,3', 0], [-30, 0, 0, 0, 0, 35, 25200, None, 0], [13000, 0, 0, 250, 30, 45, 30240, 'h,2;i,2', 0], [17000, 0, 0, -250, 33, 60, 39600, 'i,2;j,3', 0], [20000, 500, 55, 0, 0, 15, 11160, None, 0], [25000, 0, 18, 250, 31, 20, 20800, 'b,5', 0], [33000, 0, 27, -250, 40, 25, 31680, 'c,5', 0], [-20, 0, 0, 0, 0, 23, 7200, None, 0], [10000, 0, 130, 150, 20, 30, 14400, 'e,3;c,2', 0], [15000, 0, 40, -150, 25, 39, 21600, 'a,5', 0]]
-    """
-    businessbuild=[[300,20,20,0,0,3,600,None,1],[500,30,5,0,1,7,1800,'a,1',1],[1100,0,10,70,2,11,3600,'a,2;b,3',1],[1200,45,40,0,0,5,3600,None,4],[1800,50,10,100,3,9,10740,'b,2;c,2',4],[3000,70,15,-100,4,14,15120,'c,2;d,3',4],[-5,0,0,0,0,15,5400,None,6],[5000,0,0,120,6,20,14400,'b,2;c,2',6],[7000,0,0,-120,7,25,23400,'c,2;d,3',6],[2000,80,50,0,0,7,19800,None,8],[3300,0,15,150,5,9,35270,'d,2;e,2',8],[4500,0,20,-150,6,11,46800,'e,2;f,3',8],[5000,100,70,0,0,9,8280,None,15],[7000,0,20,170,7,11,22320,'f,2;g,2',15],[13500,0,25,-170,8,13,28800,'g,2;h,3',15],[-8,0,0,0,0,25,20520,None,14],[9000,130,0,200,10,30,25200,'d,2;e,2',14],[11000,0,0,-200,11,35,33120,'e,2;f,3',14],[7200,130,90,0,0,20,21600,None,21],[11000,0,25,210,9,33,28800,'h,2;i,2',21],[19900,0,30,-210,10,45,36720,'i,2;j,3',21],[8000,170,110,0,0,29,30600,None,29],[13000,0,30,230,10,45,34200,'j,2;k,2',29],[21000,0,35,-230,11,61,46800,'k,2;l,3',29],[-11,0,0,0,0,35,25200,None,24],[13000,0,0,250,12,45,30240,'h,2;i,2',24],[17000,0,0,-250,13,60,39600,'i,2;j,3',24],[10000,1000,55,0,0,8,16200,None,7],[20000,0,18,300,7,15,28800,'a,5;i,4',7],[50000,0,27,-300,10,25,41400,'c,5;d,6',7],[10000,210,100,0,0,35,10*3600,None,35],[17000,280,30,280,10,47,11.5*3600,'d,4;h,6',35],[27000,-300,40,-300,11,56,13.5*3600,'g,5;a,10',35]]
-    """
     #coin food pop
     godbuild=[[10000,500,0,50,100,7200],[10000,500,0,50,100,7200],[10000,500,0,50,100,7200],[10000,500,0,50,100,7200],[20000,1000,29,100,100,21600],[20000,1000,29,100,100,21600],[20000,1000,29,100,100,21600],[20000,1000,29,100,100,21600],[50000,2000,49,170,100,43200],[50000,2000,49,170,100,43200],[50000,2000,49,170,100,43200],[50000,2000,49,170,100,43200],[100000,5000,99,250,100,64800],[100000,5000,99,250,100,64800],[100000,5000,99,250,100,64800],[100000,5000,99,250,100,64800],[500000,10000,199,350,100,86400],[500000,10000,199,350,100,86400],[500000,10000,199,350,100,86400],[500000,10000,199,350,100,86400]]
 
@@ -1116,7 +1112,7 @@ class RootController(BaseController):
         num2=[]
         j=0
         nobility=u.nobility
-        if random.randint(0, 1) == 1:
+        if random.randint(0, 10) == 0:
             while j<k:
                 index=random.randint(0,SpeNum-1)
                 if inornot(index,num2)==False:
@@ -1186,7 +1182,6 @@ class RootController(BaseController):
         for monster in monsterlist:
             mm=monster.split(',')
             midlist.append(int(mm[0]))
-        
         u.monster=u.monster+1 
         return dict(id=1) 
     @expose('json')
@@ -1664,7 +1659,7 @@ class RootController(BaseController):
         except InvalidRequestError:
             return dict(id=0)
     global OpenReward
-    OpenReward = 100
+    OpenReward = 1000
     @expose('json')
     def helpopen(self,user_id,fuser_id):
         t=int(time.mktime(time.localtime())-time.mktime(beginTime))
@@ -4370,6 +4365,8 @@ class RootController(BaseController):
     DragonExtraAttack = [0, 3, 3]
     global YoungDragon
     YoungDragon = 3
+    global LostDraHeal
+    LostDraHeal = 100
     def warresult2(uid):
         uid = int(uid)
         t=int(time.mktime(time.localtime())-time.mktime(beginTime))
@@ -4403,7 +4400,7 @@ class RootController(BaseController):
 
             dragon = None
             try:
-                dragon = DBSession.query(Dragon).filter_by(uid=uid).one()
+                dragon = DBSession.query(Dragon).filter_by(uid=b.enemy_id).one()
                 att = DBSession.query(PetAtt).filter_by(pid=dragon.pid).one()
                 dragonAtt = DragonKindAttack[dragon.kind]+DragonExtraAttack[att.att]
                 if dragon.state >= YoungDragon:#young dragon
@@ -4414,7 +4411,7 @@ class RootController(BaseController):
             defFullPow = defPurePow
             defGod = calGod(defence.userid, defPurePow)
             defFullPow += defGod
-            defFullPow += defence.defencepower
+            #defFullPow += defence.defencepower
             defFullPow += allyhelp(defence.userid, 1, defPurePow)
             print "defence full power " + str(defFullPow)
             
@@ -4438,10 +4435,11 @@ class RootController(BaseController):
             attack.cavalrypower += returnCa
             attack.catapult += returnCatapult
             
-            leftIn = defence.infantrypower - lost[1]
+            leftDef = defence.defencepower - lost[1]
+            leftIn = defence.infantrypower + min(leftDef, 0)
             leftCa = defence.cavalrypower + min(leftIn, 0)
-            leftDef = defence.defencepower + min(leftCa, 0)
-            lostDragon = min(leftDef, 0) 
+
+            lostDragon = min(leftCa, 0) 
 
             leftIn = max(leftIn, 0)
             leftCa = max(leftCa, 0)
@@ -4454,8 +4452,8 @@ class RootController(BaseController):
                     leftDraHealth = dragon.health
                     if lostDragon > dragon.attack:
                         lostDragon -= dragon.attack
-                        healBound = dragon.health/20
-                        leftDraHealth = dragon.health - min(lostDragon/dragonAtt, healBound)
+                        healBound = dragon.health/LostDraHeal
+                        leftDraHealth = dragon.health - min(lostDragon/dragonAtt, 1)
                     leftDraAtt = max(leftDraAtt, 0)
                     leftDraHealth = max(leftDraHealth, 0)
                     dragon.attack = leftDraAtt
@@ -5461,7 +5459,7 @@ class RootController(BaseController):
         else:
             return dict(id=0,reason="not himself dragon")   
     global TrainReward
-    TrainReward = 100
+    TrainReward = 1000
     @expose('json')
     def feed(self, uid, gid, cid):
         uid = int(uid)
@@ -5884,7 +5882,6 @@ class RootController(BaseController):
         if ground_id >=500 and ground_id <=599:
             print "build decoration " + str(decorationbuild[ground_id-500][1])
             return buildDecoration(user, city_id, ground_id, grid_id);
-
         if ground_id / 1000 != 0:
             print "build dragon " + str(user_id)
             return buildDragon(user, city_id, ground_id, grid_id)
@@ -6444,7 +6441,7 @@ class RootController(BaseController):
                if p.ground_id==401:
                    u.person_god_lev=1
                elif p.ground_id==405:
-                   u.persn_god_lev=2
+                   u.person_god_lev=2
                elif p.ground_id==409:
                    u.person_god_lev=3
                elif p.ground_id==413:
