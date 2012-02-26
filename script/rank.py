@@ -159,7 +159,7 @@ for r in exp_ranks:
 #merit rank
 #0uid,1won,2power(except out power in battle)
 #sql = "select victories.uid,victories.won,operationalData.infantrypower+operationalData.cavalrypower+operationalData.defencepower,operationalData.nobility*3+operationalData.subno from victories,operationalData where uid > 3260 and userid!=3613 and userid!=5500 and userid!=3829 and userid!=10770 and userid!=13336 and userid!=3397  and victories.uid=operationalData.userid"
-sql = "select victories.uid,victories.won,operationalData.infantrypower+operationalData.cavalrypower+operationalData.defencepower,operationalData.nobility*3+operationalData.subno from victories,operationalData where uid > 3260 and userid!=3613 and userid!=5500 and userid!=3829 and userid!=10770 and userid!=13336 and victories.uid=operationalData.userid limit 999"
+sql = "select victories.uid,victories.won,operationalData.infantrypower+operationalData.cavalrypower+operationalData.defencepower,operationalData.nobility*3+operationalData.subno from victories,operationalData where uid > 3260 and userid!=3613 and userid!=5500 and userid!=3829 and userid!=10770 and userid!=13336 and victories.uid=operationalData.userid"
 cursor.execute(sql)
 results = cursor.fetchall()
 temp = []
