@@ -3207,7 +3207,7 @@ class RootController(BaseController):
     #cae, specialgoods coin food people PopulationUpbound manaBoundary
     global EmpireCost
     EmpireCost = [
-    [100, [["a",30], ["b", 30], ["c", 30]], 100000, 1000, 100, 0, 5], 
+    [150, [["a",30], ["b", 30], ["c", 30]], 100000, 1000, 100, 0, 5], 
     [200, [["d", 30], ["e", 30], ["f", 30]], 500000, 5000, 500, 0, 5] 
     ]
     global checkSpe

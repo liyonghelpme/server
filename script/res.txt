@@ -1,0 +1,666 @@
+-- MySQL dump 10.11
+--
+-- Host: localhost    Database: stcHong
+-- ------------------------------------------------------
+-- Server version	5.1.48
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `ally`
+--
+
+DROP TABLE IF EXISTS `ally`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `ally` (
+  `uid` int(11) NOT NULL,
+  `fid` int(11) NOT NULL,
+  `assit_num` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uid`,`fid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `battle`
+--
+
+DROP TABLE IF EXISTS `battle`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `battle` (
+  `uid` int(11) NOT NULL,
+  `enemy_id` int(11) NOT NULL,
+  `left_time` int(11) DEFAULT NULL,
+  `timeneed` int(11) DEFAULT NULL,
+  `finish` int(11) NOT NULL DEFAULT '0',
+  `powerin` int(11) NOT NULL,
+  `soldier` varchar(1000) DEFAULT '',
+  `powerca` int(11) NOT NULL,
+  `power` int(11) NOT NULL,
+  `allypower` int(11) NOT NULL,
+  `catapult` int(11) DEFAULT '0',
+  PRIMARY KEY (`uid`,`enemy_id`),
+  KEY `empty` (`finish`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `businessRead`
+--
+
+DROP TABLE IF EXISTS `businessRead`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `businessRead` (
+  `city_id` int(11) NOT NULL,
+  `layout` varchar(60000) NOT NULL,
+  PRIMARY KEY (`city_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `businessWrite`
+--
+
+DROP TABLE IF EXISTS `businessWrite`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `businessWrite` (
+  `city_id` int(11) NOT NULL,
+  `ground_id` int(11) NOT NULL,
+  `grid_id` int(11) NOT NULL,
+  `object_id` int(11) NOT NULL,
+  `producttime` int(11) NOT NULL,
+  `finish` int(11) NOT NULL,
+  `bid` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`bid`),
+  KEY `building` (`city_id`,`grid_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3705635 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `caebuy`
+--
+
+DROP TABLE IF EXISTS `caebuy`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `caebuy` (
+  `uid` int(11) NOT NULL,
+  `cae` int(11) NOT NULL DEFAULT '0',
+  `time` int(11) NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`uid`,`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `card`
+--
+
+DROP TABLE IF EXISTS `card`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `card` (
+  `uid` int(11) NOT NULL,
+  `logincard` int(11) NOT NULL DEFAULT '0',
+  `foodcard` int(2) NOT NULL DEFAULT '0',
+  `fortunecard` int(2) NOT NULL DEFAULT '0',
+  `popcard` int(2) NOT NULL DEFAULT '0',
+  `warcard` int(2) NOT NULL DEFAULT '0',
+  `friendcard` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `datesurprise`
+--
+
+DROP TABLE IF EXISTS `datesurprise`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `datesurprise` (
+  `uid` int(11) NOT NULL,
+  `datesurprise` int(11) DEFAULT NULL,
+  `monfood` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `datevisit`
+--
+
+DROP TABLE IF EXISTS `datevisit`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `datevisit` (
+  `uid` int(11) NOT NULL,
+  `visitnum` int(11) NOT NULL,
+  PRIMARY KEY (`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `dragon`
+--
+
+DROP TABLE IF EXISTS `dragon`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `dragon` (
+  `pid` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) DEFAULT NULL,
+  `bid` int(11) DEFAULT NULL,
+  `friNum` tinyint(4) DEFAULT '0',
+  `state` tinyint(4) DEFAULT '0',
+  `kind` tinyint(4) DEFAULT '0',
+  `lastFeed` tinyint(4) DEFAULT '0',
+  `health` mediumint(9) DEFAULT NULL,
+  `name` varchar(30) CHARACTER SET gbk DEFAULT '我的宠物',
+  `friList` varchar(500) CHARACTER SET gbk DEFAULT '[]',
+  `attack` int(11) DEFAULT '0',
+  `trainNum` int(4) NOT NULL DEFAULT '0',
+  `style` int(11) DEFAULT '0',
+  PRIMARY KEY (`pid`),
+  KEY `building` (`bid`)
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `emptyCastal`
+--
+
+DROP TABLE IF EXISTS `emptyCastal`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `emptyCastal` (
+  `cid` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) DEFAULT '-1',
+  `mid` int(11) DEFAULT '0',
+  `gid` int(11) DEFAULT '0',
+  `inf` int(11) DEFAULT '0',
+  `cav` int(11) DEFAULT '0',
+  `attribute` int(11) DEFAULT NULL,
+  `lastTime` int(11) DEFAULT '0',
+  PRIMARY KEY (`cid`),
+  KEY `inmap` (`mid`,`uid`),
+  KEY `map` (`mid`)
+) ENGINE=InnoDB AUTO_INCREMENT=870 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `emptyResult`
+--
+
+DROP TABLE IF EXISTS `emptyResult`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `emptyResult` (
+  `eid` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) DEFAULT NULL,
+  `data` varchar(300) DEFAULT NULL,
+  PRIMARY KEY (`eid`),
+  KEY `result` (`uid`)
+) ENGINE=InnoDB AUTO_INCREMENT=185 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `friend`
+--
+
+DROP TABLE IF EXISTS `friend`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `friend` (
+  `uid` int(11) NOT NULL,
+  `fotherid` varchar(100) NOT NULL,
+  PRIMARY KEY (`uid`,`fotherid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `friendRequest`
+--
+
+DROP TABLE IF EXISTS `friendRequest`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `friendRequest` (
+  `sendid` int(11) NOT NULL,
+  `receiveid` int(11) NOT NULL,
+  `message` varchar(1000) CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`sendid`,`receiveid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `gift`
+--
+
+DROP TABLE IF EXISTS `gift`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `gift` (
+  `uid` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `fid` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `present` int(11) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
+  `askorgive` int(11) NOT NULL,
+  `received` int(11) NOT NULL DEFAULT '0',
+  `ukind` int(11) NOT NULL DEFAULT '0',
+  `fkind` int(11) NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=135021 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `mana`
+--
+
+DROP TABLE IF EXISTS `mana`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `mana` (
+  `userid` int(11) NOT NULL DEFAULT '0',
+  `mana` int(11) NOT NULL DEFAULT '0',
+  `boundary` int(11) NOT NULL DEFAULT '0',
+  `lasttime` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`userid`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `map`
+--
+
+DROP TABLE IF EXISTS `map`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `map` (
+  `mapid` int(11) NOT NULL AUTO_INCREMENT,
+  `map_kind` int(11) NOT NULL,
+  `num` int(11) NOT NULL,
+  PRIMARY KEY (`mapid`)
+) ENGINE=MyISAM AUTO_INCREMENT=1052 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `message`
+--
+
+DROP TABLE IF EXISTS `message`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `message` (
+  `mid` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `fid` int(11) NOT NULL,
+  `mess` varchar(60) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
+  `read` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`mid`),
+  KEY `myMessage` (`fid`,`uid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `news`
+--
+
+DROP TABLE IF EXISTS `news`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `news` (
+  `uid` int(11) NOT NULL,
+  `fpapayaid` varchar(100) NOT NULL,
+  `kind` int(11) NOT NULL,
+  `time` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fuser_kind` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1026650 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `occupation`
+--
+
+DROP TABLE IF EXISTS `occupation`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `occupation` (
+  `masterid` int(11) NOT NULL,
+  `slaveid` int(11) NOT NULL,
+  `time` int(11) NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`masterid`,`slaveid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `operationalData`
+--
+
+DROP TABLE IF EXISTS `operationalData`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `operationalData` (
+  `userid` int(11) NOT NULL AUTO_INCREMENT,
+  `labor_num` int(11) NOT NULL,
+  `population` int(11) NOT NULL,
+  `exp` int(11) NOT NULL,
+  `corn` int(11) NOT NULL,
+  `cae` int(11) NOT NULL,
+  `nobility` int(11) NOT NULL DEFAULT '-1',
+  `subno` int(11) NOT NULL DEFAULT '0',
+  `infantry1_num` int(11) NOT NULL,
+  `cavalry1_num` int(11) NOT NULL,
+  `scout1_num` int(11) NOT NULL,
+  `person_god` int(11) NOT NULL,
+  `person_god_lev` int(11) NOT NULL DEFAULT '0',
+  `wealth_god` int(11) NOT NULL,
+  `wealth_god_lev` int(11) NOT NULL DEFAULT '0',
+  `food_god` int(11) NOT NULL,
+  `food_god_lev` int(11) NOT NULL DEFAULT '0',
+  `war_god` int(11) NOT NULL,
+  `war_god_lev` int(11) NOT NULL DEFAULT '0',
+  `user_kind` int(11) NOT NULL,
+  `otherid` varchar(100) CHARACTER SET gbk NOT NULL,
+  `lev` int(11) NOT NULL DEFAULT '1',
+  `empirename` varchar(1000) CHARACTER SET gbk NOT NULL DEFAULT '我的领地',
+  `food` int(11) NOT NULL DEFAULT '100',
+  `populationupbound` int(11) NOT NULL DEFAULT '750',
+  `wood` int(11) NOT NULL DEFAULT '0',
+  `stone` int(11) NOT NULL DEFAULT '0',
+  `specialgoods` varchar(1000) CHARACTER SET gbk NOT NULL DEFAULT 'a,0;b,0;c,0;d,0;e,0;f,0;g,0;h,0;i,0;j,0;k,0;l,0',
+  `treasurebox` varchar(1000) CHARACTER SET gbk NOT NULL DEFAULT '',
+  `treasurenum` int(11) NOT NULL DEFAULT '0',
+  `landkind` int(11) NOT NULL DEFAULT '0',
+  `visitnum` int(11) NOT NULL DEFAULT '0',
+  `allyupbound` int(11) NOT NULL DEFAULT '1',
+  `allynum` int(11) NOT NULL DEFAULT '0',
+  `infantry2_num` int(11) NOT NULL DEFAULT '0',
+  `cavalry2_num` int(11) NOT NULL DEFAULT '0',
+  `scout3_num` int(11) NOT NULL DEFAULT '0',
+  `scout2_num` int(11) NOT NULL DEFAULT '0',
+  `infantry3_num` int(11) NOT NULL DEFAULT '0',
+  `cavalry3_num` int(11) NOT NULL DEFAULT '0',
+  `loginnum` int(11) NOT NULL DEFAULT '0',
+  `datesurprise` int(11) NOT NULL DEFAULT '0',
+  `logintime` int(11) NOT NULL DEFAULT '0',
+  `minusstate` varchar(1000) CHARACTER SET gbk DEFAULT NULL,
+  `monster` int(11) DEFAULT '-1',
+  `monsterlist` varchar(1000) CHARACTER SET gbk DEFAULT '0,7',
+  `monsterdefeat` varchar(100) CHARACTER SET gbk NOT NULL DEFAULT '0;0;0;0;0;0;0;0;0;0;0;0',
+  `rate` int(11) NOT NULL DEFAULT '0',
+  `allycancel` varchar(10) CHARACTER SET gbk NOT NULL DEFAULT '',
+  `defencepower` int(11) NOT NULL DEFAULT '100',
+  `battleresult` varchar(5000) CHARACTER SET gbk NOT NULL DEFAULT '',
+  `nbattleresult` varchar(10000) CHARACTER SET gbk NOT NULL DEFAULT '',
+  `wealthgodtime` int(11) NOT NULL DEFAULT '-1',
+  `foodgodtime` int(11) NOT NULL DEFAULT '-1',
+  `wargodtime` int(11) NOT NULL DEFAULT '-1',
+  `popgodtime` int(11) NOT NULL DEFAULT '-1',
+  `newcomer` int(11) NOT NULL DEFAULT '0',
+  `castlelev` int(11) NOT NULL DEFAULT '0',
+  `infantrypower` int(11) DEFAULT '60',
+  `cavalrypower` int(11) DEFAULT '0',
+  `wartaskstring` varchar(400) CHARACTER SET gbk NOT NULL DEFAULT '',
+  `warcurrenttask` varchar(400) CHARACTER SET gbk NOT NULL DEFAULT '-1',
+  `currenttask` varchar(500) CHARACTER SET gbk NOT NULL DEFAULT '-1',
+  `taskstring` varchar(500) CHARACTER SET gbk NOT NULL DEFAULT '',
+  `wartasknum` int(11) NOT NULL DEFAULT '0',
+  `tasknum` int(11) NOT NULL DEFAULT '0',
+  `invitestring` varchar(1000) CHARACTER SET gbk NOT NULL DEFAULT '',
+  `signtime` int(11) NOT NULL DEFAULT '-1',
+  `tid` varchar(1000) CHARACTER SET gbk NOT NULL DEFAULT '-1',
+  `paytime` int(11) NOT NULL DEFAULT '-1',
+  `hid` int(11) NOT NULL DEFAULT '-1',
+  `monstertime` int(11) NOT NULL DEFAULT '-1',
+  `invite` int(11) NOT NULL DEFAULT '0',
+  `invited` int(11) NOT NULL DEFAULT '0',
+  `inviteid` int(11) NOT NULL DEFAULT '-1',
+  `monlost` int(11) NOT NULL DEFAULT '0',
+  `monfood` int(11) NOT NULL DEFAULT '0',
+  `monpower` int(11) NOT NULL DEFAULT '0',
+  `logincard` int(11) NOT NULL DEFAULT '0',
+  `loginmax` int(11) NOT NULL DEFAULT '0',
+  `papayaname` varchar(32) CHARACTER SET gbk DEFAULT '',
+  `protecttime` int(11) NOT NULL DEFAULT '-1',
+  `protecttype` int(11) NOT NULL DEFAULT '-1',
+  `emptyResult` text CHARACTER SET gbk,
+  `catapult` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`userid`)
+) ENGINE=InnoDB AUTO_INCREMENT=19064 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `papayafriend`
+--
+
+DROP TABLE IF EXISTS `papayafriend`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `papayafriend` (
+  `uid` int(11) NOT NULL,
+  `papayaid` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `lev` int(11) NOT NULL DEFAULT '0',
+  `visited` int(11) NOT NULL DEFAULT '0',
+  `user_kind` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uid`,`papayaid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `petAtt`
+--
+
+DROP TABLE IF EXISTS `petAtt`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `petAtt` (
+  `pid` int(11) NOT NULL,
+  `att` int(11) DEFAULT NULL,
+  PRIMARY KEY (`pid`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `plantAct`
+--
+
+DROP TABLE IF EXISTS `plantAct`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `plantAct` (
+  `uid` int(11) NOT NULL,
+  `food` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `rank`
+--
+
+DROP TABLE IF EXISTS `rank`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `rank` (
+  `userid` int(11) NOT NULL DEFAULT '0',
+  `otherid` varchar(100) CHARACTER SET latin1 NOT NULL DEFAULT '',
+  `meritrank` int(11) NOT NULL DEFAULT '0',
+  `nobilitynum` int(11) NOT NULL DEFAULT '0',
+  `won` int(11) NOT NULL DEFAULT '0',
+  `power` int(11) NOT NULL DEFAULT '0',
+  `fortunerank` int(11) NOT NULL DEFAULT '0',
+  `corn` int(11) NOT NULL DEFAULT '0',
+  `foodrank` int(11) NOT NULL DEFAULT '0',
+  `food` int(11) NOT NULL DEFAULT '0',
+  `exprank` int(11) NOT NULL DEFAULT '0',
+  `exp` int(11) NOT NULL DEFAULT '0',
+  `lev` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`userid`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `tg_group`
+--
+
+DROP TABLE IF EXISTS `tg_group`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `tg_group` (
+  `group_id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_name` varchar(16) NOT NULL,
+  `display_name` varchar(255) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`group_id`),
+  UNIQUE KEY `group_name` (`group_name`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `tg_group_permission`
+--
+
+DROP TABLE IF EXISTS `tg_group_permission`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `tg_group_permission` (
+  `group_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`group_id`,`permission_id`),
+  KEY `permission_id` (`permission_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `tg_permission`
+--
+
+DROP TABLE IF EXISTS `tg_permission`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `tg_permission` (
+  `permission_id` int(11) NOT NULL AUTO_INCREMENT,
+  `permission_name` varchar(63) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`permission_id`),
+  UNIQUE KEY `permission_name` (`permission_name`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `tg_user`
+--
+
+DROP TABLE IF EXISTS `tg_user`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `tg_user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(16) NOT NULL,
+  `email_address` varchar(255) NOT NULL,
+  `display_name` varchar(255) DEFAULT NULL,
+  `password` varchar(80) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `user_name` (`user_name`),
+  UNIQUE KEY `email_address` (`email_address`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `tg_user_group`
+--
+
+DROP TABLE IF EXISTS `tg_user_group`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `tg_user_group` (
+  `user_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`group_id`),
+  KEY `group_id` (`group_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `victories`
+--
+
+DROP TABLE IF EXISTS `victories`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `victories` (
+  `uid` int(11) NOT NULL,
+  `won` int(11) NOT NULL,
+  `lost` int(11) NOT NULL,
+  `rank` int(11) NOT NULL DEFAULT '0',
+  `woninmap` int(11) NOT NULL DEFAULT '0',
+  `dewon` int(11) NOT NULL DEFAULT '0',
+  `delost` int(11) NOT NULL DEFAULT '0',
+  `lostinmap` int(11) NOT NULL DEFAULT '0',
+  `dewoninmap` int(11) NOT NULL DEFAULT '0',
+  `delostinmap` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `visitFriend`
+--
+
+DROP TABLE IF EXISTS `visitFriend`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `visitFriend` (
+  `userid` int(11) NOT NULL,
+  `friendid` int(11) NOT NULL,
+  `visited` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`userid`,`friendid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `warMap`
+--
+
+DROP TABLE IF EXISTS `warMap`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `warMap` (
+  `userid` int(11) NOT NULL,
+  `mapid` int(11) NOT NULL,
+  `gridid` int(11) NOT NULL,
+  `map_kind` int(11) NOT NULL,
+  `city_id` int(11) NOT NULL AUTO_INCREMENT,
+  `minusstate` varchar(1000) DEFAULT '',
+  PRIMARY KEY (`city_id`),
+  KEY `map` (`mapid`)
+) ENGINE=InnoDB AUTO_INCREMENT=19023 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2012-02-27  5:34:45
