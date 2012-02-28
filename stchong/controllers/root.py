@@ -6349,7 +6349,9 @@ class RootController(BaseController):
             res = res.get("res")[:10] 
             for i in res:
                 user = checkopdata(i['uid'])
-                oid.append([int(user.otherid), i['food'], user.papayaname])
+                food = db.rank.find_one({'uid':i['uid']})
+                if user != None and food != None:
+                    oid.append([int(user.otherid), food['food'], user.papayaname])
         my = db.rank.find_one({'uid':uid})
         if my != None:
             my = [my['order']]
