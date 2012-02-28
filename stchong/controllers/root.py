@@ -6192,7 +6192,7 @@ class RootController(BaseController):
     def getPlantAct(uid):
         act = db.rank.find_one({'uid': uid})
         if act == None:
-            db.rank.insert({'uid':uid, 'food':0, 'order':0})
+            db.rank.insert({'uid':uid, 'food':0, 'order':1000})
             act = db.rank.find_one({'uid':uid})
         return act
     global changePlantFood
@@ -6349,14 +6349,13 @@ class RootController(BaseController):
             res = res.get("res")[:10] 
             for i in res:
                 user = checkopdata(i['uid'])
-                food = db.rank.find_one({'uid':i['uid']})
-                if user != None and food != None:
-                    oid.append([int(user.otherid), food['food'], user.papayaname])
+                if user != None:
+                    oid.append([int(user.otherid), i['food'], user.papayaname])
         my = db.rank.find_one({'uid':uid})
         if my != None:
-            my = [my['order']]
+            my = [my['order'], my['food']]
         else:
-            my = [999]
+            my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
         
     @expose('json')
