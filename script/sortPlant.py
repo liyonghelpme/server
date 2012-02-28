@@ -21,4 +21,4 @@ while True:
     db.result.insert({'res':arr})
     
 
-    time.sleep(100)
+    time.sleep(3600)

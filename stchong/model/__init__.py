@@ -17,7 +17,7 @@ db = conn['Rank']
 collect = db.rank
 # Global session manager: DBSession() returns the Thread-local
 # session object appropriate for the current web request.
-passwd = 'badperson3'
+passwd = '2e4n5k2w2x'
 user = 'root'
 con = MySQLdb.connect(host='localhost', passwd=passwd, user=user, db='stcHong')
 cursor = con.cursor()
