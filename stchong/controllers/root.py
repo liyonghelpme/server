@@ -4204,6 +4204,8 @@ class RootController(BaseController):
         else:
             lost[1]=int((attackPow[1]*defenceLost[attWin][situation] + defenceLost[attWin][situation]-1)/100)
             lost[0]=int((attackPow[1]*attackLost[attWin][situation] + attackLost[attWin][situation]-1)/100)
++        lost[0] = min(lost[0], lost[1], myPure, enePure, myFull, eneFull)
++        lost[1] = min(lost[0], lost[1], myPure, enePure, myFull, eneFull)
         if type == 0:
         	temp = lost[0]
         	lost[0] = lost[1]
@@ -5732,7 +5734,7 @@ class RootController(BaseController):
             
             
             if ground_id == 1000:
-                if user.lev >= demands[0] and user.food >= demands[1] and user.corn >= demands[2]:
+                if user.food >= demands[1] and user.corn >= demands[2]:
                     print "check dragon"
                     
                     existDragon = DBSession.query(businessWrite).filter_by(city_id=city_id).filter_by(ground_id=ground_id).all()
