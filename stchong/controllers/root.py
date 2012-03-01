@@ -193,7 +193,8 @@ class RootController(BaseController):
     log=logging.getLogger('root')
     CACHEOP=10
     #appsecret='FA6AMZKT77L4e4bc0a6'
-    appsecret = 'O0c4WvFX46fL4f41d37d'
+    #appsecret = 'O0c4WvFX46fL4f41d37d'
+    appsecret = 'qJRsDHLp47bL4f4f330c'
     SERVER_NAME = "cn.papayamobile.com"
     
     tasklist=[[['查看帮助文档','不耻下问是良好美德，点击Menu键（或设置图标）查看帮助文档~','查看帮助文档 0/1',100,5,'0,0'],['种植粮食','地主家也没有余粮了，伤不起呀！快去种点啥吧，，','开垦农田 0/1;种植胡萝卜 0/6',300,10,'1,1!0$1','2,1!0$6'],['店铺收税','咱也是地主啦！快去店铺收税吧','普通面包房收税 0/250',100,5,'2,100!0$250']]]

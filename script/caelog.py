@@ -11,7 +11,7 @@ time2 = int(time.mktime(endTime)-time.mktime(absTime))
 time1 = time2-86400
 beginTime = time.localtime(time1+time.mktime(absTime))
 
-conn = MySQLdb.connect(host='localhost',user='root',passwd='2e4n5k2w2x',db='stcHong')
+conn = MySQLdb.connect(host='localhost',user='root',passwd='wavegame1',db='stcHong')
 cursor = conn.cursor()
 file = open("/root/linan-empire/buycae.log","a")
 file.write("################ buy cae daily report--"+time.strftime("%Y-%m-%d %H:%M:%S ",beginTime)+"~"+time.strftime("%Y-%m-%d %H:%M:%S ",endTime)+" ##################\n")

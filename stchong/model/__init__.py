@@ -12,7 +12,7 @@ import json
 import MySQLdb
 # Global session manager: DBSession() returns the Thread-local
 # session object appropriate for the current web request.
-passwd = 'badperson3'
+passwd = 'wavegame1'
 user = 'root'
 db = 'stcHong'
 con = MySQLdb.connect(host='localhost', passwd=passwd, user=user, db=db)

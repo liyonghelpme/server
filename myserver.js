@@ -45,7 +45,7 @@ ser.listen=function(port, host){
 };
 
 HOST = null;
-port = 8003;
+port = 8004;
 
 var channels = {};//cid channel
 function createChannel(cid)
