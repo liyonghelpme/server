@@ -4207,8 +4207,8 @@ class RootController(BaseController):
         else:
             lost[1]=int((attackPow[1]*defenceLost[attWin][situation] + defenceLost[attWin][situation]-1)/100)
             lost[0]=int((attackPow[1]*attackLost[attWin][situation] + attackLost[attWin][situation]-1)/100)
-+        lost[0] = min(lost[0], lost[1], myPure, enePure, myFull, eneFull)
-+        lost[1] = min(lost[0], lost[1], myPure, enePure, myFull, eneFull)
+        lost[0] = min(lost[0], lost[1], myPure, enePure, myFull, eneFull)
+        lost[1] = min(lost[0], lost[1], myPure, enePure, myFull, eneFull)
         if type == 0:
         	temp = lost[0]
         	lost[0] = lost[1]
