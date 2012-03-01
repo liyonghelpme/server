@@ -2482,7 +2482,7 @@ class RootController(BaseController):
         try:
             cursor.execute(mapNum)
         except:
-            con = MySQLdb.connect(host='localhost', passwd=passwd, user='root', db=model.db)
+            con = MySQLdb.connect(host='localhost', passwd=passwd, user='root', db=model.db2)
             cursor = con.cursor()
             cursor.execute(mapNum)
         mapNum = cursor.fetchall()
