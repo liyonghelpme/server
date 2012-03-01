@@ -3224,6 +3224,7 @@ class RootController(BaseController):
             spe[pos][1] -= i[1]
         return spe 
 
+    #cae, specialgoods coin food people PopulationUpbound manaBoundary
     @expose('json')
     def upgradecastle(self, userid, lev, type):
         userid = int(userid)
@@ -3256,7 +3257,7 @@ class RootController(BaseController):
             u.cae -= cost[0]
 
         print "upgrade Castal", userid, lev, type, cost[2], cost[3], cost[0], cost[4]
-        u.populationupbound += cost[5]
+        #u.populationupbound += cost[5]
         m.boundary += cost[6]
         castle.object_id = lev+1
         return dict(id=1)
@@ -3347,6 +3348,13 @@ class RootController(BaseController):
         except InvalidRequestError:
             return dict(id=0)
     
+    global AddDefCae
+    AddDefCae = 25
+    global AddDefCoin
+    AddDefCoin = 50
+    global AddDefFood
+    AddDefFood = 5
+
     @expose('json')
     def adddefence(self,uid,defencenum,type):
         type=int(type)
@@ -3358,12 +3366,11 @@ class RootController(BaseController):
         nobility=0
         defencenum=int(defencenum)
         try:
-            
             u=checkopdata(uid)
             nobility=u.nobility
             x=defenceplist[nobility][1]
             if type==0:
-                cae=int((defencenum+100-1)/100)
+                cae=int((defencenum+AddDefCae-1)/AddDefCae)
                 if u.cae-cae>=0:
                     u.defencepower=u.defencepower+defencenum
                     u.cae=u.cae-cae
@@ -3373,8 +3380,8 @@ class RootController(BaseController):
                 else:
                     return dict(id=0)
             else:
-                corn=100*defencenum
-                food=5*defencenum
+                corn=AddDefCoin*defencenum
+                food=AddDefFood*defencenum
                 if u.corn-corn>=0 and u.food-food>=0:
                     u.corn=u.corn-corn
                     u.food=u.food-food
@@ -5704,11 +5711,12 @@ class RootController(BaseController):
         return dict(id=0)
 
     global DraDemand
-    DraDemand = [15, 1000, 100000]
+    DraDemand = [10, 500, 50000]
     global buildDragon
     def buildDragon(user, city_id, ground_id, grid_id):
+        print "dragon", user.food, user.corn
         if ground_id == 1000:
-            if user.lev >= DraDemand[0] and user.food >= DraDemand[1] and user.corn >= DraDemand[2]:
+            if user.food >= DraDemand[1] and user.corn >= DraDemand[2]:
                 print "check dragon"
                 
                 existDragon = DBSession.query(businessWrite).filter_by(city_id=city_id).filter_by(ground_id=ground_id).all()
