@@ -10,9 +10,14 @@ import memcache
 import time
 import json
 import MySQLdb
+import pymongo
+
+conn = pymongo.Connection(host='localhost', port = 27017)
+db = conn['Rank']
+collect = db.rank
 # Global session manager: DBSession() returns the Thread-local
 # session object appropriate for the current web request.
-passwd = 'badperson3'
+passwd = '2e4n5k2w2x'
 user = 'root'
 db = 'stcHong'
 con = MySQLdb.connect(host='localhost', passwd=passwd, user=user, db=db)
