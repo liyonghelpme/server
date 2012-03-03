@@ -24,7 +24,7 @@ def setSpecial(spe):
     res = ""
     i = 0
     for s in spe:
-        if kind == 0:
+        if i == 0:
             res += s[0]+','+str(s[1])
             i += 1
         else:
@@ -61,8 +61,8 @@ def changeGoods(uid, kind, num):
     kind = str(kind)
     g = objs.get(kind)
     if g == None:
-        objs[kind] = 1
+        objs[kind] = num
     else:
-        objs[kind] += 1
+        objs[kind] += num
     db.goods.update({'uid':uid}, {'$set': {'goods': objs}})
 

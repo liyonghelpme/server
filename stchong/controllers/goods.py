@@ -39,7 +39,7 @@ class GoodsController(BaseController):
             mana = DBSession.query(model.Mana).filter_by(userid=user.userid).one()
             mana.boundary += 1
         elif kind == 1:
-            user.cae += 10
+            user.cae += 9
         elif kind == 2:
             user.food += 99
         elif kind == 3:
@@ -64,14 +64,16 @@ class GoodsController(BaseController):
         kind = int(kind)
         uid = int(uid)
         ok = False
+        user = getUser(uid)
         if kind == 0:
-            goods = getGoods(uid)
-            stone = goods.get(0, 0)
+            goods = getGoods(uid).get('goods')
+
+            stone = goods.get(str(0), 0)
+            #print goods, stone
             if stone >= 1:
                 ok = True
                 changeGoods(uid, 0, -1)
         else:
-            user = getUser(uid)
             if user.cae >= 1:
                 ok = True
                 user.cae -= 1
