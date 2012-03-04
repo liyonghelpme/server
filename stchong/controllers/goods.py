@@ -19,6 +19,7 @@ import random
 from stchong import model
 import json
 from stchong.controllers.util import *
+import inspect
 
 
 
@@ -77,6 +78,7 @@ class GoodsController(BaseController):
             if user.cae >= 1:
                 ok = True
                 user.cae -= 1
+                print inspect.stack()[0] 
         if ok:
             all = sum(Possible)
             v = random.randint(0, all-1)            
