@@ -90,6 +90,7 @@ class GoodsController(BaseController):
                     break
                 last = cur
             self.getReward(user, i)
+            print "dragonReward", uid, i
             return dict(id=1, result=i)
         return dict(id=0, reason = "stone or cae not enough")
             
