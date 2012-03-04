@@ -20,6 +20,7 @@ from stchong import model
 import json
 from stchong.controllers.util import *
 
+import time
 
 
         
@@ -73,10 +74,12 @@ class GoodsController(BaseController):
             if stone >= 1:
                 ok = True
                 changeGoods(uid, 0, -1)
+            print "startDragon", uid, kind, time.mktime(time.localtime())
         else:
             if user.cae >= 1:
                 ok = True
                 user.cae -= 1
+            print "startDragon", uid, kind, time.mktime(time.localtime())
         if ok:
             all = sum(Possible)
             v = random.randint(0, all-1)            
