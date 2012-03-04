@@ -2248,7 +2248,10 @@ class RootController(BaseController):
         grid_id = int(grid_id)
 
         u=checkopdata(user_id)
-        p=DBSession.query(businessWrite).filter_by(city_id=int(city_id)).filter_by(grid_id=int(grid_id)).one()
+        try:
+            p=DBSession.query(businessWrite).filter_by(city_id=city_id).filter_by(grid_id=grid_id).one()
+        except:
+            return dict(id=0, reason='sell fail')
 
         #coin person lev time
         if p.ground_id == 700:
