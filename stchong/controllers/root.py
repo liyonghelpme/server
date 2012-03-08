@@ -1343,6 +1343,9 @@ class RootController(BaseController):
         except:
             return dict(id=1, foodlost=0)
         if ds.monfood < 1:
+            monlist = getMonList(user)
+            if len(monlist) == 0:
+                ds.monfood += 1
             ds.monfood += 1
         elif ds.monfood == 1:#2 rob food
             ds.monfood += 1 #3 robbed yet
@@ -2704,7 +2707,6 @@ class RootController(BaseController):
         try:
             level=int(level)
             print "new comp " + str(uid) + ' ' + str(level)
-            
             user=checkopdata(uid)
             t=int(time.mktime(time.localtime())-time.mktime(beginTime))
             war=DBSession.query(warMap).filter_by(userid=int(uid)).one()
@@ -4136,6 +4138,7 @@ class RootController(BaseController):
             print "not find victories " + str(uid)
             vic = Victories(uid, 0, 0)
             DBSession.add(vic)
+        print u
         min = calev(u, vic)
         u.subno = min[0]
         nob = u.nobility*3 + u.subno
@@ -6269,7 +6272,7 @@ class RootController(BaseController):
             tu=Plant_Price[p.object_id]
             incFood = int(tu[2]*factor*(int(factor2*10))/10)
             u.food += incFood
-            changePlantFood(user_id, incFood)
+            #changePlantFood(user_id, incFood)
         elif type==1:
             tu=stones[p.object_id]
             u.stone=u.stone+int(tu[2]*factor)
@@ -6412,7 +6415,7 @@ class RootController(BaseController):
                     g.producttime=0
             u.exp=u.exp+expadd
             u.food=u.food+foodadd
-            changePlantFood(u.userid, foodadd)
+            #changePlantFood(u.userid, foodadd)
             if flag==1:
                 m.mana = temp_mana
             return dict(id=1,expadd=expadd,foodadd=foodadd)
