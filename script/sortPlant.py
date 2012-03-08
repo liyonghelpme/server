@@ -12,8 +12,6 @@ while True:
     db.order.remove()
     k = 0
     for r in res:
-        if k >= 1000:
-            break
         arr.append(r)
         collect.update({'uid':r['uid']}, {'$set': {'order':k}})
         k += 1
