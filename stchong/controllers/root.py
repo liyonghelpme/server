@@ -1343,6 +1343,9 @@ class RootController(BaseController):
         except:
             return dict(id=1, foodlost=0)
         if ds.monfood < 1:
+            monlist = getMonList(user)
+            if len(monlist) == 0:
+                ds.monfood += 1
             ds.monfood += 1
         elif ds.monfood == 1:#2 rob food
             ds.monfood += 1 #3 robbed yet
