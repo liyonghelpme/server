@@ -12,6 +12,9 @@ import random
 from stchong import model
 import json
 
+beginTime = [2011, 1, 1, 0, 0, 0, 0, 0, 0]
+def getNow():
+    return int(time.mktime(time.localtime())-time.mktime(beginTime))
 
 def getSpecial(user):
     spe = user.specialgoods.split(";")
