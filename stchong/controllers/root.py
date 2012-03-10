@@ -191,7 +191,10 @@ class RootController(BaseController):
     functionname=['logsign','retlev','build','planting','harvest']
     
     nobilitybonuslist=[[5000,250,0,0],[10000,500,0,0],[30000,1500,0,0],[50000,2500,0,0],[70000,3500,0,0],[100000,5000,0,0]]
+    """
     battlebonus=[[5000,6000,7000],[7000,8000,9000],[10000,12000,14000],[14000,16000,18000],[20000,23000,25000],[25000,27000,29000],[50000,50000,50000]]
+    """
+    battlebonus=[[500,750,1000],[750,1000,1250],[750,1000,1250],[1000,1250,1500],[1000,1250,1500],[1000,1250,1500],[1000,1250,1500]]
     md5string='0800717193'
     log=logging.getLogger('root')
     CACHEOP=10
@@ -2527,7 +2530,7 @@ class RootController(BaseController):
         rand = random.randint(0, len(allNum)-1)
         return [allNum[rand], allNum[(rand+1)%len(allNum)]]
     global EmptyLev
-    
+    """
     EmptyLev = [[1000, 0,   10000, 0, 0, 0,   1000, 10, 1, 1, 6],
                 [3000, 0,   25000, 0, 0, 0,   3000, 30, 3, 3, 5],
                 [5000, 0,   42000, 0, 0, 0,   5000, 50, 5, 5, 4],
@@ -2535,6 +2538,15 @@ class RootController(BaseController):
                 [50000, 0,   200000, 0, 0, 0, 50000, 500, 50, 50, 2],
                 [100000, 0,  500000, 0, 0, 0,   100000, 1000, 100, 100, 1],
             ]
+    """
+    EmptyLev = [
+    [1000, 0, 5000, 0, 0, 0, 10, 5, 1, 1, 6],
+    [3000, 0, 12500, 0, 0, 0, 30, 15, 3, 3, 5],
+    [5000, 0, 21000, 0, 0, 0, 50, 25, 4, 4, 4],
+    [10000, 0, 30000, 0, 0, 0, 100, 50, 5, 5, 3],
+    [50000, 0, 100000, 0, 0, 0, 500, 100, 25, 25, 2],
+    [100000, 0, 500000, 0, 0, 0, 1000, 200, 50, 50, 1],
+    ] 
     global randEmptyLev
     def randEmptyLev(levs):
         poslev = range(0, len(EmptyLev))
@@ -4216,27 +4228,27 @@ class RootController(BaseController):
                 print inspect.stack()[0]
 
             else:
-                cornget=cornget+500*(u.nobility+1)
-                u.corn=u.corn+500*(u.nobility+1)
+                cornget=cornget+100*(u.nobility+1)
+                u.corn=u.corn+100*(u.nobility+1)
                 bonusstring='0!'
             if u.nobility<7 and u.subno<3:
-                cornget += battlebonus[u.nobility][u.subno]+kill*30
+                cornget += battlebonus[u.nobility][u.subno]+kill*20
                 u.corn += cornget
             bonusstring=bonusstring+str(cornget)+'!'+str(cornlost)
         elif type==1:
             bonusstring='0!'
-            cornget=kill*25
+            cornget=kill*15
             u.corn += cornget
             bonusstring=bonusstring+str(cornget)+'!'+str(cornlost)
         elif type==2:
             bonusstring='0!'
-            cornget=kill*20
+            cornget=kill*10
             u.corn+=cornget
             bonusstring=bonusstring+str(cornget)+'!'+str(cornlost)  
         else:
             bonusstring='0!'
             cornlost =-int((u.corn+20-1)/20)
-            cornget = kill*20
+            cornget = kill*10
             u.corn += cornget+cornlost
             bonusstring=bonusstring+str(cornget)+'!'+str(cornlost)     
         return bonusstring 
