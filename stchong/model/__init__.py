@@ -10,9 +10,14 @@ import memcache
 import time
 import json
 import MySQLdb
+import pymongo
+
+conn = pymongo.Connection(host='localhost', port = 27017)
+db = conn['Rank']
+collect = db.rank
 # Global session manager: DBSession() returns the Thread-local
 # session object appropriate for the current web request.
-passwd = 'badperson3'
+passwd = '2e4n5k2w2x'
 user = 'root'
 con = MySQLdb.connect(host='localhost', passwd=passwd, user=user, db='stcHong')
 cursor = con.cursor()
@@ -24,10 +29,10 @@ beginTime=(2011,1,1,0,0,0,0,0,0)
 timestr=str(time.strftime('%Y-%m-%d-%H:%M:%S',time.localtime(time.time())))
 taskbonus=[]
 wartaskbonus=[]
-f = file('../../taskbonus.json')
+f = file('taskbonus.json')
 source = f.read()
 target = json.JSONDecoder().decode(source)
-f2=file('../../wartask.json')
+f2=file('wartask.json')
 source2=f2.read()
 #logfile = file("log.txt", "w")
 if source2!=None:
