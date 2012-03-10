@@ -1270,6 +1270,9 @@ class RootController(BaseController):
         except:
             return dict(id=1, foodlost=0)
         if ds.monfood < 1:
+            monlist = getMonList(user)
+            if len(monlist) == 0:
+                ds.monfood += 1
             ds.monfood += 1
         elif ds.monfood == 1:#2 rob food
             ds.monfood += 1 #3 robbed yet
@@ -1678,6 +1681,12 @@ class RootController(BaseController):
         blist=[]
         if u2.treasurebox!='':
             s=(u2.treasurebox).split(';')
+            try:
+                for i in s:
+                    if int(i) == int(papayaid1):
+                        return dict(id=0, reason='repeat help')
+            except:
+                print "check help error"
             length=len(s)
             if length<u2.treasurenum:
                 u2.treasurebox=u2.treasurebox+';'+str(papayaid1)
@@ -2438,7 +2447,7 @@ class RootController(BaseController):
         rand = random.randint(0, len(allNum)-1)
         return [allNum[rand], allNum[(rand+1)%len(allNum)]]
     global EmptyLev
-    
+    """
     EmptyLev = [[1000, 0,   10000, 0, 0, 0,   1000, 10, 1, 1, 6],
                 [3000, 0,   25000, 0, 0, 0,   3000, 30, 3, 3, 5],
                 [5000, 0,   42000, 0, 0, 0,   5000, 50, 5, 5, 4],
@@ -2446,6 +2455,15 @@ class RootController(BaseController):
                 [50000, 0,   200000, 0, 0, 0, 50000, 500, 50, 50, 2],
                 [100000, 0,  500000, 0, 0, 0,   100000, 1000, 100, 100, 1],
             ]
+    """
+    EmptyLev = [
+    [1000, 0, 5000, 0, 0, 0, 10, 5, 1, 1, 6],
+    [3000, 0, 12500, 0, 0, 0, 30, 15, 3, 3, 5],
+    [5000, 0, 21000, 0, 0, 0, 50, 25, 4, 4, 4],
+    [10000, 0, 30000, 0, 0, 0, 100, 50, 5, 5, 3],
+    [50000, 0, 100000, 0, 0, 0, 500, 100, 25, 25, 2],
+    [100000, 0, 500000, 0, 0, 0, 1000, 200, 50, 50, 1],
+    ] 
     global randEmptyLev
     def randEmptyLev(levs):
         poslev = range(0, len(EmptyLev))
@@ -2621,7 +2639,6 @@ class RootController(BaseController):
         try:
             level=int(level)
             print "new comp " + str(uid) + ' ' + str(level)
-            
             user=checkopdata(uid)
             t=int(time.mktime(time.localtime())-time.mktime(beginTime))
             war=DBSession.query(warMap).filter_by(userid=int(uid)).one()
@@ -4074,6 +4091,7 @@ class RootController(BaseController):
             print "not find victories " + str(uid)
             vic = Victories(uid, 0, 0)
             DBSession.add(vic)
+        print u
         min = calev(u, vic)
         u.subno = min[0]
         nob = u.nobility*3 + u.subno
@@ -6109,7 +6127,7 @@ class RootController(BaseController):
             tu=Plant_Price[p.object_id]
             incFood = int(tu[2]*factor*(int(factor2*10))/10)
             u.food += incFood
-            changePlantFood(user_id, incFood)
+            #changePlantFood(user_id, incFood)
         elif type==1:
             tu=stones[p.object_id]
             u.stone=u.stone+int(tu[2]*factor)
@@ -6252,7 +6270,7 @@ class RootController(BaseController):
                     g.producttime=0
             u.exp=u.exp+expadd
             u.food=u.food+foodadd
-            changePlantFood(u.userid, foodadd)
+            #changePlantFood(u.userid, foodadd)
             if flag==1:
                 m.mana = temp_mana
             return dict(id=1,expadd=expadd,foodadd=foodadd)
