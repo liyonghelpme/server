@@ -11,6 +11,7 @@ from stchong.model import DBSession, db
 import random
 from stchong import model
 import json
+import time
 
 beginTime = [2011, 1, 1, 0, 0, 0, 0, 0, 0]
 def getNow():
