@@ -192,7 +192,10 @@ class RootController(BaseController):
     functionname=['logsign','retlev','build','planting','harvest']
     
     nobilitybonuslist=[[5000,250,0,0],[10000,500,0,0],[30000,1500,0,0],[50000,2500,0,0],[70000,3500,0,0],[100000,5000,0,0]]
+    """
     battlebonus=[[5000,6000,7000],[7000,8000,9000],[10000,12000,14000],[14000,16000,18000],[20000,23000,25000],[25000,27000,29000],[50000,50000,50000]]
+    """
+    battlebonus=[[500,750,1000],[750,1000,1250],[750,1000,1250],[1000,1250,1500],[1000,1250,1500],[1000,1250,1500],[1000,1250,1500]]
     md5string='0800717193'
     log=logging.getLogger('root')
     CACHEOP=10
@@ -1271,6 +1274,9 @@ class RootController(BaseController):
         except:
             return dict(id=1, foodlost=0)
         if ds.monfood < 1:
+            monlist = getMonList(user)
+            if len(monlist) == 0:
+                ds.monfood += 1
             ds.monfood += 1
         elif ds.monfood == 1:#2 rob food
             ds.monfood += 1 #3 robbed yet
@@ -1679,7 +1685,17 @@ class RootController(BaseController):
         blist=[]
         if u2.treasurebox!='':
             s=(u2.treasurebox).split(';')
+            try:
+                for i in s:
+                    if int(i) == int(papayaid1):
+                        return dict(id=0, reason='repeat help')
+            except:
+                print "check help error"
             length=len(s)
+            for i in s:
+                p = int(i)
+                if p == int(papayaid1):
+                    return dict(id=0, reason='help yet')
             if length<u2.treasurenum:
                 u2.treasurebox=u2.treasurebox+';'+str(papayaid1)
                 u1.corn=u1.corn+OpenReward
@@ -2439,7 +2455,7 @@ class RootController(BaseController):
         rand = random.randint(0, len(allNum)-1)
         return [allNum[rand], allNum[(rand+1)%len(allNum)]]
     global EmptyLev
-    
+    """
     EmptyLev = [[1000, 0,   10000, 0, 0, 0,   1000, 10, 1, 1, 6],
                 [3000, 0,   25000, 0, 0, 0,   3000, 30, 3, 3, 5],
                 [5000, 0,   42000, 0, 0, 0,   5000, 50, 5, 5, 4],
@@ -2447,6 +2463,24 @@ class RootController(BaseController):
                 [50000, 0,   200000, 0, 0, 0, 50000, 500, 50, 50, 2],
                 [100000, 0,  500000, 0, 0, 0,   100000, 1000, 100, 100, 1],
             ]
+    EmptyLev = [
+    [1000, 0, 5000, 0, 0, 0, 10, 5, 1, 1, 6],
+    [3000, 0, 12500, 0, 0, 0, 30, 15, 3, 3, 5],
+    [5000, 0, 21000, 0, 0, 0, 50, 25, 4, 4, 4],
+    [10000, 0, 30000, 0, 0, 0, 100, 50, 5, 5, 3],
+    [50000, 0, 100000, 0, 0, 0, 500, 100, 25, 25, 2],
+    [100000, 0, 500000, 0, 0, 0, 1000, 200, 50, 50, 1],
+    ]
+    """
+    EmptyLev = [
+    [1000, 0, 5000, 0, 0, 0, 100, 10, 1, 1, 6],
+    [3000, 0, 12500, 0, 0, 0, 200, 20, 3, 3, 5],
+    [5000, 0, 21000, 0, 0, 0, 300, 30, 4, 4, 4],
+    [10000, 0, 30000, 0, 0, 0, 400, 40, 5, 5, 3],
+    [50000, 0, 100000, 0, 0, 0, 500, 50, 25, 25, 2],
+    [100000, 0, 500000, 0, 0, 0, 1000, 100, 50, 50, 1],
+    ] 
+
     global randEmptyLev
     def randEmptyLev(levs):
         poslev = range(0, len(EmptyLev))
@@ -2622,7 +2656,6 @@ class RootController(BaseController):
         try:
             level=int(level)
             print "new comp " + str(uid) + ' ' + str(level)
-            
             user=checkopdata(uid)
             t=int(time.mktime(time.localtime())-time.mktime(beginTime))
             war=DBSession.query(warMap).filter_by(userid=int(uid)).one()
@@ -3072,8 +3105,14 @@ class RootController(BaseController):
                 sub=-1
             goods = getGoods(user.userid)
             goods = goods.get('goods');
+
+            v = db.login.find_one()
+            if v == None:
+                v = {'totalNum':0, 'todayNum':0}
+                db.login.insert(v)
+                v = db.login.find_one()
             if user.newcomer<3:
-                return dict(goods = goods, actFood = act['food'], loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,newstate=user.newcomer,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
+                return dict(today = {'todayNum':v['todayNum'], 'totalNum':v['totalNum']}, goods = goods, actFood = act['food'], loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,newstate=user.newcomer,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
             if user_kind==0:
                 return dict(goods = goods, actFood = act['food'], loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
             else:
@@ -3193,7 +3232,16 @@ class RootController(BaseController):
                         DBSession.add(xxx)
             except InvalidRequestError:
                 x=0
-            
+            #{total:}
+            v = db.login.find_one()
+            if v == None:
+                v = {'totalNum':0, 'todayNum':0}
+                db.login.insert(v)
+                v = db.login.find_one()
+            v['todayNum'] += 1
+            v['totalNum'] += 1
+            db.login.save(v)
+
             try:
                 conn = httplib.HTTPConnection(SERVER_NAME)
                 
@@ -3207,7 +3255,7 @@ class RootController(BaseController):
                     print "failed!"
             except:
                 print "register error"
-            return dict(wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods=nu.specialgoods,time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=c1[0],city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
+            return dict(today = {'todayNum':v['todayNum'], 'totalNum':v['totalNum'] }, wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods=nu.specialgoods,time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=c1[0],city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
    
 
     global EmpireLevel
@@ -4060,6 +4108,7 @@ class RootController(BaseController):
             print "not find victories " + str(uid)
             vic = Victories(uid, 0, 0)
             DBSession.add(vic)
+        print u
         min = calev(u, vic)
         u.subno = min[0]
         nob = u.nobility*3 + u.subno
@@ -4133,27 +4182,27 @@ class RootController(BaseController):
                 print inspect.stack()[0]
 
             else:
-                cornget=cornget+500*(u.nobility+1)
-                u.corn=u.corn+500*(u.nobility+1)
+                cornget=cornget+100*(u.nobility+1)
+                u.corn=u.corn+100*(u.nobility+1)
                 bonusstring='0!'
             if u.nobility<7 and u.subno<3:
-                cornget += battlebonus[u.nobility][u.subno]+kill*30
+                cornget += battlebonus[u.nobility][u.subno]+kill*20
                 u.corn += cornget
             bonusstring=bonusstring+str(cornget)+'!'+str(cornlost)
         elif type==1:
             bonusstring='0!'
-            cornget=kill*25
+            cornget=kill*15
             u.corn += cornget
             bonusstring=bonusstring+str(cornget)+'!'+str(cornlost)
         elif type==2:
             bonusstring='0!'
-            cornget=kill*20
+            cornget=kill*10
             u.corn+=cornget
             bonusstring=bonusstring+str(cornget)+'!'+str(cornlost)  
         else:
             bonusstring='0!'
             cornlost =-int((u.corn+20-1)/20)
-            cornget = kill*20
+            cornget = kill*10
             u.corn += cornget+cornlost
             bonusstring=bonusstring+str(cornget)+'!'+str(cornlost)     
         return bonusstring 
@@ -6098,7 +6147,7 @@ class RootController(BaseController):
             tu=Plant_Price[p.object_id]
             incFood = int(tu[2]*factor*(int(factor2*10))/10)
             u.food += incFood
-            changePlantFood(user_id, incFood)
+            #changePlantFood(user_id, incFood)
         elif type==1:
             tu=stones[p.object_id]
             u.stone=u.stone+int(tu[2]*factor)
@@ -6241,7 +6290,7 @@ class RootController(BaseController):
                     g.producttime=0
             u.exp=u.exp+expadd
             u.food=u.food+foodadd
-            changePlantFood(u.userid, foodadd)
+            #changePlantFood(u.userid, foodadd)
             if flag==1:
                 m.mana = temp_mana
             return dict(id=1,expadd=expadd,foodadd=foodadd)
