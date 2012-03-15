@@ -4217,40 +4217,36 @@ class RootController(BaseController):
         return lost     
     def getresource(kill,u,type):
         bonusstring=''
-        k=random.randint(1,100)
+        k=random.randint(0,1)
         type=int(type)
         cornget = 0
         cornlost = 0
+        if k == 0:
+            u.cae += min(10, kill/1000)
+            bonusstring = str(min(10, kill/1000))+'!'
+        else:
+            u.cae += min(1, kill/1000)
+            bonusstring = str(min(1, kill/1000))+'!'
         if type==0:
-            if k<=3:
-                u.cae=u.cae+u.nobility+1
-                bonusstring=str(u.nobility+1)+'!'
-                print inspect.stack()[0]
-
-            else:
-                cornget=cornget+100*(u.nobility+1)
-                u.corn=u.corn+100*(u.nobility+1)
-                bonusstring='0!'
+            cornget=cornget+100*(u.nobility+1)
+            u.corn=u.corn+100*(u.nobility+1)
             if u.nobility<7 and u.subno<3:
                 cornget += battlebonus[u.nobility][u.subno]+kill*20
                 u.corn += cornget
-            bonusstring=bonusstring+str(cornget)+'!'+str(cornlost)
+            bonusstring += str(cornget)+'!'+str(cornlost)
         elif type==1:
-            bonusstring='0!'
             cornget=kill*15
             u.corn += cornget
-            bonusstring=bonusstring+str(cornget)+'!'+str(cornlost)
+            bonusstring += str(cornget)+'!'+str(cornlost)
         elif type==2:
-            bonusstring='0!'
             cornget=kill*10
             u.corn+=cornget
-            bonusstring=bonusstring+str(cornget)+'!'+str(cornlost)  
+            bonusstring += str(cornget)+'!'+str(cornlost)  
         else:
-            bonusstring='0!'
             cornlost =-int((u.corn+20-1)/20)
             cornget = kill*10
             u.corn += cornget+cornlost
-            bonusstring=bonusstring+str(cornget)+'!'+str(cornlost)     
+            bonusstring += str(cornget)+'!'+str(cornlost)     
         return bonusstring 
     def calGod(uid, power):
         
@@ -4277,6 +4273,8 @@ class RootController(BaseController):
         defencer = checkopdata(empty.uid)
         attStr = []
         defStr = []
+        if attacker == None:
+            return 
         if empty.uid == attacker.userid:
             empty.inf += battle.powerin
             empty.cav += battle.powerca
