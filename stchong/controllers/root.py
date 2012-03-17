@@ -1245,6 +1245,8 @@ class RootController(BaseController):
         return soldier
     def returnsentouryoku(u):
         sentouryoku=[]
+        if u == None:
+            return 0
         power=u.infantrypower+u.cavalrypower
         return power     
     
@@ -4215,6 +4217,16 @@ class RootController(BaseController):
         print "attack win ? " + str(attWin)
         print "attack full Power " + str(attackPow[0]) + ' att pure ' + str(attackPow[1]) + 'def full ' + str(defencePow[0]) + ' defp ' + str(defencePow[1])
         return lost     
+    @expose('json')
+    def warReward(self, uid, times, addV):
+        uid = int(uid)
+        times = int(times)
+        addV = int(addV)
+        user = getUser(uid)
+        user.corn += min(times*addV, 10000)
+        return dict(id=1)
+    global KillReward
+    KillReward = 1000
     def getresource(kill,u,type):
         bonusstring=''
         k=random.randint(0,1)
@@ -4222,11 +4234,11 @@ class RootController(BaseController):
         cornget = 0
         cornlost = 0
         if k == 0:
-            u.cae += min(10, kill/1000)
-            bonusstring = str(min(10, kill/1000))+'!'
+            u.cae += min(10, kill/KillReward)
+            bonusstring = str(min(10, kill/KillReward))+'!'
         else:
-            u.cae += min(1, kill/1000)
-            bonusstring = str(min(1, kill/1000))+'!'
+            u.cae += min(1, kill/KillReward)
+            bonusstring = str(min(1, kill/KillReward))+'!'
         if type==0:
             cornget=cornget+100*(u.nobility+1)
             u.corn=u.corn+100*(u.nobility+1)
@@ -5071,10 +5083,27 @@ class RootController(BaseController):
             return dict(id=1, result = "food/person/wealth/war god bless "+ str(caetype),manaCost=manaCost[god_lev-1][caetype])
         else:
             return dict(id=0,reason="mana not enough")
-
+    global getSpeCost
+    def getSpeCost(ground_id):
+        if ground_id>=100 and ground_id<=199:
+            stri=housebuild[ground_id-100][6]
+        elif ground_id>=200 and ground_id<=299:
+            stri=milbuild[ground_id-200][7]
+        elif ground_id>=300 and ground_id<=399:
+            stri=businessbuild[ground_id-300][7]
+        else:
+            stri = ''
+        stri = stri.split(';')
+        cost = []
+        for s in stri:
+            s = s.split(',')
+            cost.append([s[0], int(s[1])])
+        return cost
+        
     @expose('json')
     def updatebuilding(self,user_id,city_id,ground_id,grid_id,type):
         ground_id=int(ground_id)
+        grid_id = int(grid_id)
         try:
             ca=0
             cae=0
@@ -5119,6 +5148,9 @@ class RootController(BaseController):
                 return dict(id=0, reason="lev or resource not correct")
 
             lis=getGround_id(int(ground_id))
+            speGoods = getSpecial(u)
+            speCost = getSpeCost(ground_id)  
+
             if lis==None:
                 return dict(id=-int(ground_id))
             price=lis[0]
@@ -5200,7 +5232,7 @@ class RootController(BaseController):
                 elif ground_id>=400 and ground_id<=499:
                     pricefood=lis[1]
                 if price>=0:
-                    if u.corn-price>=0 and u.food-pricefood>=0 and u.labor_num+pop<=u.population and u.wood-wood>=0 and u.stone-stone>=0  and specialgoods(int(ground_id),u.specialgoods,u)==True:
+                    if u.corn-price>=0 and u.food-pricefood>=0 and u.labor_num+pop<=u.population and u.wood-wood>=0 and u.stone-stone>=0  and checkSpe(speCost, speGoods):
                         u.corn=u.corn-price
                         u.stone=u.stone-stone
                         u.wood=u.wood-wood
@@ -5209,6 +5241,10 @@ class RootController(BaseController):
                         p.finish=0
                         p.producttime=ti
                         p.ground_id=int(ground_id)
+
+                        speGoods = costSpe(speCost, speGoods)
+                        u.specialgoods = setSpecial(speGoods)
+
                         if p.ground_id>=1 and p.ground_id<=99:
                             u.exp=u.exp+lis[4]
                         elif p.ground_id>=100 and p.ground_id<=199:
@@ -5234,20 +5270,24 @@ class RootController(BaseController):
                                 u.war_god=0
                                 u.wargodtime=-1
                             u.populationupbound=u.populationupbound+lis[4]
+
                         return dict(id=1)
                     else:
-                        return dict(id=0,lis=lis,price=u.corn-price,food=u.food-pricefood,pop=u.labor_num+pop,s=specialgoods(int(ground_id),u.specialgoods,u),st=u.stone-stone)
+                        return dict(id=0,lis=lis,price=u.corn-price,food=u.food-pricefood, pop=u.labor_num+pop, st=u.stone-stone)
                 else:
-                    if u.cae+price>=0 and u.food-pricefood>=0 and u.labor_num+pop<=u.population and u.wood-wood>=0 and u.stone-stone>=0 and   specialgoods(int(ground_id),u.specialgoods,u)==True:
-                        if u.cae+price<u.cae:
-                            u.cae=u.cae+price
-                            print inspect.stack()[0]
+                    if u.cae+price>=0 and u.food-pricefood>=0 and u.labor_num+pop<=u.population and u.wood-wood>=0 and u.stone-stone>=0 and   checkSpe(speCost, speGoods):
+                        u.cae=u.cae+price
+                        print inspect.stack()[0]
                         u.food=u.food-pricefood
                         u.labor_num=u.labor_num+pop
                         u.wood=u.wood-wood
                         u.stone=u.stone-stone
                         p.finish=0
                         p.producttime=ti
+
+                        speGoods = costSpe(speCost, speGoods)
+                        u.specialgoods = setSpecial(speGoods)
+
                         if p.ground_id>=1 and p.ground_id<=99:
                             u.exp=u.exp+lis[4]
                         elif p.ground_id>=100 and p.ground_id<=199:
