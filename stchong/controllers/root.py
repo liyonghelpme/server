@@ -2551,6 +2551,7 @@ class RootController(BaseController):
     ] 
     global randEmptyLev
     def randEmptyLev(levs):
+        """
         poslev = range(0, len(EmptyLev))
         poslev = set(poslev)
         allowNum = [1, 4, 8, 12, 16, 23]
@@ -2562,7 +2563,9 @@ class RootController(BaseController):
             j += 1
         rand = random.randint(0, len(poslev)-1)
         poslev = list(poslev)
-        return poslev[rand]
+        """
+        rand = random.randint(0, len(EmptyLev)-1)
+        return rand
     global EmptyMapLev
     EmptyMapLev = 2
     global moveMap
@@ -4201,14 +4204,13 @@ class RootController(BaseController):
         		break
         	situation += 1
         
+        minPower = min(myFull, eneFull, myPure, enePure)
         if attWin == 1:
-            lost[1]=int((defencePow[1]*defenceLost[attWin][situation] + defenceLost[attWin][situation]-1)/100)
-            lost[0]=int((defencePow[1]*attackLost[attWin][situation] + attackLost[attWin][situation]-1)/100)
+            lost[1]=int((minPower*defenceLost[attWin][situation] + defenceLost[attWin][situation]-1)/100)
+            lost[0]=int((minPower*attackLost[attWin][situation] + attackLost[attWin][situation]-1)/100)
         else:
-            lost[1]=int((attackPow[1]*defenceLost[attWin][situation] + defenceLost[attWin][situation]-1)/100)
-            lost[0]=int((attackPow[1]*attackLost[attWin][situation] + attackLost[attWin][situation]-1)/100)
-        lost[0] = min(lost[0], lost[1], myPure, enePure, myFull, eneFull)
-        lost[1] = min(lost[0], lost[1], myPure, enePure, myFull, eneFull)
+            lost[1]=int((minPower*defenceLost[attWin][situation] + defenceLost[attWin][situation]-1)/100)
+            lost[0]=int((minPower*attackLost[attWin][situation] + attackLost[attWin][situation]-1)/100)
         if type == 0:
         	temp = lost[0]
         	lost[0] = lost[1]
