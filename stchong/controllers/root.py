@@ -5223,7 +5223,8 @@ class RootController(BaseController):
         cost = []
         for s in stri:
             s = s.split(',')
-            cost.append([s[0], int(s[1])])
+            if len(s) == 2:
+               cost.append([s[0], int(s[1])])
         return cost
     @expose('json')
     def updatebuilding(self,user_id,city_id,ground_id,grid_id,type):
