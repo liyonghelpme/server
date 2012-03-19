@@ -2532,7 +2532,6 @@ class RootController(BaseController):
         rand = random.randint(0, len(allNum)-1)
         return [allNum[rand], allNum[(rand+1)%len(allNum)]]
     global EmptyLev
-    """
     EmptyLev = [[1000, 0,   10000, 0, 0, 0,   1000, 10, 1, 1, 6],
                 [3000, 0,   25000, 0, 0, 0,   3000, 30, 3, 3, 5],
                 [5000, 0,   42000, 0, 0, 0,   5000, 50, 5, 5, 4],
@@ -2549,6 +2548,7 @@ class RootController(BaseController):
     [50000, 0, 100000, 0, 0, 0, 500, 100, 25, 25, 2],
     [100000, 0, 500000, 0, 0, 0, 1000, 200, 50, 50, 1],
     ] 
+    """
     global randEmptyLev
     def randEmptyLev(levs):
         """
@@ -5100,7 +5100,8 @@ class RootController(BaseController):
         cost = []
         for s in stri:
             s = s.split(',')
-            cost.append([s[0], int(s[1])])
+            if len(s) == 2:
+                cost.append([s[0], int(s[1])])
         return cost
         
     @expose('json')
@@ -5526,7 +5527,7 @@ class RootController(BaseController):
                     print "need more food"
                     return dict(id=0, reason="food not enough")
                 friend.food -= needFood
-                friend.corn += 100
+                friend.corn += TrainReward
                 friList.append(uotherid)
                 dragon.friList = json.dumps(friList)
                 dragon.lastFeed |= 2
