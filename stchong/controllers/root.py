@@ -4487,9 +4487,10 @@ class RootController(BaseController):
         battleset = DBSession.query(Battle).filter_by(finish = 0).filter(Battle.timeneed+Battle.left_time<t).filter(or_(Battle.uid==uid, Battle.enemy_id==uid)).filter(Battle.enemy_id >= 0).order_by(Battle.left_time).all()
         print "fetch battle result of " + str(uid)
         
-        attRes = []
-        defRes = []
+
         for b in battleset:
+            attRes = []
+            defRes = []
             print 'battle attacker ' + str(b.uid) + ' def ' + str(b.enemy_id) + ' finish ' + str(b.finish)
             if b.finish != 0:
                 continue        
