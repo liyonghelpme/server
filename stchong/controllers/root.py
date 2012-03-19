@@ -201,7 +201,8 @@ class RootController(BaseController):
     log=logging.getLogger('root')
     CACHEOP=10
     #appsecret='FA6AMZKT77L4e4bc0a6'
-    appsecret = 'O0c4WvFX46fL4f41d37d'
+    #appsecret = 'O0c4WvFX46fL4f41d37d'
+    appsecret = 'qJRsDHLp47bL4f4f330c'
     SERVER_NAME = "cn.papayamobile.com"
     
     tasklist=[[['查看帮助文档','不耻下问是良好美德，点击Menu键（或设置图标）查看帮助文档~','查看帮助文档 0/1',100,5,'0,0'],['种植粮食','地主家也没有余粮了，伤不起呀！快去种点啥吧，，','开垦农田 0/1;种植胡萝卜 0/6',300,10,'1,1!0$1','2,1!0$6'],['店铺收税','咱也是地主啦！快去店铺收税吧','普通面包房收税 0/250',100,5,'2,100!0$250']]]
@@ -4710,11 +4711,14 @@ class RootController(BaseController):
         t=int(time.mktime(time.localtime())-time.mktime(beginTime))
         for x in alist:
             if x.finish==0:
-                ue=checkopdata(x.enemy_id)
-                wue=DBSession.query(warMap).filter_by(userid=x.enemy_id).one()
+                try:
+                    ue=checkopdata(x.enemy_id)
+                    wue=DBSession.query(warMap).filter_by(userid=x.enemy_id).one()
                 
-                atemp=[ue.otherid,x.timeneed+x.left_time,x.powerin,x.powerca,ue.user_kind,wue.gridid]
-                attacklist.append(atemp)
+                    atemp=[ue.otherid,x.timeneed+x.left_time,x.powerin,x.powerca,ue.user_kind,wue.gridid]
+                    attacklist.append(atemp)
+                except:
+                    print "no user"
         dlist=DBSession.query(Battle).filter_by(enemy_id=uid).filter(Battle.enemy_id>0).order_by(desc(Battle.left_time))
         for x in dlist:
             if x.finish==0 and t-x.left_time>0 :
@@ -5220,7 +5224,8 @@ class RootController(BaseController):
         cost = []
         for s in stri:
             s = s.split(',')
-            cost.append([s[0], int(s[1])])
+            if len(s) == 2:
+               cost.append([s[0], int(s[1])])
         return cost
     @expose('json')
     def updatebuilding(self,user_id,city_id,ground_id,grid_id,type):
