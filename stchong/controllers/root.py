@@ -5952,7 +5952,7 @@ class RootController(BaseController):
             user.labor_num += cost[2]
             user.cae -= caeCost
             user.exp += cost[4]
-            building = businessWrite(city_id=city_id, ground_id=ground_id, grid_id=grid_id, object_id=-1, producttime = curTime, finish = 1)
+            building = businessWrite(city_id=city_id, ground_id=ground_id, grid_id=grid_id, object_id=-1, producttime = 0, finish = 1)
             DBSession.add(building)
             print "buildFarm", coinCost, caeCost, cost[1], cost[2] 
             return dict(id=1, result="farm suc")
