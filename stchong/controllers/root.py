@@ -1307,7 +1307,7 @@ class RootController(BaseController):
             mu=int((65*k+100-1)/100)
             u.exp=u.exp+int((k+2-1)/2)
         #corn
-        u.corn=u.corn+mu*30
+        u.corn=u.corn+mu*5
         if monsterid%3==0:
             t=1
         elif monsterid%3==1:
@@ -1739,12 +1739,16 @@ class RootController(BaseController):
         u.treasurenum=0
         u.treasurebox=''
         num=opentreasurebox(u)
+        """
         goods = random.randint(0, 1)
         if goods == 0:
             goods = 1
             changeGoods(user_id, 0, 1)
         else:
             goods = 0
+        """
+        goods = 1
+        changeGoods(user_id, 0, 1)
         return dict(id=1, specialgoods=num, goods = goods)
     def opentreasurebox(u):
         num1=[]
@@ -4183,19 +4187,23 @@ class RootController(BaseController):
         user.corn += min(times*addV, 10000)
         return dict(id=1)
     global KillReward
-    KillReward = 1000
+    KillReward = 2000
     def getresource(kill,u,type):
+        kill = max(kill, 0)
         bonusstring=''
         k=random.randint(0,1)
         type=int(type)
         cornget = 0
         cornlost = 0
-        if k == 0:
-            u.cae += min(10, kill/KillReward)
-            bonusstring = str(min(10, kill/KillReward))+'!'
+        if type == 0 or type == 1:
+            if k == 0:
+                u.cae += min(10, kill/KillReward)
+                bonusstring = str(min(10, kill/KillReward))+'!'
+            else:
+                u.cae += min(1, kill/KillReward)
+                bonusstring = str(min(1, kill/KillReward))+'!'
         else:
-            u.cae += min(1, kill/KillReward)
-            bonusstring = str(min(1, kill/KillReward))+'!'
+            bonusstring = "0!"
         if type==0:
             cornget=cornget+100*(u.nobility+1)
             u.corn=u.corn+100*(u.nobility+1)
@@ -4204,7 +4212,7 @@ class RootController(BaseController):
                 u.corn += cornget
             bonusstring += str(cornget)+'!'+str(cornlost)
         elif type==1:
-            cornget=kill*15
+            cornget=kill*5
             u.corn += cornget
             bonusstring += str(cornget)+'!'+str(cornlost)
         elif type==2:
@@ -5614,7 +5622,7 @@ class RootController(BaseController):
                     print "need more food"
                     return dict(id=0, reason="food not enough")
                 friend.food -= needFood
-                friend.corn += 100
+                friend.corn += TrainReward
                 friList.append(uotherid)
                 dragon.friList = json.dumps(friList)
                 dragon.lastFeed |= 2
