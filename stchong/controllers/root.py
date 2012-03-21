@@ -1379,7 +1379,7 @@ class RootController(BaseController):
             mu=int((65*k+100-1)/100)
             u.exp=u.exp+int((k+2-1)/2)
         #corn
-        u.corn=u.corn+mu*30
+        u.corn=u.corn+mu*5
         if monsterid%3==0:
             t=1
         elif monsterid%3==1:
@@ -1813,12 +1813,16 @@ class RootController(BaseController):
         u.treasurenum=0
         u.treasurebox=''
         num=opentreasurebox(u)
+        """
         goods = random.randint(0, 1)
         if goods == 0:
             goods = 1
             changeGoods(user_id, 0, 1)
         else:
             goods = 0
+        """
+        goods = 1
+        changeGoods(user_id, 0, 1)
         return dict(id=1, specialgoods=num, goods = goods)
     def opentreasurebox(u):
         num1=[]
@@ -2533,23 +2537,15 @@ class RootController(BaseController):
         rand = random.randint(0, len(allNum)-1)
         return [allNum[rand], allNum[(rand+1)%len(allNum)]]
     global EmptyLev
-    """
-    EmptyLev = [[1000, 0,   10000, 0, 0, 0,   1000, 10, 1, 1, 6],
-                [3000, 0,   25000, 0, 0, 0,   3000, 30, 3, 3, 5],
-                [5000, 0,   42000, 0, 0, 0,   5000, 50, 5, 5, 4],
-                [10000, 0,   60000, 0, 0, 0,  10000, 100, 10, 10, 3],
-                [50000, 0,   200000, 0, 0, 0, 50000, 500, 50, 50, 2],
-                [100000, 0,  500000, 0, 0, 0,   100000, 1000, 100, 100, 1],
-            ]
-    """
     EmptyLev = [
-    [1000, 0, 5000, 0, 0, 0, 10, 5, 1, 1, 6],
-    [3000, 0, 12500, 0, 0, 0, 30, 15, 3, 3, 5],
-    [5000, 0, 21000, 0, 0, 0, 50, 25, 4, 4, 4],
-    [10000, 0, 30000, 0, 0, 0, 100, 50, 5, 5, 3],
-    [50000, 0, 100000, 0, 0, 0, 500, 100, 25, 25, 2],
-    [100000, 0, 500000, 0, 0, 0, 1000, 200, 50, 50, 1],
+    [1000, 0, 5000, 0, 0, 0, 100, 10, 1, 1, 6],
+    [3000, 0, 12500, 0, 0, 0, 200, 20, 3, 3, 5],
+    [5000, 0, 21000, 0, 0, 0, 300, 30, 4, 4, 4],
+    [10000, 0, 30000, 0, 0, 0, 400, 40, 5, 5, 3],
+    [50000, 0, 100000, 0, 0, 0, 500, 50, 25, 25, 2],
+    [100000, 0, 500000, 0, 0, 0, 1000, 100, 50, 50, 1],
     ] 
+
     global randEmptyLev
     def randEmptyLev(levs):
         """
@@ -4236,12 +4232,15 @@ class RootController(BaseController):
         type=int(type)
         cornget = 0
         cornlost = 0
-        if k == 0:
-            u.cae += min(10, kill/KillReward)
-            bonusstring = str(min(10, kill/KillReward))+'!'
+        if type == 0 or type == 1:
+            if k == 0:
+                u.cae += min(10, kill/KillReward)
+                bonusstring = str(min(10, kill/KillReward))+'!'
+            else:
+                u.cae += min(1, kill/KillReward)
+                bonusstring = str(min(1, kill/KillReward))+'!'
         else:
-            u.cae += min(1, kill/KillReward)
-            bonusstring = str(min(1, kill/KillReward))+'!'
+            bonusstring = "0!"
         if type==0:
             cornget=cornget+100*(u.nobility+1)
             u.corn=u.corn+100*(u.nobility+1)
@@ -4250,7 +4249,7 @@ class RootController(BaseController):
                 u.corn += cornget
             bonusstring += str(cornget)+'!'+str(cornlost)
         elif type==1:
-            cornget=kill*15
+            cornget=kill*5
             u.corn += cornget
             bonusstring += str(cornget)+'!'+str(cornlost)
         elif type==2:
