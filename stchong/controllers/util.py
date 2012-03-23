@@ -12,6 +12,7 @@ import random
 from stchong import model
 import json
 
+beginTime=(2011,1,1,0,0,0,0,0,0)
 DraDemand = [10, 500, 50000]
 DiskBuild = [3000, 30, 3, 2700]
 def speStr2Arr(spe):
