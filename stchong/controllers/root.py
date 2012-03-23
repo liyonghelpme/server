@@ -2657,25 +2657,24 @@ class RootController(BaseController):
 
     def getCity(city_id):
         s=''
-        try:
-            i=0
-            cid=int(city_id)
+        i=0
+        cid=int(city_id)
+        cset=DBSession.query(businessWrite).filter_by(city_id=cid).all()
+        print len(cset)
+        if len(cset) == 0:
+            disk = DBSession.query(businessKeep).filter_by(city_id=cid).all()
+            for c in disk:
+                inMem = businessWrite(city_id = c.city_id, ground_id = c.ground_id, grid_id = c.grid_id, object_id = c.object_id, producttime = c.producttime, finish = c.finish, bid=c.bid)
+                DBSession.add(c)
+            #DBSession.flush()
             cset=DBSession.query(businessWrite).filter_by(city_id=cid).all()
-            if len(cset) == 0:
-                disk = DBSession.query(businessKeep).filter_by(city_id=cid).all()
-                for c in disk:
-                    inMem = businessWrite(city_id = c.city_id, ground_id = c.ground_id, grid_id = c.grid_id, object_id = c.object_id, producttime = c.producttime, finish = c.finish, bid=c.bid)
-                    DBSession.add(c)
-                cset=DBSession.query(businessWrite).filter_by(city_id=cid).all()
-                
-            for c in cset:
-                if i==0:
-                    s=s+str(c.ground_id)+','+str(c.grid_id)+','+str(c.object_id)+','+str(c.producttime)+','+str(c.finish)
-                    i=1
-                else :
-                    s=s+';'+str(c.ground_id)+','+str(c.grid_id)+','+str(c.object_id)+','+str(c.producttime)+','+str(c.finish)
-        except InvalidRequestError:
-            return ''
+            
+        for c in cset:
+            if i==0:
+                s=s+str(c.ground_id)+','+str(c.grid_id)+','+str(c.object_id)+','+str(c.producttime)+','+str(c.finish)
+                i=1
+            else :
+                s=s+';'+str(c.ground_id)+','+str(c.grid_id)+','+str(c.object_id)+','+str(c.producttime)+','+str(c.finish)
         return s
     @expose('json')
     def readAll(self, city_id):
