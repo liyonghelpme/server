@@ -17,7 +17,7 @@ db = conn['Rank']
 collect = db.rank
 # Global session manager: DBSession() returns the Thread-local
 # session object appropriate for the current web request.
-passwd = '2e4n5k2w2x'
+passwd = 'badperson3'
 user = 'root'
 con = MySQLdb.connect(host='localhost', passwd=passwd, user=user, db='stcHong')
 cursor = con.cursor()
@@ -96,7 +96,8 @@ def init_model(engine):
     global businessread_table
     global visitfriend_table
     operationaldata_table=Table("operationalData",metadata,autoload=True,autoload_with=engine)
-    businesswrite_table=Table("businessWrite",metadata,autoload=True,autoload_with=engine)
+    businesswrite_table=Table("businessWrite1",metadata,autoload=True,autoload_with=engine)
+    businessKeep_table=Table("businessWrite",metadata,autoload=True,autoload_with=engine)
     businessread_table=Table("businessRead",metadata,autoload=True,autoload_with=engine)
     warmap_table=Table("warMap",metadata,autoload=True,autoload_with=engine)
     map_table=Table("map",metadata,autoload=True,autoload_with=engine)
@@ -120,6 +121,7 @@ def init_model(engine):
     mapper(warMap,warmap_table)
     mapper(operationalData,operationaldata_table)
     mapper(businessWrite,businesswrite_table)
+    mapper(businessKeep,businessKeep_table)
     mapper(businessRead,businessread_table)
     mapper(Map,map_table)
     mapper(visitFriend,visitfriend_table)
@@ -143,6 +145,7 @@ def init_model(engine):
 from stchong.model.auth import User, Group, Permission
 from stchong.model.operationaldata import operationalData
 from stchong.model.businesswrite import businessWrite
+from stchong.model.businessKeep import businessKeep
 from stchong.model.ally import Ally
 from stchong.model.victories import Victories
 from stchong.model.gift import Gift

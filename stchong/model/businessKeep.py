@@ -1,6 +1,6 @@
 from sqlalchemy import Table, Column
 
-class businessWrite(object):
+class businessKeep(object):
     def __init__(self,city_id,ground_id,grid_id,object_id,producttime,finish):
         self.city_id=city_id
         self.ground_id=ground_id
@@ -8,4 +8,3 @@ class businessWrite(object):
         self.object_id=object_id
         self.producttime=producttime
         self.finish=finish
-        self.write = 0

@@ -12,6 +12,15 @@ import random
 from stchong import model
 import json
 
+DraDemand = [10, 500, 50000]
+DiskBuild = [3000, 30, 3, 2700]
+def speStr2Arr(spe):
+    spe = spe.split(';')
+    res = []
+    for i in spe:
+        i = i.split(',')
+        res.append([i[0], int(i[1])])
+    return res
 
 def getSpecial(user):
     spe = user.specialgoods.split(";")
