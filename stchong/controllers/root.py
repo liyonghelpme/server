@@ -34,6 +34,7 @@ import StringIO
 import hashlib
 import copy
 import httplib
+import urllib
 import json
 import inspect
 import MySQLdb
@@ -202,7 +203,8 @@ class RootController(BaseController):
     CACHEOP=10
     #appsecret='FA6AMZKT77L4e4bc0a6'
     #appsecret = 'O0c4WvFX46fL4f41d37d'
-    appsecret = 'qJRsDHLp47bL4f4f330c'
+    #appsecret = 'qJRsDHLp47bL4f4f330c'
+    appsecret = 'kAICjdJo4PcoKE6dNiMT'
     SERVER_NAME = "cn.papayamobile.com"
     
     tasklist=[[['查看帮助文档','不耻下问是良好美德，点击Menu键（或设置图标）查看帮助文档~','查看帮助文档 0/1',100,5,'0,0'],['种植粮食','地主家也没有余粮了，伤不起呀！快去种点啥吧，，','开垦农田 0/1;种植胡萝卜 0/6',300,10,'1,1!0$1','2,1!0$6'],['店铺收税','咱也是地主啦！快去店铺收税吧','普通面包房收税 0/250',100,5,'2,100!0$250']]]
@@ -2915,11 +2917,25 @@ class RootController(BaseController):
         mana=-1
         boundary=-1
         lasttime=-1
+        curTime = int(time.mktime(time.localtime())-time.mktime(beginTime))
         if md51!=md5:
             return dict(md51=md51,id=md5)
         try:
             ruser=DBSession.query(operationalData).filter_by(otherid=oid).filter_by(user_kind=user_kind).one()
             user=checkopdata(ruser.userid)
+            loginYet = db.oldUser.find_one({'uid':user.userid})
+            if loginYet == None:
+                user.cae += 10
+                db.oldUser.save({'uid':user.userid})
+                loginYet = 0
+            else:
+                loginYet = 1
+            regTime = db.newuser.find_one({'uid':user.userid})
+            tp24 = 0
+            if regTime != None and curTime - regTime['regTime'] > 3600*24:
+                tp24 = 1
+                db.newuser.delete(regTime)
+
             act = getPlantAct(user.userid)
             
             ds=DBSession.query(Datesurprise).filter_by(uid=user.userid).one()
@@ -3124,7 +3140,7 @@ class RootController(BaseController):
             if user.newcomer<3:
                 return dict(today = {'todayNum':v['todayNum'], 'totalNum':v['totalNum']}, goods = goods, actFood = act['food'], loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,newstate=user.newcomer,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
             if user_kind==0:
-                return dict(goods = goods, actFood = act['food'], loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
+                return dict(loginYet = loginYet, tp24 = tp24, goods = goods, actFood = act['food'], loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
             else:
                 return dict(goods = goods, actFood = act['food'], loginNum = user.logincard, wonNum = wonNum, wonBonus = wonBonus,sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,hid=user.hid,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,headid=user.hid,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,invitestring=user.invitestring,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum = user.catapult)
                     
@@ -3132,6 +3148,10 @@ class RootController(BaseController):
             newuser=operationalData(labor_num=280,population=380,exp=0,corn=1000,cae=1,nobility=-1,infantry1_num=30,cavalry1_num=0,scout1_num=0,person_god=0,wealth_god=0,food_god=0,war_god=0,user_kind=user_kind,otherid=oid,lev=1,empirename='My Empire',food=100)
             DBSession.add(newuser)
             newuser = DBSession.query(operationalData).filter_by(otherid = oid).one()
+            DBSession.flush()
+
+            db.newuser.save({'uid':newuser.userid, 'regTime':curTime})
+            db.oldUser.save({'uid':newuser.userid})
             c1=DBSession.query('LAST_INSERT_ID()')
             c1=c1[0]
             gi=0
@@ -3253,6 +3273,10 @@ class RootController(BaseController):
             db.login.save(v)
 
             try:
+                conn = urllib.urlopen("http://papayamobile.com/a/misc/third_party_event?uid="+papayaid+"&event=80")
+                res = conn.read()
+                print res
+                """
                 conn = httplib.HTTPConnection(SERVER_NAME)
                 
                 url_send = "/a/misc/wonderempire_event?uid="+papayaid+"&event=1"
@@ -3263,6 +3287,7 @@ class RootController(BaseController):
                     print "succeeded!"
                 else:
                     print "failed!"
+                """
             except:
                 print "register error"
             return dict(today = {'todayNum':v['todayNum'], 'totalNum':v['totalNum'] }, wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods=nu.specialgoods,time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=c1[0],city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
