@@ -7,7 +7,7 @@ db = con['Rank']
 collect = db.rank
 
 while True:
-    res = collect.find().sort('food', pymongo.DESCENDING)
+    res = collect.find().sort('heart', pymongo.DESCENDING)
     arr = []
     db.order.remove()
     k = 0
