@@ -6331,6 +6331,24 @@ class RootController(BaseController):
             my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
     @expose('json')
+    def getAllRank(self, uid):
+        uid = int(uid)
+
+        res = db.result.find_one()
+        oid = []
+        if res != None:
+            res = res.get("res")[:1000] 
+            for i in res:
+                user = checkopdata(i['uid'])
+                if user != None:
+                    oid.append([int(user.otherid), i['heart'], user.papayaname])
+        my = db.rank.find_one({'uid':uid})
+        if my != None:
+            my = [my['order'], my['heart']]
+        else:
+            my = [999, 0]
+        return dict(id=1, top=oid, myrank = my)
+    @expose('json')
     def rankHeart(self, uid, oid):
         uid = int(uid)
         oid = int(oid)
