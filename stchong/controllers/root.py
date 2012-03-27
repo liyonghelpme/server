@@ -40,6 +40,7 @@ import MySQLdb
 from stchong.model import con, cursor
 from stchong.model import collect, db 
 import pymongo
+import urllib
 from stchong.controllers.util import *
 
 __all__ = ['RootController']
@@ -985,6 +986,14 @@ class RootController(BaseController):
         u.lev=lev
         tasklist=[]
         task=[-1,-1]
+        if lev == 5:
+            try:
+                conn = urllib.urlopen("http://papayamobile.com/a/misc/third     _party_event?uid="+papayaid+"&event=80")
+                res = conn.read()
+                print res
+
+            except:
+                print "register error"
         if u.lev%10==0:
             u.populationupbound=u.populationupbound+LevUpPop
             u.cae=u.cae+u.lev/10
@@ -3252,20 +3261,17 @@ class RootController(BaseController):
             v['totalNum'] += 1
             db.login.save(v)
 
+            """
             try:
-                conn = httplib.HTTPConnection(SERVER_NAME)
-                
-                url_send = "/a/misc/wonderempire_event?uid="+papayaid+"&event=1"
-                conn.request('GET',url_send)
-                res = conn.getresponse()
-                
-                if res.status == 200:
-                    print "succeeded!"
-                else:
-                    print "failed!"
+                conn = urllib.urlopen("http://papayamobile.com/a/misc/third     _party_event?uid="+papayaid+"&event=80")
+                res = conn.read()
+                print res
+
             except:
                 print "register error"
+            """
             return dict(today = {'todayNum':v['todayNum'], 'totalNum':v['totalNum'] }, wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods=nu.specialgoods,time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=c1[0],city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
+
    
 
     global EmpireLevel
@@ -4250,8 +4256,8 @@ class RootController(BaseController):
         defencer = checkopdata(empty.uid)
         attStr = []
         defStr = []
-        if attacker == None or defencer == None:
-            return
+        #if attacker == None or defencer == None:
+        #    return
         if empty.uid == attacker.userid:
             empty.inf += battle.powerin
             empty.cav += battle.powerca
