@@ -273,39 +273,43 @@ class RootController(BaseController):
         ti=int(time.mktime(time.localtime())-time.mktime(beginTime))
         caeplus=0
         reward = [1, 5, 15, 40]
-        if u.tid=='-1':
-            s=hashlib.md5(u.otherid+'-'+tid+'-'+appsecret).hexdigest()
-            cb=u.cae
-            if s==signature:
-                u.paytime=-1
-                if int(papapas)==300:
-                    u.cae=u.cae+int(int(papapas)/100)
-                    caeplus=int(int(papapas)/100)
-                elif int(papapas)==1000:
-                    u.cae=u.cae+10+reward[0]
-                    caeplus=10+reward[0]
-                elif int(papapas)==2500:
-                    u.cae=u.cae+25+reward[1]
-                    caeplus=25+reward[1]
-                elif int(papapas)==5000:
-                    u.cae=u.cae+50+reward[2]
-                    caeplus=50+reward[2]
-                elif int(papapas)==10000:
-                    u.cae=u.cae+100+reward[3]
-                    caeplus=100+reward[3]
-                else:
-                    u.cae=u.cae+int(int(papapas)/100)
-                ca=u.cae
-                try:
-                    x=DBSession.query(Caebuy).filter_by(uid=u.userid).filter_by(time=ti).one()
-                    x.cae=int(int(papapas)/100)
-                except:
-                    ncb=Caebuy(uid=u.userid,cae=int(int(papapas)/100),time=ti)
-                    
-                    DBSession.add(ncb)
-                return dict(id=1)
-            else:
-                return dict(id=0)
+        #if u.tid=='-1':
+            #s=hashlib.md5(u.otherid+'-'+tid+'-'+appsecret).hexdigest()
+        print u.otherid, tid, appsecret
+        print hashlib.md5(u.otherid+'-'+tid+'-'+appsecret).hexdigest()
+        print signature
+        cb=u.cae
+        #if s==signature:
+        u.paytime=-1
+        if int(papapas)==300:
+            u.cae=u.cae+int(int(papapas)/100)
+            caeplus=int(int(papapas)/100)
+        elif int(papapas)==1000:
+            u.cae=u.cae+10+reward[0]
+            caeplus=10+reward[0]
+        elif int(papapas)==2500:
+            u.cae=u.cae+25+reward[1]
+            caeplus=25+reward[1]
+        elif int(papapas)==5000:
+            u.cae=u.cae+50+reward[2]
+            caeplus=50+reward[2]
+        elif int(papapas)==10000:
+            u.cae=u.cae+100+reward[3]
+            caeplus=100+reward[3]
+        else:
+            u.cae=u.cae+int(int(papapas)/100)
+        ca=u.cae
+        try:
+            x=DBSession.query(Caebuy).filter_by(uid=u.userid).filter_by(time=ti).one()
+            x.cae=int(int(papapas)/100)
+        except:
+            ncb=Caebuy(uid=u.userid,cae=int(int(papapas)/100),time=ti)
+            
+            DBSession.add(ncb)
+        return dict(id=1)
+        #else:
+        #    return dict(id=0)
+        """
         else:
             if tid!=u.tid:
                 return dict(id=0)
@@ -321,7 +325,7 @@ class RootController(BaseController):
                 DBSession.add(ncb)            
             print inspect.stack()[0]
             return dict(id=1)
-    
+        """
     @expose()
     def payment(self,tid,uid,papapas,signature,time):
         try:
@@ -986,7 +990,7 @@ class RootController(BaseController):
         u.lev=lev
         tasklist=[]
         task=[-1,-1]
-        if lev == 5:
+        if lev == 4:
             try:
                 conn = urllib.urlopen("http://papayamobile.com/a/misc/third     _party_event?uid="+papayaid+"&event=80")
                 res = conn.read()
