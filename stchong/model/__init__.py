@@ -12,7 +12,8 @@ import json
 import MySQLdb
 import pymongo
 
-conn = pymongo.Connection(host='localhost', port = 27017)
+dataIp = '10.68.55.40'
+conn = pymongo.Connection(host=dataIp, port = 27017)
 db = conn['Rank']
 collect = db.rank
 # Global session manager: DBSession() returns the Thread-local
@@ -20,7 +21,7 @@ collect = db.rank
 passwd = 'wavegame1'
 user = 'root'
 db2 = 'stcHong'
-con = MySQLdb.connect(host='localhost', passwd=passwd, user=user, db=db2)
+con = MySQLdb.connect(host=dataIp, passwd=passwd, user=user, db=db2)
 cursor = con.cursor()
 maker = sessionmaker(autoflush=True, autocommit=False,
                      extension=ZopeTransactionExtension())
