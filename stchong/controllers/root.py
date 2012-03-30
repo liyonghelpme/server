@@ -40,6 +40,7 @@ import MySQLdb
 from stchong.model import con, cursor
 from stchong.model import collect, db 
 import pymongo
+import urllib
 from stchong.controllers.util import *
 
 __all__ = ['RootController']
@@ -272,39 +273,43 @@ class RootController(BaseController):
         ti=int(time.mktime(time.localtime())-time.mktime(beginTime))
         caeplus=0
         reward = [1, 5, 15, 40]
-        if u.tid=='-1':
-            s=hashlib.md5(u.otherid+'-'+tid+'-'+appsecret).hexdigest()
-            cb=u.cae
-            if s==signature:
-                u.paytime=-1
-                if int(papapas)==300:
-                    u.cae=u.cae+int(int(papapas)/100)
-                    caeplus=int(int(papapas)/100)
-                elif int(papapas)==1000:
-                    u.cae=u.cae+10+reward[0]
-                    caeplus=10+reward[0]
-                elif int(papapas)==2500:
-                    u.cae=u.cae+25+reward[1]
-                    caeplus=25+reward[1]
-                elif int(papapas)==5000:
-                    u.cae=u.cae+50+reward[2]
-                    caeplus=50+reward[2]
-                elif int(papapas)==10000:
-                    u.cae=u.cae+100+reward[3]
-                    caeplus=100+reward[3]
-                else:
-                    u.cae=u.cae+int(int(papapas)/100)
-                ca=u.cae
-                try:
-                    x=DBSession.query(Caebuy).filter_by(uid=u.userid).filter_by(time=ti).one()
-                    x.cae=int(int(papapas)/100)
-                except:
-                    ncb=Caebuy(uid=u.userid,cae=int(int(papapas)/100),time=ti)
-                    
-                    DBSession.add(ncb)
-                return dict(id=1)
-            else:
-                return dict(id=0)
+        #if u.tid=='-1':
+            #s=hashlib.md5(u.otherid+'-'+tid+'-'+appsecret).hexdigest()
+        print u.otherid, tid, appsecret
+        print hashlib.md5(u.otherid+'-'+tid+'-'+appsecret).hexdigest()
+        print signature
+        cb=u.cae
+        #if s==signature:
+        u.paytime=-1
+        if int(papapas)==300:
+            u.cae=u.cae+int(int(papapas)/100)
+            caeplus=int(int(papapas)/100)
+        elif int(papapas)==1000:
+            u.cae=u.cae+10+reward[0]
+            caeplus=10+reward[0]
+        elif int(papapas)==2500:
+            u.cae=u.cae+25+reward[1]
+            caeplus=25+reward[1]
+        elif int(papapas)==5000:
+            u.cae=u.cae+50+reward[2]
+            caeplus=50+reward[2]
+        elif int(papapas)==10000:
+            u.cae=u.cae+100+reward[3]
+            caeplus=100+reward[3]
+        else:
+            u.cae=u.cae+int(int(papapas)/100)
+        ca=u.cae
+        try:
+            x=DBSession.query(Caebuy).filter_by(uid=u.userid).filter_by(time=ti).one()
+            x.cae=int(int(papapas)/100)
+        except:
+            ncb=Caebuy(uid=u.userid,cae=int(int(papapas)/100),time=ti)
+            
+            DBSession.add(ncb)
+        return dict(id=1)
+        #else:
+        #    return dict(id=0)
+        """
         else:
             if tid!=u.tid:
                 return dict(id=0)
@@ -320,7 +325,7 @@ class RootController(BaseController):
                 DBSession.add(ncb)            
             print inspect.stack()[0]
             return dict(id=1)
-    
+        """
     @expose()
     def payment(self,tid,uid,papapas,signature,time):
         try:
@@ -985,6 +990,14 @@ class RootController(BaseController):
         u.lev=lev
         tasklist=[]
         task=[-1,-1]
+        if lev == 4:
+            try:
+                conn = urllib.urlopen("http://papayamobile.com/a/misc/third     _party_event?uid="+papayaid+"&event=80")
+                res = conn.read()
+                print res
+
+            except:
+                print "register error"
         if u.lev%10==0:
             u.populationupbound=u.populationupbound+LevUpPop
             u.cae=u.cae+u.lev/10
@@ -3253,30 +3266,6 @@ class RootController(BaseController):
             except InvalidRequestError:
                 x=0
 
-            """
-            v = db.login.find_one()
-            if v == None:
-                v = {'totalNum':0, 'todayNum':0}
-                db.login.insert(v)
-                v = db.login.find_one()
-            v['todayNum'] += 1
-            v['totalNum'] += 1
-            db.login.save(v)
-            """
-
-            try:
-                conn = httplib.HTTPConnection(SERVER_NAME)
-                
-                url_send = "/a/misc/wonderempire_event?uid="+papayaid+"&event=1"
-                conn.request('GET',url_send)
-                res = conn.getresponse()
-                
-                if res.status == 200:
-                    print "succeeded!"
-                else:
-                    print "failed!"
-            except:
-                print "register error"
             return dict( wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods=nu.specialgoods,time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=c1[0],city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
    
 
@@ -4262,8 +4251,8 @@ class RootController(BaseController):
         defencer = checkopdata(empty.uid)
         attStr = []
         defStr = []
-        if attacker == None or defencer == None:
-            return
+        #if attacker == None or defencer == None:
+        #    return
         if empty.uid == attacker.userid:
             empty.inf += battle.powerin
             empty.cav += battle.powerca
