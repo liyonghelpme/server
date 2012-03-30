@@ -39,7 +39,7 @@ import json
 import inspect
 import MySQLdb
 from stchong.model import con, cursor
-from stchong.model import collect, db 
+from stchong.model import collect, db, dataIp 
 import pymongo
 import urllib
 from stchong.controllers.util import *
@@ -276,9 +276,13 @@ class RootController(BaseController):
         reward = [1, 5, 15, 40]
         #if u.tid=='-1':
             #s=hashlib.md5(u.otherid+'-'+tid+'-'+appsecret).hexdigest()
-        print u.otherid, tid, appsecret
-        print hashlib.md5(u.otherid+'-'+tid+'-'+appsecret).hexdigest()
+        print "charge", uid, u.otherid, tid, appsecret, papapas
+        calS = hashlib.md5(u.otherid+'-'+tid+'-'+appsecret).hexdigest()
+        print calS
         print signature
+        if calS != signature:
+            print "sig error", calS, signature
+        #    return dict(id=0, reason="sig error")
         cb=u.cae
         #if s==signature:
         u.paytime=-1
@@ -2571,7 +2575,7 @@ class RootController(BaseController):
         try:
             cursor.execute(mapNum)
         except:
-            con = MySQLdb.connect(host='localhost', passwd=passwd, user='root', db=model.db2)
+            con = MySQLdb.connect(host=dataIp, passwd=passwd, user='root', db=model.db2)
             cursor = con.cursor()
             cursor.execute(mapNum)
         mapNum = cursor.fetchall()
@@ -2881,9 +2885,9 @@ class RootController(BaseController):
             temp_cae = temp_cae - cae_need
             u.cae = temp_cae
             m.mana = m.mana + addmana
-            manalog = open("/data/logs/buymana.log","a")
-            manalog.write("Userid:"+str(userid)+" Time:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"("+str(time.mktime(time.localtime())-time.mktime(beginTime))+")"+"caeNeed"+"("+str(cae_need)+")"+"\n")
-            manalog.close()
+            #manalog = open("/data/logs/buymana.log","a")
+            #manalog.write("Userid:"+str(userid)+" Time:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"("+str(time.mktime(time.localtime())-time.mktime(beginTime))+")"+"caeNeed"+"("+str(cae_need)+")"+"\n")
+            #manalog.close()
             return dict(id=1,addmana=addmana,caeCost=cae_need,boundary=boundary,result="buy mana suc 1")
         except:
             return dict(id=0,reason="try failed")
@@ -6095,9 +6099,9 @@ class RootController(BaseController):
                     if u.cae>sub:
                         u.cae=sub
                         print inspect.stack()[0]
-                        buyplantlog = open("/data/logs/buyplant.log","a")
-                        buyplantlog.write("Userid:"+str(user_id)+" Time:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"("+str(time.mktime(time.localtime())-time.mktime(beginTime))+")"+" buy type_"+str(type)+" object_id_"+str(object_id)+" price:"+str(0-price)+".\n")
-                        buyplantlog.close()
+                        #buyplantlog = open("/data/logs/buyplant.log","a")
+                        #buyplantlog.write("Userid:"+str(user_id)+" Time:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime())+"("+str(time.mktime(time.localtime())-time.mktime(beginTime))+")"+" buy type_"+str(type)+" object_id_"+str(object_id)+" price:"+str(0-price)+".\n")
+                        #buyplantlog.close()
                     ti=int(time.mktime(time.localtime())-time.mktime(beginTime))
                     p.object_id=int(object_id)
                     p.producttime=ti
