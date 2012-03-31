@@ -43,7 +43,7 @@ from stchong.model import collect, db
 import pymongo
 import urllib
 from stchong.controllers.util import *
-from stchong.model import readDB, readPass, readCon, readCur, readIP
+from stchong.model import readDB, readPass, readCon, readCur, readIP, readUser
 
 __all__ = ['RootController']
 class RootController(BaseController):
@@ -3196,7 +3196,7 @@ class RootController(BaseController):
         except InvalidRequestError:
             newuser=operationalData(labor_num=280,population=380,exp=0,corn=1000,cae=1,nobility=-1,infantry1_num=30,cavalry1_num=0,scout1_num=0,person_god=0,wealth_god=0,food_god=0,war_god=0,user_kind=0,otherid=oid,lev=1,empirename='My Empire',food=100)
             DBSession.add(newuser)
-            newuser = DBSession.query(operationalData).filter_by(otherid = oid).one()
+            #newuser = DBSession.query(operationalData).filter_by(otherid = oid).one()
             DBSession.flush()
 
             db.newuser.save({'uid':newuser.userid, 'regTime':curTime})
