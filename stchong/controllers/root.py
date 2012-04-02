@@ -1904,7 +1904,8 @@ class RootController(BaseController):
     
     def sg(otherid,user_kind,sp):
         stri='111'        
-        uu=DBSession.query(operationalData).filter_by(otherid=otherid).filter_by(user_kind=user_kind).one()
+        uu=DBSession.query(operationalData).filter_by(otherid=otherid).filter_by(user_kind=user_kind).all()
+        uu = uu[0]
         u=checkopdata(uu.userid)
         stru=u.specialgoods
         num1=[]
@@ -1976,7 +1977,11 @@ class RootController(BaseController):
         uid=int(uid)
         
         u=checkopdata(uid)
-        fid=int(fid)
+        try:
+            fid=int(fid)
+        except:
+            return dict(id=0, reason='no user')
+        
         
         f=checkopdata(fid)
         upapayaid=u.otherid
@@ -2129,7 +2134,8 @@ class RootController(BaseController):
         try:
             dv=DBSession.query(Datevisit).filter_by(uid=int(userid)).one()
             uu=checkopdata(userid)
-            u=DBSession.query(operationalData).filter_by(otherid=otherid).one()
+            u=DBSession.query(operationalData).filter_by(otherid=otherid).all()
+            u = u[0]
             uw=DBSession.query(warMap).filter_by(userid=u.userid).one()
             friendid=u.userid
 
@@ -3190,26 +3196,31 @@ class RootController(BaseController):
         except InvalidRequestError:
             newuser=operationalData(labor_num=280,population=380,exp=0,corn=1000,cae=1,nobility=-1,infantry1_num=30,cavalry1_num=0,scout1_num=0,person_god=0,wealth_god=0,food_god=0,war_god=0,user_kind=0,otherid=oid,lev=1,empirename='My Empire',food=100)
             DBSession.add(newuser)
-            newuser = DBSession.query(operationalData).filter_by(otherid = oid).one()
             DBSession.flush()
+            #newuser = DBSession.query(operationalData).filter_by(otherid = oid).one()
 
+
+            print "newuser", newuser.userid, newuser.otherid, oid
+            if newuser.otherid == '0':
+                print "error newuser oid",  oid
+                return dict(id=0)
             db.newuser.save({'uid':newuser.userid, 'regTime':curTime})
             db.oldUser.save({'uid':newuser.userid})
-            c1=DBSession.query('LAST_INSERT_ID()')
-            c1=c1[0]
+            #c1=DBSession.query('LAST_INSERT_ID()')
+            #c1=c1[0]
             gi=0
             mi=0
-            nuid=c1[0]
+            nuid=newuser.userid
             
             nu=DBSession.query(operationalData).filter_by(userid=nuid).one()
             nu.logintime=logintime
             nu.signtime=logintime
-            newvictories=Victories(uid=c1[0],won=0,lost=0)
+            newvictories=Victories(uid=newuser.userid,won=0,lost=0)
             DBSession.add(newvictories)
             nu.infantrypower=60
             nu.infantrypower=30
             nu.monsterlist='0,7'
-            nwMap=warMap(c1[0],-1,-1,0)
+            nwMap=warMap(newuser.userid,-1,-1,0)
             DBSession.add(nwMap)
 
             gi=-1
@@ -3298,12 +3309,14 @@ class RootController(BaseController):
                 for x in nuf:
                     x.lev=1
                     d=DBSession.query(operationalData).filter_by(userid=x.uid).one()
+                    if d.otherid == '' or int(d.otherid) == -1:
+                        continue
                     try:
                         xx=DBSession.query(Papayafriend).filter_by(uid=nu.userid).filter_by(papayaid=d.userid).one()
                     except InvalidRequestError:
                         xxx=Papayafriend(uid=nu.userid,papayaid=d.otherid,lev=d.lev, user_kind = 0 )
                         DBSession.add(xxx)
-            except InvalidRequestError:
+            except:
                 x=0
             #{total:}
             v = db.login.find_one()
@@ -3315,7 +3328,7 @@ class RootController(BaseController):
             v['totalNum'] += 1
             db.login.save(v)
 
-            return dict(today = {'todayNum':v['todayNum'], 'totalNum':v['totalNum'] }, wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods=nu.specialgoods,time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=c1[0],city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
+            return dict(today = {'todayNum':v['todayNum'], 'totalNum':v['totalNum'] }, wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods=nu.specialgoods,time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=newuser.userid,city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
 
    
 
@@ -6368,7 +6381,10 @@ class RootController(BaseController):
     @expose('json')
     def rankHeart(self, uid, oid):
         uid = int(uid)
-        oid = int(oid)
+        try:
+           oid = int(oid)
+        except:
+           return dict(id=0, reason='error oid')
         rankYet = db.rankYet.find_one({'uid':uid, 'oid':oid})
         if rankYet == None:
             db.rankYet.insert({'uid':uid, 'oid':oid})
