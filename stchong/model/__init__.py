@@ -12,13 +12,20 @@ import json
 import MySQLdb
 import pymongo
 
-dataIp = '10.68.55.40'
+readIP = 'localhost'
+readPass = 'badperson3'
+readDB = 'stcHong'
+readUser = 'root'
+readCon = MySQLdb.connect(host=readIP, user=readUser, passwd = readPass, db = readDB)
+readCur = readCon.cursor()
+
+dataIp = 'localhost'
 conn = pymongo.Connection(host=dataIp, port = 27017)
 db = conn['Rank']
 collect = db.rank
 # Global session manager: DBSession() returns the Thread-local
 # session object appropriate for the current web request.
-passwd = 'wavegame1'
+passwd = 'badperson3'
 user = 'root'
 db2 = 'stcHong'
 con = MySQLdb.connect(host=dataIp, passwd=passwd, user=user, db=db2)

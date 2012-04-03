@@ -43,6 +43,7 @@ from stchong.model import collect, db, dataIp
 import pymongo
 import urllib
 from stchong.controllers.util import *
+from stchong.model import readDB, readPass, readCon, readCur, readIP
 
 __all__ = ['RootController']
 class RootController(BaseController):
@@ -2657,12 +2658,34 @@ class RootController(BaseController):
             DBSession.add(emptyCastal)
         return [myMap.gridid, newMap.mapid]
 
+    def getCity(cid):
+        cid = int(cid)
+        sql = 'select ground_id, grid_id, object_id, producttime, finish from businessWrite where city_id = '+str(cid)
+        try:
+            readCur.execute(sql)
+        except:
+            readCon = MySQLdb.connect(host=readIP, user=readUser, passwd = readPass, db = readDB)
+            readCur = readCon.cursor()
+            readCur.execute(sql)
+        data = readCur.fetchall()
+        s = ''
+        i = 0
+        for c in data:
+            if i==0:
+                s=s+str(c[0])+','+str(c[1])+','+str(c[2])+','+str(c[3])+','+str(c[4])
+                i=1
+            else :
+                s=s+';'+str(c[0])+','+str(c[1])+','+str(c[2])+','+str(c[3])+','+str(c[4])
+
+        return s
+    """        
     def getCity(city_id):
         s=''
         try:
             i=0
             cid=int(city_id)
             cset=DBSession.query(businessWrite).filter_by(city_id=cid).all()
+
             for c in cset:
                 if i==0:
                     s=s+str(c.ground_id)+','+str(c.grid_id)+','+str(c.object_id)+','+str(c.producttime)+','+str(c.finish)
@@ -2672,6 +2695,7 @@ class RootController(BaseController):
         except InvalidRequestError:
             return ''
         return s
+    """
     @expose('json')
     def readAll(self, city_id):
         read1(city_id)
