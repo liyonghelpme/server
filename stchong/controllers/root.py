@@ -292,6 +292,10 @@ class RootController(BaseController):
         return dict(id=1, leftNum = nums-end, msg = msgs)
 
     @expose('json')
+    def buyCae(self, uid, cae, pap):
+        print 'buyCae', uid, cae, pap
+        return dict(id=1)
+    @expose('json')
     def completepay(self,uid,tid,papapas,signature):
         u=checkopdata(uid)
         ti=int(time.mktime(time.localtime())-time.mktime(beginTime))
