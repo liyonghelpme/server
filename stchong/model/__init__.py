@@ -100,6 +100,7 @@ def init_model(engine):
     businesswrite_table=Table("businessWrite",metadata,autoload=True,autoload_with=engine)
     businessread_table=Table("businessRead",metadata,autoload=True,autoload_with=engine)
     warmap_table=Table("warMap",metadata,autoload=True,autoload_with=engine)
+    warRes_table = Table("warRes", metadata, autoload = True, autoload_with = engine)
     map_table=Table("map",metadata,autoload=True,autoload_with=engine)
     visitfriend_table=Table("visitFriend",metadata,autoload=True,autoload_with=engine)
     ally_table=Table("ally",metadata,autoload=True,autoload_with=engine)
@@ -119,6 +120,7 @@ def init_model(engine):
     mana_table = Table("mana", metadata, autoload=True, autoload_with=engine)
    # useraccount_table=Table("userAccount",metadata,autoload=True,autoload_with=engine)
     mapper(warMap,warmap_table)
+    mapper(WarRes, warRes_table)
     mapper(operationalData,operationaldata_table)
     mapper(businessWrite,businesswrite_table)
     mapper(businessRead,businessread_table)
@@ -168,4 +170,5 @@ from stchong.model.message import Message
 from stchong.model.emptyCastal import EmptyCastal
 from stchong.model.emptyResult import EmptyResult
 from stchong.model.mana import Mana
+from stchong.model.warRes import WarRes
 #from stchong.model.useraccount import userAccount

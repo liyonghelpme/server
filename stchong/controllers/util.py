@@ -10,6 +10,7 @@ from sqlalchemy import func
 from stchong.model import DBSession, db 
 import random
 from stchong import model
+from stchong.model import WarRes, operationalData
 import json
 
 
@@ -44,7 +45,7 @@ def costSpe(cost, spe):
     return spe 
 
 def getUser(uid):
-    user = DBSession.query(model.operationalData).filter_by(userid=uid).one()
+    user = DBSession.query(operationalData).filter_by(userid=uid).one()
     return user
 
 
@@ -65,4 +66,59 @@ def changeGoods(uid, kind, num):
     else:
         objs[kind] += num
     db.goods.update({'uid':uid}, {'$set': {'goods': objs}})
+
+def getBattleRes(uid):
+    try:
+        res = DBSession.query(WarRes).filter_by(uid=uid).one()
+    except:
+        user = getUser(uid)
+        res = WarRes(uid=uid, battleresult=user.battleresult, nbattleresult=user.nbattleresult)
+        DBSession.add(res)
+        DBSession.flush()
+    try:
+        res = json.loads(res.battleresult)
+    except:
+        res = []
+    return res
+def setBattleRes(uid, bat):
+    bat = json.dumps(bat)
+    try:
+        res = DBSession.query(WarRes).filter_by(uid=uid).one()
+    except:
+        user = getUser(uid)
+        res = WarRes(uid=uid, battleresult=user.battleresult, nbattleresult=user.nbattleresult)
+        DBSession.add(res)
+        DBSession.flush()
+
+    res.battleresult = bat
+    
+
+def getNBattleRes(uid):
+    try:
+        res = DBSession.query(WarRes).filter_by(uid=uid).one()
+    except:
+        user = getUser(uid)
+        res = WarRes(uid=uid, battleresult=user.battleresult, nbattleresult=user.nbattleresult)
+        DBSession.add(res)
+        DBSession.flush()
+    try:
+        res = json.loads(res.nbattleresult)
+    except:
+        res = []
+    return res
+def setNBattleRes(uid, bat):
+    bat = json.dumps(bat)
+    try:
+        res = DBSession.query(WarRes).filter_by(uid=uid).one()
+    except:
+        user = getUser(uid)
+        res = WarRes(uid=uid, battleresult=user.battleresult, nbattleresult=user.nbattleresult)
+        DBSession.add(res)
+        DBSession.flush()
+
+    res.nbattleresult = bat
+
+
+    
+    
 

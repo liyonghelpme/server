@@ -3197,7 +3197,8 @@ class RootController(BaseController):
             v.delostinmap=0
             v.dewoninmap=0
             
-            u.battleresult=''
+            setBattleRes(u.userid, [])
+            #u.battleresult=''
             u.EmptyResult = ''
             u.subno=0
             min = calev(u, v)
@@ -4403,24 +4404,32 @@ class RootController(BaseController):
             defRes += [lost[1], attFullPow, defFullPow, attPurePow, defPurePow, defReward, attack.otherid, attack.empirename, attack.nobility*3+attack.subno, attGod, defGod, b.catapult * 2, 0]
 
             #[[], [], [], [], ]
-            res = []
+            #res = []
+            """
             try:
                 res = json.loads(attack.nbattleresult)
             except:
                 pass
+            """
+            res = getNBattleRes(attack.userid)
             res.append(attRes)
             if len(res) >= 5:
                 res.pop(0)
-            attack.nbattleresult = json.dumps(res)
+            #attack.nbattleresult = json.dumps(res)
+            setNBattleRes(attack.userid, res)
+            """
             res = []
             try:
                 res = json.loads(defence.nbattleresult)
             except:
                 pass
+            """
+            res = getNBattleRes(defence.userid)
             res.append(defRes)
             if len(res) >= 5:
                 res.pop(0)
-            defence.nbattleresult = json.dumps(res)
+            #defence.nbattleresult = json.dumps(res)
+            setNBattleRes(defence.userid, res)
             print attRes
             print defRes
             if attFullPow > defFullPow:
@@ -4428,22 +4437,30 @@ class RootController(BaseController):
             else:
                 b.finish = 2
         
+        """
         user = checkopdata(uid)
         res = []
         try:
             res = json.loads(user.nbattleresult)
         except:
             pass
-        DBSession.flush()
+        """
+        #DBSession.flush()
+        res = getNBattleRes(uid)
         return res
     @expose('json')
     def removeRead(self, uid, warList):
-        user = checkopdata(uid)
+        uid = int(uid)
+        #user = checkopdata(uid)
+        """
         battle = []
         try:
             battle = json.loads(user.nbattleresult)
         except:
             battle = []
+        """
+        battle = getNBattleRes(uid)
+
         #battle = battle.split(';')
         rems = json.loads(warList)
         rems = set(rems)
@@ -4457,18 +4474,22 @@ class RootController(BaseController):
             else:
                 readed.append(b)
             i += 1
-
+        """
         res = []
         try:
             res = json.loads(user.battleresult)
         except:
             pass
+        """
+        res = getBattleRes(uid)
         res += readed
         while len(res) >= 8:
             res.pop(0)
-        user.battleresult = json.dumps(res)
+        #user.battleresult = json.dumps(res)
+        setBattleRes(uid, res)
         #user.nbattleresult = nbat
-        user.nbattleresult = json.dumps(left)
+        setNBattleRes(uid, left)
+        #user.nbattleresult = json.dumps(left)
         return dict(id=1, left = len(left))
     global NobUpBase
     NobUpBase = [1, 6, 14, 19, 27, 85]
@@ -4549,7 +4570,7 @@ class RootController(BaseController):
     
     @expose('json')
     def warrecord(self,uid):
-        
+        uid = int(uid)
         u=checkopdata(uid)
         uv=DBSession.query(Victories).filter_by(uid=int(uid)).one()
         o1=DBSession.query(Occupation).filter_by(masterid=int(uid)).all()
@@ -4562,11 +4583,14 @@ class RootController(BaseController):
         for x in o2:
             xx=DBSession.query(operationalData.otherid,operationalData.empirename).filter_by(userid=x.masterid).one()
             a2.append([xx.otherid,xx.empirename,0,0,x.time])        
+        """
         res = []
         try:
             res = json.loads(u.battleresult)
         except:
             pass
+        """
+        res = getBattleRes(uid)
         return dict(wonlist=a1,lostlist=a2,warrecord=res,won=uv.won,dewon=uv.dewon,defence=uv.dewon+uv.delost,attack=uv.won+uv.lost,woninmap=uv.woninmap,lostinmap=uv.lostinmap,dewoninmap=uv.dewoninmap,delostinmap=uv.delostinmap)                                                        
     global calProtect
     def calProtect(kind, time):
