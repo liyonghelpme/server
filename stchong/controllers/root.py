@@ -293,7 +293,8 @@ class RootController(BaseController):
 
     @expose('json')
     def buyCae(self, uid, cae, pap):
-        print 'buyCae', uid, cae, pap
+        curTime = int(time.mktime(time.localtime())-time.mktime(beginTime))
+        print 'buyCae', uid, cae, pap/10000, pap%10000, curTime
         return dict(id=1)
     @expose('json')
     def completepay(self,uid,tid,papapas,signature):
