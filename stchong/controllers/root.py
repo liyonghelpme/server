@@ -293,6 +293,7 @@ class RootController(BaseController):
 
     @expose('json')
     def buyCae(self, uid, cae, pap):
+        pap = int(pap)
         curTime = int(time.mktime(time.localtime())-time.mktime(beginTime))
         print 'buyCae', uid, cae, pap/10000, pap%10000, curTime
         return dict(id=1)
@@ -3330,7 +3331,7 @@ class RootController(BaseController):
                     if d.otherid == '' or int(d.otherid) == -1:
                         continue
                     try:
-                        xx=DBSession.query(Papayafriend).filter_by(uid=nu.userid).filter_by(papayaid=d.userid).one()
+                        xx=DBSession.query(Papayafriend).filter_by(uid=nu.userid).filter_by(papayaid=d.otherid).one()
                     except InvalidRequestError:
                         xxx=Papayafriend(uid=nu.userid,papayaid=d.otherid,lev=d.lev, user_kind = 0 )
                         DBSession.add(xxx)
