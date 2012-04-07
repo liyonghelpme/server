@@ -114,8 +114,6 @@ class RootController(BaseController):
     global md5string
     global judgemd5
     global CACHEOP
-    global addcache
-    global cachewriteback
     global callost
     global getresource
     global warresult2
@@ -737,176 +735,7 @@ class RootController(BaseController):
             i=i+1
         return taskstring
     
-    @expose(content_type="image/png")
-    def returnfile(self,name):
-        try:
-            openfile=open(name,'r')
-            rd=openfile.read()
-            openfile.close()
-            theFile = StringIO.StringIO(rd)       
-            response.headers['Content-Type']  = 'image/png'
-            response.headers['Content-Disposition'] = 'attachment; filename=name'
-            tmp=theFile.getvalue()
-            theFile.close()
-            return tmp
-        except:
-            openfile=open('a','r')
-            rd=openfile.read()
-            openfile.close()
-            theFile = StringIO.StringIO(rd)       
-            response.headers['Content-Type']  = 'image/png'
-            response.headers['Content-Disposition'] = 'attachment; filename='+name
-            tmp=theFile.getvalue()
-            theFile.close()
-            return tmp
-    @expose(content_type="text/plain")
-    def updatescript(self,name):
-        try:
-            name1='script/'+name
-            openfile=open(name1,'r')
-            rd=openfile.read()
-            openfile.close()
-            theFile = StringIO.StringIO(rd)       
-            response.headers['Content-Type']  = 'text/plain'
-            response.headers['Content-Disposition'] = 'attachment; filename='+name
-            tmp=theFile.getvalue()
-            theFile.close()
-            return tmp
-        except:
-            openfile=open('a','r')
-            rd=openfile.read()
-            openfile.close()
-            theFile = StringIO.StringIO(rd)       
-            response.headers['Content-Type']  = 'image/png'
-            response.headers['Content-Disposition'] = 'attachment; filename='+name
-            tmp=theFile.getvalue()
-            theFile.close()
-            return tmp
-            
     
-    @expose('json')
-    def gameexit(self,uid):
-        cachewriteback(uid)
-        deletecache(uid)
-    @expose('json')
-    def deletecache(self,uid):
-        q=logging.getLogger('stchong')
-        q.info('delete')
-        deleteopdata(uid)
-    @expose('json')
-    def testwriteback(self,uid):
-        ucache=mc.get(str(uid))
-        if ucache!=None:
-            uc=ucache[0]
-            um=DBSession.query(operationalData).filter_by(userid=int(uid)).one()
-            um=copy.deepcopy(uc)
-            return dict(id=uc.invitestring,u=um.invitestring)
-        else:
-            return dict(id=0)
-    @expose('json')
-    def testcache(self,uid):
-        u=DBSession.query(operationalData).filter_by(userid=int(uid)).one()
-        addcache(uid,u)
-    @expose('json')
-    def getcache(self,uid):
-        uc=mc.get(str(uid))
-        if uc!=None:
-            return dict(id=uc[0].userid,call=uc[1])
-        else:
-            return dict(id=0)
-    @expose('json')
-    def testwritecache(self,uid):
-        u=checkopdata(uid)
-        u.invitestring='testcache'
-        
-        return dict(string=u.invitestring)
-    @expose('json')
-    def writeback(self,uid):
-        ucache=mc.get(str(uid))
-        
-        
-        if ucache!=None:
-            uc=ucache[0]
-            um=DBSession.query(operationalData).filter_by(userid=int(uid)).one()
-            um.userid=uc.userid
-            um.labor_num=uc.labor_num
-            um.population=uc.population
-            um.exp=uc.exp
-            um.corn=uc.corn
-            um.cae=uc.cae
-            um.nobility=uc.nobility
-            um.subno=uc.subno
-            um.infantry1_num=uc.infantry1_num
-            um.cavalry1_num=uc.cavalry1_num
-            um.scout1_num=uc.scout1_num
-            um.person_god=uc.person_god
-            um.person_god_lev=uc.person_god_lev
-            um.wealth_god=uc.wealth_god
-            um.wealth_god_lev=uc.wealth_god_lev
-            um.food_god=uc.food_god
-            um.food_god_lev=uc.food_god_lev
-            um.war_god=uc.war_god
-            um.war_god_lev=uc.war_god_lev
-            um.user_kind=uc.user_kind
-            um.otherid=uc.otherid
-            um.lev=uc.lev
-            um.empirename=uc.empirename
-            um.food=uc.food
-            um.populationupbound=uc.populationupbound
-            um.wood=uc.wood
-            um.stone=uc.stone
-            um.specialgoods=uc.specialgoods
-            um.treasurebox=uc.treasurebox
-            um.treasurenum=uc.treasurenum
-            um.landkind=uc.landkind
-            um.visitnum=uc.visitnum
-            um.allyupbound=uc.allyupbound
-            um.allynum=uc.allynum
-            um.infantry2_num=uc.infantry2_num
-            um.cavalry2_num=uc.cavalry2_num
-            um.scout3_num=uc.scout3_num
-            um.scout2_num=uc.scout2_num
-            um.infantry3_num=uc.infantry3_num
-            um.cavalry3_num=uc.cavalry3_num
-            um.loginnum=uc.loginnum
-            um.minusstate=uc.minusstate
-            um.monsterlist=uc.monsterlist
-            um.monsterdefeat=uc.monsterdefeat
-            um.rate=uc.rate
-            um.allycancel=uc.allycancel
-            um.defencepower=uc.defencepower
-            um.battleresult=uc.battleresult
-            um.nbattleresult=uc.nbattleresult
-            um.wealthgodtime=uc.wealthgodtime
-            um.foodgodtime=uc.foodgodtime
-            um.wargodtime=uc.wargodtime
-            um.popgodtime=uc.popgodtime
-            um.newcomer=uc.newcomer
-            um.castlelev=uc.castlelev
-            um.infantrypower=uc.infantrypower
-            um.cavalrypower=uc.cavalrypower
-            um.currenttask=uc.currenttask
-            um.taskstring=uc.taskstring
-            um.tasknum=uc.tasknum
-            um.invitestring=uc.invitestring
-            um.signtime=uc.signtime
-            um.tid=uc.tid
-            um.paytime=uc.paytime
-            um.hid=uc.hid
-            um.monstertime=uc.monstertime
-            um.invite=uc.invite
-            um.invited=uc.invited
-            um.inviteid=uc.inviteid
-            um.monster=uc.monster
-            um.monlost=uc.monlost
-            um.monfood=uc.monfood
-            um.monpower=uc.monpower
-            return dict(id=1)
-        else:
-            return dict(id=0)
-    def addcache(uid,u):
-        uli=[u,0]
-        mc.add(str(uid),uli)
     def checkopdata(uid):
         try:
             u=DBSession.query(operationalData).filter_by(userid=int(uid)).one()
@@ -915,94 +744,6 @@ class RootController(BaseController):
             return None       
         
         
-    def deleteopdata(uid):
-        return mc.delete(str(uid),time=0) 
-    def cachewriteback(uid):
-        ucache=mc.get(str(uid))        
-        if ucache!=None:
-            uc=ucache[0]
-            um=DBSession.query(operationalData).filter_by(userid=int(uid)).one()
-            um.userid=uc.userid
-            um.labor_num=uc.labor_num
-            um.population=uc.population
-            um.exp=uc.exp
-            um.corn=uc.corn
-            um.cae=uc.cae
-            um.nobility=uc.nobility
-            um.subno=uc.subno
-            um.infantry1_num=uc.infantry1_num
-            um.cavalry1_num=uc.cavalry1_num
-            um.scout1_num=uc.scout1_num
-            um.person_god=uc.person_god
-            um.person_god_lev=uc.person_god_lev
-            um.wealth_god=uc.wealth_god
-            um.wealth_god_lev=uc.wealth_god_lev
-            um.food_god=uc.food_god
-            um.food_god_lev=uc.food_god_lev
-            um.war_god=uc.war_god
-            um.war_god_lev=uc.war_god_lev
-            um.user_kind=uc.user_kind
-            um.otherid=uc.otherid
-            um.lev=uc.lev
-            um.empirename=uc.empirename
-            um.food=uc.food
-            um.populationupbound=uc.populationupbound
-            um.wood=uc.wood
-            um.stone=uc.stone
-            um.specialgoods=uc.specialgoods
-            um.treasurebox=uc.treasurebox
-            um.treasurenum=uc.treasurenum
-            um.landkind=uc.landkind
-            um.visitnum=uc.visitnum
-            um.allyupbound=uc.allyupbound
-            um.allynum=uc.allynum
-            um.infantry2_num=uc.infantry2_num
-            um.cavalry2_num=uc.cavalry2_num
-            um.scout3_num=uc.scout3_num
-            um.scout2_num=uc.scout2_num
-            um.infantry3_num=uc.infantry3_num
-            um.cavalry3_num=uc.cavalry3_num
-            um.loginnum=uc.loginnum
-            um.minusstate=uc.minusstate
-            um.monsterlist=uc.monsterlist
-            um.monsterdefeat=uc.monsterdefeat
-            um.rate=uc.rate
-            um.allycancel=uc.allycancel
-            um.defencepower=uc.defencepower
-            um.battleresult=uc.battleresult
-            um.nbattleresult=uc.nbattleresult
-            um.wealthgodtime=uc.wealthgodtime
-            um.foodgodtime=uc.foodgodtime
-            um.wargodtime=uc.wargodtime
-            um.popgodtime=uc.popgodtime
-            um.newcomer=uc.newcomer
-            um.castlelev=uc.castlelev
-            um.infantrypower=uc.infantrypower
-            um.cavalrypower=uc.cavalrypower
-            um.currenttask=uc.currenttask
-            um.taskstring=uc.taskstring
-            um.tasknum=uc.tasknum
-            um.invitestring=uc.invitestring
-            um.paytime=uc.paytime
-            um.tid=uc.tid
-            um.hid=uc.hid
-            um.monstertime=uc.monstertime
-            um.invite=uc.invite
-            uc.invited=uc.invited
-            um.inviteid=uc.inviteid
-            um.monster=uc.monster
-            um.monlost=uc.monlost
-            um.monfood=uc.monfood
-            um.monpower=uc.monpower
-            return 1
-        else:
-            return 0
-    @expose('json')
-    def memm(self):
-        mc.add('a','b')
-        value=mc.get('a')
-        return dict(id=value)           
-    
     
     @expose('json')
     def rate(self,uid):
@@ -3476,7 +3217,8 @@ class RootController(BaseController):
             v.delostinmap=0
             v.dewoninmap=0
             
-            u.battleresult=''
+            setBattleRes(u.userid, [])
+            #u.battleresult=''
             u.EmptyResult = ''
             u.subno=0
             min = calev(u, v)
@@ -4682,24 +4424,32 @@ class RootController(BaseController):
             defRes += [lost[1], attFullPow, defFullPow, attPurePow, defPurePow, defReward, attack.otherid, attack.empirename, attack.nobility*3+attack.subno, attGod, defGod, b.catapult * 2, 0]
 
             #[[], [], [], [], ]
-            res = []
+            #res = []
+            """
             try:
                 res = json.loads(attack.nbattleresult)
             except:
                 pass
+            """
+            res = getNBattleRes(attack.userid)
             res.append(attRes)
             if len(res) >= 5:
                 res.pop(0)
-            attack.nbattleresult = json.dumps(res)
+            #attack.nbattleresult = json.dumps(res)
+            setNBattleRes(attack.userid, res)
+            """
             res = []
             try:
                 res = json.loads(defence.nbattleresult)
             except:
                 pass
+            """
+            res = getNBattleRes(defence.userid)
             res.append(defRes)
             if len(res) >= 5:
                 res.pop(0)
-            defence.nbattleresult = json.dumps(res)
+            #defence.nbattleresult = json.dumps(res)
+            setNBattleRes(defence.userid, res)
             print attRes
             print defRes
             if attFullPow > defFullPow:
@@ -4707,22 +4457,30 @@ class RootController(BaseController):
             else:
                 b.finish = 2
         
+        """
         user = checkopdata(uid)
         res = []
         try:
             res = json.loads(user.nbattleresult)
         except:
             pass
-        DBSession.flush()
+        """
+        #DBSession.flush()
+        res = getNBattleRes(uid)
         return res
     @expose('json')
     def removeRead(self, uid, warList):
-        user = checkopdata(uid)
+        uid = int(uid)
+        #user = checkopdata(uid)
+        """
         battle = []
         try:
             battle = json.loads(user.nbattleresult)
         except:
             battle = []
+        """
+        battle = getNBattleRes(uid)
+
         #battle = battle.split(';')
         rems = json.loads(warList)
         rems = set(rems)
@@ -4736,18 +4494,22 @@ class RootController(BaseController):
             else:
                 readed.append(b)
             i += 1
-
+        """
         res = []
         try:
             res = json.loads(user.battleresult)
         except:
             pass
+        """
+        res = getBattleRes(uid)
         res += readed
         while len(res) >= 8:
             res.pop(0)
-        user.battleresult = json.dumps(res)
+        #user.battleresult = json.dumps(res)
+        setBattleRes(uid, res)
         #user.nbattleresult = nbat
-        user.nbattleresult = json.dumps(left)
+        setNBattleRes(uid, left)
+        #user.nbattleresult = json.dumps(left)
         return dict(id=1, left = len(left))
     global NobUpBase
     NobUpBase = [1, 6, 14, 19, 27, 85]
@@ -4828,7 +4590,7 @@ class RootController(BaseController):
     
     @expose('json')
     def warrecord(self,uid):
-        
+        uid = int(uid)
         u=checkopdata(uid)
         uv=DBSession.query(Victories).filter_by(uid=int(uid)).one()
         o1=DBSession.query(Occupation).filter_by(masterid=int(uid)).all()
@@ -4841,11 +4603,14 @@ class RootController(BaseController):
         for x in o2:
             xx=DBSession.query(operationalData.otherid,operationalData.empirename).filter_by(userid=x.masterid).one()
             a2.append([xx.otherid,xx.empirename,0,0,x.time])        
+        """
         res = []
         try:
             res = json.loads(u.battleresult)
         except:
             pass
+        """
+        res = getBattleRes(uid)
         return dict(wonlist=a1,lostlist=a2,warrecord=res,won=uv.won,dewon=uv.dewon,defence=uv.dewon+uv.delost,attack=uv.won+uv.lost,woninmap=uv.woninmap,lostinmap=uv.lostinmap,dewoninmap=uv.dewoninmap,delostinmap=uv.delostinmap)                                                        
     global calProtect
     def calProtect(kind, time):
