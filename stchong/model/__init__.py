@@ -12,6 +12,13 @@ import json
 import MySQLdb
 import pymongo
 
+readIP = '10.191.183.12'
+readPass = 'wavegame1'
+readDB = 'stcHong'
+readUser = 'root'
+readCon = MySQLdb.connect(host=readIP, user=readUser, passwd = readPass, db = readDB)
+readCur = readCon.cursor()
+
 dataIp = '10.68.55.40'
 conn = pymongo.Connection(host=dataIp, port = 27017)
 db = conn['Rank']
