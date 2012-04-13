@@ -43,7 +43,7 @@ from stchong.model import collect, db, dataIp
 import pymongo
 import urllib
 from stchong.controllers.util import *
-from stchong.model import readDB, readPass, readCon, readCur, readIP
+from stchong.model import readDB, readPass, readCon, readCur, readIP, readUser
 
 __all__ = ['RootController']
 class RootController(BaseController):
