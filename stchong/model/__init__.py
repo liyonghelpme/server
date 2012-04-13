@@ -12,7 +12,7 @@ import json
 import MySQLdb
 import pymongo
 
-readIP = '10.111.50.246'
+readIP = '10.191.183.12'
 readPass = 'wavegame1'
 readDB = 'stcHong'
 readUser = 'root'
