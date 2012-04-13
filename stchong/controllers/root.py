@@ -7315,13 +7315,19 @@ class RootController(BaseController):
     @expose('json')
     def retlev(self,uid):
         fs=[]
-        try:
-            x=DBSession.query(Papayafriend).filter_by(uid=int(uid)).all()
-            for xx in x:
-                fs.append(xx)
-            return dict(friendlist=fs)
-        except:
-            return dict(friendlist=fs)
+        uid = int(uid)
+        print "retlev", uid
+        #try:
+        x=DBSession.query(Papayafriend).filter_by(uid=uid).all()
+        for xx in x:
+            try:
+                friend = DBSession.query(operationalData).filter_by(otherid=xx.papayaid).one()
+            except:
+                continue
+            fs.append([xx.papayaid, xx.lev, xx.visited, friend.nobility])
+        return dict(friendlist=fs)
+        #except:
+        #    return dict(friendlist=fs)
     @expose('json')
     def addppyfriend(self,uid,rrstring):
         f=None
