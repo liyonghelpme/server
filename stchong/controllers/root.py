@@ -7102,11 +7102,13 @@ class RootController(BaseController):
         #try:
         x=DBSession.query(Papayafriend).filter_by(uid=uid).all()
         for xx in x:
+            """
             try:
                 friend = DBSession.query(operationalData).filter_by(otherid=xx.papayaid).one()
             except:
                 continue
-            fs.append([xx.papayaid, xx.lev, xx.visited, friend.nobility])
+            """
+            fs.append([xx.papayaid, xx.lev, xx.visited, 0])
         return dict(friendlist=fs)
         #except:
         #    return dict(friendlist=fs)
