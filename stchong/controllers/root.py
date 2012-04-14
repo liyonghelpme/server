@@ -2782,20 +2782,20 @@ class RootController(BaseController):
             tasklist=[]
             wonBonus = 0
             wonNum = 0
-            try:
-                vict = DBSession.query(Victories).filter_by(uid = user.userid).one()
-                wonNum = vict.won
-                dif = logintime / 86400 - user.logintime/86400
-                if dif >= 1:
-                    nob = user.nobility
-                    perReward = 100 + nob*50
-                    if vict.won > 0:
-                        wonBonus = vict.won * perReward
-                        user.corn += wonBonus
-                        print "user colonial reward = " + str(vict.won * perReward)
-            except:
-                print "colonial reward fail"
-            print "wonBonus "+str(wonBonus)+' ' +str(wonNum)
+            #try:
+            vict = DBSession.query(Victories).filter_by(uid = user.userid).one()
+            wonNum = vict.won
+            dif = logintime / 86400 - user.logintime/86400
+            if dif >= 1:
+                nob = user.nobility
+                perReward = 100 + nob*50
+                if vict.won > 0:
+                    wonBonus = vict.won * perReward
+                    user.corn += wonBonus
+                    print "user colonial reward = " + str(vict.won * perReward)
+            #except:
+            #    print "colonial reward fail"
+            print "wonBonus ", str(wonBonus), str(wonNum)
             user.logintime=logintime
             lisa=[]
             try:
@@ -3236,6 +3236,10 @@ class RootController(BaseController):
             u.allyupbound=u.allyupbound+allyup[no+1]-allyup[no]
             u.nobility += 1
             print "new nobility " + str(u.nobility)
+            #xs=DBSession.query(Papayafriend).filter_by(papayaid=u.otherid).filter_by(user_kind=u.user_kind).all()
+            friends = DBSession.query(Papayafriend).filter_by(papayaid = u.otherid).all()
+            for f in friends:
+                f.nobility = u.nobility
             v.lostinmap=0
             v.woninmap=0
             v.delostinmap=0
@@ -7118,6 +7122,7 @@ class RootController(BaseController):
             return dict(id=1)
         except InvalidRequestError:
             return dict(id=0)
+    #dragon = DBSession.query(Dragon.pid, Dragon.bid, businessWrite.grid_id, Dragon.state, Dragon.kind, Dragon.health, Dragon.friNum, Dragon.friList, Dragon.name, Dragon.attack, Dragon.lastFeed).filter(and_(Dragon.uid == uid, businessWrite.bid==Dragon.bid)).all()#index bid
     @expose('json')
     def retlev(self,uid):
         fs=[]
@@ -7126,13 +7131,7 @@ class RootController(BaseController):
         #try:
         x=DBSession.query(Papayafriend).filter_by(uid=uid).all()
         for xx in x:
-            """
-            try:
-                friend = DBSession.query(operationalData).filter_by(otherid=xx.papayaid).one()
-            except:
-                continue
-            """
-            fs.append([xx.papayaid, xx.lev, xx.visited, 0])
+            fs.append([xx.papayaid, xx.lev, xx.visited, xx.nobility])
         return dict(friendlist=fs)
         #except:
         #    return dict(friendlist=fs)

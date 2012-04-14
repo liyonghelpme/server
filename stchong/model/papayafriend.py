@@ -5,3 +5,4 @@ class Papayafriend(object):
         self.papayaid=papayaid
         self.lev=lev
         self.user_kind=user_kind
+        self.nobility = 0
