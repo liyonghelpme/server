@@ -6278,7 +6278,7 @@ class RootController(BaseController):
 #                    temp_cae=temp_cae+1
                 map=DBSession.query(warMap).filter_by(city_id=int(city_id)).one()
                 t=int(time.mktime(time.localtime())-time.mktime(beginTime))
-                ground=DBSession.query(businessWrite).filter_by(city_id=int(city_id)).filter("city_id=:cid and producttime>0 and finish = 1 and ground_id <=332 and ground_id>=300").params(cid = int(city_id)).all()
+                ground=DBSession.query(businessWrite).filter_by(city_id=int(city_id)).filter("city_id=:cid and producttime>0 and finish = 1 and ground_id <400 and ground_id>=300").params(cid = int(city_id)).all()
                 if ground==None or len(ground)==0:
                     return dict(id=0)
                 factor=1
@@ -7121,13 +7121,21 @@ class RootController(BaseController):
     @expose('json')
     def retlev(self,uid):
         fs=[]
-        try:
-            x=DBSession.query(Papayafriend).filter_by(uid=int(uid)).all()
-            for xx in x:
-                fs.append(xx)
-            return dict(friendlist=fs)
-        except:
-            return dict(friendlist=fs)
+        uid = int(uid)
+        print "retlev", uid
+        #try:
+        x=DBSession.query(Papayafriend).filter_by(uid=uid).all()
+        for xx in x:
+            """
+            try:
+                friend = DBSession.query(operationalData).filter_by(otherid=xx.papayaid).one()
+            except:
+                continue
+            """
+            fs.append([xx.papayaid, xx.lev, xx.visited, 0])
+        return dict(friendlist=fs)
+        #except:
+        #    return dict(friendlist=fs)
     @expose('json')
     def addppyfriend(self,uid,rrstring):
         f=None
