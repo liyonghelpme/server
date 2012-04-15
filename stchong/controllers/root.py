@@ -2589,8 +2589,9 @@ class RootController(BaseController):
             user.food += foodGen
             user.wood += woodGen
             user.stone += stoneGen
-            user.infantrypower += e.inf
-            user.cavalrypower += e.cav
+            checkSoldier(user, e.inf, e.cav)
+            #user.infantrypower += e.inf
+            #user.cavalrypower += e.cav
             e.inf = EmptyLev[e.attribute][0]
             e.cav = EmptyLev[e.attribute][1]
         print "find New map"
@@ -3398,8 +3399,9 @@ class RootController(BaseController):
                     continue
                 b.finish = 3
                 attacker = checkopdata(b.uid)
-                attacker.infantrypower += b.powerin
-                attacker.cavalrypower += b.powerca
+                checkSoldier(attacker, b.powerin, b.powerca)
+                #attacker.infantrypower += b.powerin
+                #attacker.cavalrypower += b.powerca
                 attacker.catapult += b.catapult
             allBattle = DBSession.query(Battle).filter(Battle.finish!=0).filter("uid=:uid0 or enemy_id=:uid1").params(uid0=int(userid), uid1=int(userid)).all();
             for b in allBattle:
@@ -3560,6 +3562,17 @@ class RootController(BaseController):
         return dict(id=0, status = 0, reason='protime< 3600', coinGen=0, foodGen=0, woodGen=0, stoneGen=0, lastTime = empty.lastTime)
         
 
+    global checkSoldier
+    def checkSoldier(user, inf, cav):
+        if user.infantrypower + inf >= 10000000:
+            user.infantrypower = 10000000   
+        else:
+            user.infantrypower += inf
+        if user.cavalrypower + cav >= 10000000:
+            user.cavalrypower = 10000000    
+        else:
+            user.cavalrypower += cav
+    
     @expose('json')
     def callbackEmpty(self, uid, cid, inf, cav):
         uid = int(uid)
@@ -3570,6 +3583,8 @@ class RootController(BaseController):
         print "callbackempty", uid, cid, inf, cav
         if empty.uid != uid:
             return dict(id=0, status = 0, reason='not your emptyCity')
+        if inf < 0 or cav < 0:
+            return dict(id=0, reason='< 0')
         user = checkopdata(uid)
         inf = min(empty.inf, inf)
         cav = min(empty.cav, cav)
@@ -3577,8 +3592,9 @@ class RootController(BaseController):
         empty.cav -= cav
         empty.inf = max(empty.inf, 0)
         empty.cav = max(empty.cav, 0)
-        user.infantrypower += inf
-        user.cavalrypower += cav
+        checkSoldier(user, inf, cav)
+        #user.infantrypower += inf
+        #user.cavalrypower += cav
         return dict(id=1, inf = inf, cav = cav)
     
     @expose('json')
@@ -3594,8 +3610,9 @@ class RootController(BaseController):
         user = checkopdata(uid)
         battle = battle[0]
         battle.finish = 4
-        user.infantrypower += battle.powerin
-        user.cavalrypower += battle.powerca
+        checkSoldier(user, battle.powerin, battle.powerca)
+        #user.infantrypower += battle.powerin
+        #user.cavalrypower += battle.powerca
         user.catapult += battle.catapult
         return dict(id = 1, inf=user.infantrypower, cav=user.cavalrypower, cat = user.catapult)
     
@@ -3648,6 +3665,10 @@ class RootController(BaseController):
         infantry=int(infantry)
         cavalry=int(cavalry)
         catapult=int(catapult)
+        if infantry < 0 or cavalry < 0 or catapult < 0:
+            return dict(id=0, reason = "< 0")
+        if timeneed < 0:
+            return dict(id=0, reason = "time < 0")
         if enemy_id < 0:
             return attackEmpty(uid, enemy_id, timeneed, infantry, cavalry, catapult)
         if uid == enemy_id:
@@ -4288,8 +4309,8 @@ class RootController(BaseController):
         defencer = checkopdata(empty.uid)
         attStr = []
         defStr = []
-        if attacker == None:
-            return 
+        #if attacker == None:
+        #    return 
         if empty.uid == attacker.userid:
             empty.inf += battle.powerin
             empty.cav += battle.powerca
@@ -4382,8 +4403,9 @@ class RootController(BaseController):
                 attacker.stone += stoneGen
 
             if empty.uid != -1 and defencer != None:
-                defencer.infantrypower += leftIn
-                defencer.cavalrypower += leftCa
+                checkSoldier(defencer, leftIn, leftCa)
+                #defencer.infantrypower += leftIn
+                #defencer.cavalrypower += leftCa
                 defencer.corn += coinGen
                 defencer.food += foodGen
                 defencer.wood += woodGen
@@ -4398,8 +4420,9 @@ class RootController(BaseController):
                 attStr += [coinGen, foodGen, woodGen, stoneGen]
             empty.uid = attacker.userid
         else:
-            attacker.infantrypower += returnIn
-            attacker.cavalrypower += returnCa
+            checkSoldier(attacker, returnIn, returnCa)
+            #attacker.infantrypower += returnIn
+            #attacker.cavalrypower += returnCa
             attacker.catapult += returnCatapult
             empty.inf = leftIn
             empty.cav = leftCa
@@ -4545,8 +4568,9 @@ class RootController(BaseController):
             attLostCatapult = b.catapult - returnCatapult
             print "attack return In " + str(returnIn) + " returnca " + str(returnCa), "catapult", returnCatapult
 
-            attack.infantrypower += returnIn
-            attack.cavalrypower += returnCa
+            checkSoldier(attack, returnIn, returnCa)
+            #attack.infantrypower += returnIn
+            #attack.cavalrypower += returnCa
             attack.catapult += returnCatapult
             
             leftDef = defence.defencepower - lost[1]
