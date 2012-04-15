@@ -3307,7 +3307,7 @@ class RootController(BaseController):
                     try:
                         xx=DBSession.query(Papayafriend).filter_by(uid=nu.userid).filter_by(papayaid=d.userid).one()
                     except InvalidRequestError:
-                        xxx=Papayafriend(uid=nu.userid,papayaid=d.otherid,lev=d.lev, user_kind = 0 )
+                        xxx=Papayafriend(uid=nu.userid,papayaid=d.otherid,lev=d.lev, user_kind = 0 , nobility = d.nobility)
                         DBSession.add(xxx)
             except InvalidRequestError:
                 x=0
@@ -7354,12 +7354,12 @@ class RootController(BaseController):
                         uff=DBSession.query(Papayafriend).filter_by(uid=int(uid)).filter_by(papayaid=oid).filter_by(user_kind=uu.user_kind).one()
                     except InvalidRequestError:
                         
-                        uf1=Papayafriend(uid=int(uid),papayaid=oid,lev=uu.lev,user_kind=uu.user_kind)
+                        uf1=Papayafriend(uid=int(uid),papayaid=oid,lev=uu.lev,user_kind=uu.user_kind, nobility = uu.nobility)
                         DBSession.add(uf1)
                     try:
                         uff=DBSession.query(Papayafriend).filter_by(uid=uu.userid).filter_by(papayaid=um.otherid).filter_by(user_kind=um.user_kind).one()
                     except InvalidRequestError:
-                        uf2=Papayafriend(uid=uu.userid,papayaid=um.otherid,lev=um.lev,user_kind=um.user_kind)
+                        uf2=Papayafriend(uid=uu.userid,papayaid=um.otherid,lev=um.lev,user_kind=um.user_kind, nobility = uu.nobility)
                         DBSession.add(uf2)                        
                     
                     v=0
@@ -7373,7 +7373,7 @@ class RootController(BaseController):
                     try:
                         uff=DBSession.query(Papayafriend).filter_by(uid=int(uid)).filter_by(papayaid=oid).filter_by(user_kind=ukind).one()
                     except:
-                        uf1=Papayafriend(uid=int(uid),papayaid=oid,lev=-1,user_kind=ukind)
+                        uf1=Papayafriend(uid=int(uid),papayaid=oid,lev=-1,user_kind=ukind, nobility = 0)
                         DBSession.add(uf1)                
                     dict0[list2[0]]=dict(level=-1)
             return dict0
