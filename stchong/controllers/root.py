@@ -2654,24 +2654,6 @@ class RootController(BaseController):
                 s=s+';'+str(c[0])+','+str(c[1])+','+str(c[2])+','+str(c[3])+','+str(c[4])
 
         return s
-    """        
-    def getCity(city_id):
-        s=''
-        try:
-            i=0
-            cid=int(city_id)
-            cset=DBSession.query(businessWrite).filter_by(city_id=cid).all()
-
-            for c in cset:
-                if i==0:
-                    s=s+str(c.ground_id)+','+str(c.grid_id)+','+str(c.object_id)+','+str(c.producttime)+','+str(c.finish)
-                    i=1
-                else :
-                    s=s+';'+str(c.ground_id)+','+str(c.grid_id)+','+str(c.object_id)+','+str(c.producttime)+','+str(c.finish)
-        except InvalidRequestError:
-            return ''
-        return s
-    """
     @expose('json')
     def readAll(self, city_id):
         read1(city_id)
@@ -3196,7 +3178,7 @@ class RootController(BaseController):
         except InvalidRequestError:
             newuser=operationalData(labor_num=280,population=380,exp=0,corn=1000,cae=1,nobility=-1,infantry1_num=30,cavalry1_num=0,scout1_num=0,person_god=0,wealth_god=0,food_god=0,war_god=0,user_kind=0,otherid=oid,lev=1,empirename='My Empire',food=100)
             DBSession.add(newuser)
-            newuser = DBSession.query(operationalData).filter_by(otherid = oid).one()
+            #newuser = DBSession.query(operationalData).filter_by(otherid = oid).one()
             DBSession.flush()
 
             db.newuser.save({'uid':newuser.userid, 'regTime':curTime})
@@ -3305,7 +3287,7 @@ class RootController(BaseController):
                     x.lev=1
                     d=DBSession.query(operationalData).filter_by(userid=x.uid).one()
                     try:
-                        xx=DBSession.query(Papayafriend).filter_by(uid=nu.userid).filter_by(papayaid=d.userid).one()
+                        xx=DBSession.query(Papayafriend).filter_by(uid=nu.userid).filter_by(papayaid=d.otherid).one()
                     except InvalidRequestError:
                         xxx=Papayafriend(uid=nu.userid,papayaid=d.otherid,lev=d.lev, user_kind = 0 )
                         DBSession.add(xxx)
@@ -7319,7 +7301,8 @@ class RootController(BaseController):
                 oid=list2[0]
                 ukind=int(list2[1])
                 try:
-                    uu=DBSession.query(operationalData).filter_by(otherid=oid).filter_by(user_kind=ukind).one()
+                    uu=DBSession.query(operationalData).filter_by(otherid=oid).filter_by(user_kind=ukind).all()
+                    uu = uu[0]
                     um=checkopdata(int(uid))
                     try:
                         uff=DBSession.query(Papayafriend).filter_by(uid=int(uid)).filter_by(papayaid=oid).filter_by(user_kind=uu.user_kind).one()
