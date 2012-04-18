@@ -190,7 +190,8 @@ class RootController(BaseController):
     [1720, 19, 0, 12*3600], [3200, 21, 0, 12*3600], [5050, 23, 0, 12*3600]]
 
     #coin cae exp 
-    expanding=[[10000,10,10],[50000,30,20],[100000,50,40],[500000,70,70],[1000000, 100, 110],[1500000,150,150],[2000000,200,210],[2500000,300,280],[3000000,500,360],[5000000,1000,450]]
+    #expanding=[[10000,10,10],[50000,30,20],[100000,50,40],[500000,70,70],[1000000, 100, 110],[1500000,150,150],[2000000,200,210],[2500000,300,280],[3000000,500,360],[5000000,1000,450]]
+    expanding=[[10000,5,10],[50000,15,20],[100000,25,40],[500000,35,70],[1000000, 50, 110],[1500000, 75, 150],[2000000, 100, 210],[2500000, 150, 280],[3000000, 250, 360],[5000000,500,450]]
     error = ErrorController()
     EXPANDLEV=10
     
@@ -1115,7 +1116,31 @@ class RootController(BaseController):
         return [mu, s, goods]
 
         
+    """
+    global getPlantAct
+    def getPlantAct(uid):
+        act = db.rank.find_one({'uid': uid})
+        if act == None:
+            db.rank.insert({'uid':uid, 'food':0, 'order':1000})
+            act = db.rank.find_one({'uid':uid})
+        return act
+    global changePlantFood
+    def changePlantFood(uid, inc):
+        act = getPlantAct(uid)
+        act['food'] += inc
+        db.rank.update({'uid':uid}, {'$set':{'food':act['food']}})
+        return
+    """
 
+    global changeMonRank
+    def changeMonRank(uid):
+        act = db.rank.find_one({'uid':uid})
+        if act == None:
+            db.rank.save({'uid':uid, 'mon':0, 'order':1000})
+            db.rank.ensure_index("uid")
+            act = db.rank.find_one({'uid':uid})
+        act['mon'] += 1
+        db.rank.save(act)
     @expose('json')
     def defeatmonster(self,uid,gridid, kind):
         print "defeatmonster", uid, gridid, kind
@@ -1132,6 +1157,7 @@ class RootController(BaseController):
         i=0
         s=''
         muu=0
+        uid = int(uid)
         try:
             u=checkopdata(uid)
             monsterstr=u.monsterlist
@@ -1217,6 +1243,7 @@ class RootController(BaseController):
                     else:
                         ss=ss+';'+str(cc)
                 u.monsterdefeat=ss
+            changeMonRank(uid)
             return dict(goods = goods, id=1,cardid=card,powerlost=powerlost,infantrypower=u.infantrypower,cavalrypower=u.cavalrypower,specialgoods=s)  
         except InvalidRequestError:
             return dict(id=0)
@@ -3098,7 +3125,7 @@ class RootController(BaseController):
                     try:
                         xx=DBSession.query(Papayafriend).filter_by(uid=nu.userid).filter_by(papayaid=d.otherid).one()
                     except InvalidRequestError:
-                        xxx=Papayafriend(uid=nu.userid,papayaid=d.otherid,lev=d.lev, user_kind = 0 )
+                        xxx=Papayafriend(uid=nu.userid,papayaid=d.otherid,lev=d.lev, user_kind = 0 , nobility = d.nobility)
                         DBSession.add(xxx)
             except:
                 x=0
@@ -6154,6 +6181,25 @@ class RootController(BaseController):
                 return dict(id=0,reason="mana not enough")
         except InvalidRequestError:
             return dict(id=0,reason="query failed")
+
+    @expose('json')
+    def getFoodRank(self, uid):
+        uid = int(uid)
+        res = db.result.find_one()
+        oid = []
+        if res != None:
+            res = res.get("res")[:10] 
+            for i in res:
+                user = checkopdata(i['uid'])
+                if user != None:
+                    oid.append([int(user.otherid), i['mon'], user.papayaname])
+        my = db.rank.find_one({'uid':uid})
+        if my != None:
+            my = [my['order'], my['mon']]
+        else:
+            my = [999, 0]
+        return dict(id=1, top=oid, myrank = my)
+    """
     @expose('json')
     def getFoodRank(self, uid):
         uid = int(uid)
@@ -6172,6 +6218,7 @@ class RootController(BaseController):
         else:
             my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
+    """
     @expose('json')
     def getAllRank(self, uid):
         uid = int(uid)
@@ -6183,10 +6230,10 @@ class RootController(BaseController):
             for i in res:
                 user = checkopdata(i['uid'])
                 if user != None:
-                    oid.append([int(user.otherid), i['heart'], user.papayaname])
+                    oid.append([int(user.otherid), i['mon'], user.papayaname])
         my = db.rank.find_one({'uid':uid})
         if my != None:
-            my = [my['order'], my['heart']]
+            my = [my['order'], my['mon']]
         else:
             my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
@@ -7154,12 +7201,12 @@ class RootController(BaseController):
                         uff=DBSession.query(Papayafriend).filter_by(uid=int(uid)).filter_by(papayaid=oid).filter_by(user_kind=uu.user_kind).one()
                     except InvalidRequestError:
                         
-                        uf1=Papayafriend(uid=int(uid),papayaid=oid,lev=uu.lev,user_kind=uu.user_kind)
+                        uf1=Papayafriend(uid=int(uid),papayaid=oid,lev=uu.lev,user_kind=uu.user_kind, nobility = uu.nobility)
                         DBSession.add(uf1)
                     try:
                         uff=DBSession.query(Papayafriend).filter_by(uid=uu.userid).filter_by(papayaid=um.otherid).filter_by(user_kind=um.user_kind).one()
                     except InvalidRequestError:
-                        uf2=Papayafriend(uid=uu.userid,papayaid=um.otherid,lev=um.lev,user_kind=um.user_kind)
+                        uf2=Papayafriend(uid=uu.userid,papayaid=um.otherid,lev=um.lev,user_kind=um.user_kind, nobility = uu.nobility)
                         DBSession.add(uf2)                        
                     
                     v=0
@@ -7173,7 +7220,7 @@ class RootController(BaseController):
                     try:
                         uff=DBSession.query(Papayafriend).filter_by(uid=int(uid)).filter_by(papayaid=oid).filter_by(user_kind=ukind).one()
                     except:
-                        uf1=Papayafriend(uid=int(uid),papayaid=oid,lev=-1,user_kind=ukind)
+                        uf1=Papayafriend(uid=int(uid),papayaid=oid,lev=-1,user_kind=ukind, nobility = 0)
                         DBSession.add(uf1)                
                     dict0[list2[0]]=dict(level=-1)
             return dict0
