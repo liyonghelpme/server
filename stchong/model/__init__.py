@@ -96,6 +96,7 @@ def init_model(engine):
     global businesswrite_table
     global businessread_table
     global visitfriend_table
+    spe_table = Table("spe", metadata, autoload=True, autoload_with=engine)
     operationaldata_table=Table("operationalData",metadata,autoload=True,autoload_with=engine)
     businesswrite_table=Table("businessWrite",metadata,autoload=True,autoload_with=engine)
     businessread_table=Table("businessRead",metadata,autoload=True,autoload_with=engine)
@@ -119,6 +120,7 @@ def init_model(engine):
     rank_table=Table("rank",metadata,autoload=True,autoload_with=engine)
     mana_table = Table("mana", metadata, autoload=True, autoload_with=engine)
    # useraccount_table=Table("userAccount",metadata,autoload=True,autoload_with=engine)
+    mapper(Spe, spe_table)
     mapper(warMap,warmap_table)
     mapper(WarRes, warRes_table)
     mapper(operationalData,operationaldata_table)
@@ -171,4 +173,5 @@ from stchong.model.emptyCastal import EmptyCastal
 from stchong.model.emptyResult import EmptyResult
 from stchong.model.mana import Mana
 from stchong.model.warRes import WarRes
+from stchong.model.spe import Spe
 #from stchong.model.useraccount import userAccount

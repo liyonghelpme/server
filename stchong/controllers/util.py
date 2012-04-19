@@ -10,12 +10,32 @@ from sqlalchemy import func
 from stchong.model import DBSession, db 
 import random
 from stchong import model
-from stchong.model import WarRes, operationalData
+from stchong.model import WarRes, operationalData, Spe
 import json
+
+def getUserSpe(uid):
+    try:
+        spe = DBSession.query(Spe).filter_by(uid=uid).one()
+    except:
+        user = getUser(uid)
+        spe = Spe(uid=uid, specialgoods=user.specialgoods)
+        DBSession.add(spe)
+        DBSession.flush()
+    return spe
+def setUserSpe(uid, s):
+    try:
+        spe = DBSession.query(Spe).filter_by(uid=uid).one()
+    except:
+        user = getUser(uid)
+        spe = Spe(uid=uid, specialgoods=user.specialgoods)
+        DBSession.add(spe)
+        DBSession.flush()
+    spe.specialgoods = s
 
 
 def getSpecial(user):
-    spe = user.specialgoods.split(";")
+    spe = getUserSpe(user.userid).split(';')
+    #spe = user.specialgoods.split(";")
     res = []
     for s in spe:
         s = s.split(',')
@@ -119,6 +139,7 @@ def setNBattleRes(uid, bat):
     res.nbattleresult = bat
 
 
-    
+
+
     
 
