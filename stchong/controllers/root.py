@@ -6787,7 +6787,10 @@ class RootController(BaseController):
             cataid = int(cata_id)
             u=checkopdata(userid)
             #sp = u.specialgoods.split(";")
-            sp = getUserSpe(u.userid).split(";")
+            #sp = getUserSpe(u.userid).split(";")
+            spe = getSpecial(u)
+
+            """
             num_a = int(sp[0].split(',')[1])
             num_b = int(sp[1].split(',')[1])
             num_c = int(sp[2].split(',')[1])
@@ -6800,11 +6803,14 @@ class RootController(BaseController):
             num_j = int(sp[9].split(',')[1])
             num_k = int(sp[10].split(',')[1])
             num_l = int(sp[11].split(',')[1])
+            """
             if p.object_id != -1:
                 return dict(id=0, reason = "working")
 
             if int(type) == 0:
-                if u.corn>=catapult[cataid][0] and u.wood>=catapult[cataid][1] and u.stone>=catapult[cataid][2]:
+                if u.corn>=catapult[cataid][0] and u.wood>=catapult[cataid][1] and u.stone>=catapult[cataid][2] and checkSpe(CataSpe[cataid], spe):
+                    spe = costSpe(CataSpe[cataid], spe)
+                    """
                     if cataid==2:
                         if num_g<12 or num_i<12:
                             return dict(id=0,reason="specialgoods not enough")
@@ -6822,7 +6828,8 @@ class RootController(BaseController):
                         num_b -=5
                     #u.specialgoods = "a,"+str(num_a)+";b,"+str(num_b)+";c,"+str(num_c)+";d,"+str(num_d)+";e,"+str(num_e)+";f,"+str(num_f)+";g,"+str(num_g)+";h,"+str(num_h)+";i,"+str(num_i)+";j,"+str(num_j)+";k,"+str(num_k)+";l,"+str(num_l)
                     speNow = "a,"+str(num_a)+";b,"+str(num_b)+";c,"+str(num_c)+";d,"+str(num_d)+";e,"+str(num_e)+";f,"+str(num_f)+";g,"+str(num_g)+";h,"+str(num_h)+";i,"+str(num_i)+";j,"+str(num_j)+";k,"+str(num_k)+";l,"+str(num_l)
-                    setUserSpe(u.userid, speNow)
+                    """
+                    setUserSpe(u.userid, setSpecial(spe))
                     u.corn -= catapult[cataid][0]
                     u.wood -= catapult[cataid][1]
                     u.stone -= catapult[cataid][2]
