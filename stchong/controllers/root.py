@@ -70,13 +70,11 @@ class RootController(BaseController):
     global godbuild
     global statuebuilding
     global decorationbuild
-    global specialgoods
     global getGround_id
     global stones
     global woods
     global expanding
     global EXPANDLEV
-    global getbonus
     global loginBonus
     global alphabet
     global randombuilding
@@ -860,48 +858,6 @@ class RootController(BaseController):
             index=random.randint(0,len(randombuilding)-1)
         return li
 
-    def getbonus(u):
-        num1=[]
-        restr=''
-        num2=[]
-        j=0
-        nobility=u.nobility
-        k=0
-        if nobility>=0 and nobility<=1:
-            k=1
-        elif nobility>=2 and nobility<=4:
-            k=2
-        else:
-            k=3
-        while j<k:
-            index=random.randint(0,11)
-            if inornot(index,num2)==False:
-                num2.append(index)
-                j=j+1
-        j=0
-        strr=u.specialgoods.split(';')
-        for x in strr:
-            strx=x.split(',')
-            x1=strx[0]
-            y1=int(strx[1])
-            while j<k:
-                a1=alphabet[num2[j]]
-                if a1==x1:
-                    y1=y1+1
-                    break
-                j=j+1
-            j=0
-            num1.append([x1,y1])
-        i=0
-        s=''
-        for n in num1:
-            if i==0:
-                s=s+str(n[0])+','+str(n[1])
-                i=1
-            else:
-                s=s+';'+str(n[0])+','+str(n[1])
-        u.specialgoods=s        
-        return s
     global SpeNum
     SpeNum = 12
 
@@ -919,7 +875,8 @@ class RootController(BaseController):
                     j=j+1
             j=0
             a1=random.choice(alphabet)
-            strr=u.specialgoods.split(';')
+            #strr=u.specialgoods.split(';')
+            strr = getUserSpe(u.userid).split(';')
             for x in strr:
                 strx=x.split(',')
                 x1=strx[0]
@@ -940,7 +897,8 @@ class RootController(BaseController):
                     i=1
                 else:
                     s=s+';'+str(n[0])+','+str(n[1])
-            u.specialgoods=s
+            #u.specialgoods=s
+            setUserSpe(u.userid, s)
             i=0
             s=''
             for x in num2:
@@ -1580,7 +1538,8 @@ class RootController(BaseController):
                 j=j+1
         j=0
         
-        strr=u.specialgoods.split(';')
+        #strr=u.specialgoods.split(';')
+        strr = getUserSpe(u.userid).split(';')
         for x in strr:
             strx=x.split(',')
             x1=strx[0]
@@ -1603,65 +1562,14 @@ class RootController(BaseController):
                 i=1
             else:
                 s=s+';'+str(n[0])+','+str(n[1])
-        u.specialgoods=s
+        #u.specialgoods=s
+        setUserSpe(u.userid, s)
         cornbonus=2000+u.lev*50
         u.corn=u.corn+cornbonus
         u.exp=u.exp+5+u.lev
         return num2        
     
         
-    def specialgoods(ground_id,stri,u):
-        stri='111'
-        stru=u.specialgoods
-        num1=[]
-        num2=[]
-        if stru==None:
-            return True
-        struset=stru.split(';')
-        if struset!=None:
-            for su in struset:
-                suset=su.split(',')
-                
-                type=suset[0]
-                ac=suset[1]
-                num1.append([type,ac])
-            if ground_id>=100 and ground_id<=199:
-                stri=housebuild[ground_id-100][6]
-            elif ground_id>=200 and ground_id<=299:
-                stri=milbuild[ground_id-200][7]
-            elif ground_id>=300 and ground_id<=399:
-                stri=businessbuild[ground_id-300][7]
-            else:
-                return True
-            if stri=='111':
-                return True
-            else:
-                if stri==None:
-                    return True
-                strset=stri.split(';')
-                for ss in strset:
-                    ssset=ss.split(',')
-                    num2.append([ssset[0],ssset[1]])
-                for x in num2:
-                    for y in num1:
-                        if y[0]==x[0]:
-                            if int(y[1])-int(x[1])>=0:
-                                y[1]=str(int(y[1])-int(x[1]))
-                            else:
-                                return False
-                strre=''
-                mark=0
-                for y in num1:
-                    tempstr=y[0]+','+y[1]
-                    if mark==0:
-                        strre=strre+tempstr
-                        mark=1
-                    else:
-                        strre=strre+';'+tempstr
-                u.specialgoods=strre
-                return True
-        else:
-            return True
     def getGround_id(ground_id):
         castle=[[-1,-1]]
         error=[[-2,-2]]
@@ -1691,7 +1599,8 @@ class RootController(BaseController):
         uu=DBSession.query(operationalData).filter_by(otherid=otherid).filter_by(user_kind=user_kind).all()
         uu = uu[0]
         u=checkopdata(uu.userid)
-        stru=u.specialgoods
+        #stru=u.specialgoods
+        stru = getUserSpe(u.userid)
         num1=[]
         num2=[]
         sp1=alphabet[sp]
@@ -1717,7 +1626,8 @@ class RootController(BaseController):
                     mark=1
                 else:
                     strre=strre+';'+tempstr
-            u.specialgoods=strre
+            #u.specialgoods=strre
+            setUserSpe(u.userid, strre)
             return strre
         else:
             return ''            
@@ -1795,33 +1705,6 @@ class RootController(BaseController):
             return dict(id=1)
         except InvalidRequestError:
             return dict(id=0)
-        """
-        try:
-            sgift=DBSession.query(Gift).filter_by(uid=upapayaid).filter_by(fid=fpapayaid).filter_by(ukind=u.user_kind).filter_by(fkind=f.user_kind).filter_by(askorgive=askorgive).one()
-            
-            
-            if timejudge(sgift.time)==True:
-                
-                t1=sgift.time
-                sgift.time=int(time.mktime(time.localtime())-time.mktime(beginTime))
-                sgift.present=specialgoods
-                if askorgive==0:
-                    addnews(fid,u.otherid,2,sgift.time,u.user_kind)
-                sgift.received=0
-                return dict(id=1)
-            else:
-                
-                return dict(id=0)
-        except InvalidRequestError:
-            ng=Gift(uid=upapayaid,fid=fpapayaid,askorgive=askorgive,present=specialgoods,fkind=f.user_kind,ukind=u.user_kind)
-            DBSession.add(ng)
-            c1=DBSession.query('LAST_INSERT_ID()')
-            sgift=DBSession.query(Gift).filter_by(uid=upapayaid).filter_by(fid=fpapayaid).filter_by(askorgive=askorgive).one()
-            sgift.time=int(time.mktime(time.localtime())-time.mktime(beginTime))
-            if askorgive==0:
-                addnews(fid,u.otherid,2,sgift.time,u.user_kind)            
-            return dict(id=1)
-        """
     def giftstring(uid):
         
         s=''
@@ -2992,14 +2875,11 @@ class RootController(BaseController):
                 v = {'totalNum':0, 'todayNum':0}
                 db.login.insert(v)
                 v = db.login.find_one()
+            #user.specialgoods,
             if user.newcomer<3:
-                return dict( goods = goods, loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,newstate=user.newcomer,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
+                return dict( goods = goods, loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,newstate=user.newcomer,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods = getUserSpe(user.userid), population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
             #if user_kind==0:
-            return dict(loginYet = loginYet, tp24 = tp24, goods = goods, loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
-            """
-            else:
-                return dict(goods = goods, loginNum = user.logincard, wonNum = wonNum, wonBonus = wonBonus,sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,hid=user.hid,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,headid=user.hid,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,invitestring=user.invitestring,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods=user.specialgoods,population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum = user.catapult)
-            """
+            return dict(loginYet = loginYet, tp24 = tp24, goods = goods, loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone, specialgoods = getUserSpe(user.userid), population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
                     
         except InvalidRequestError:
             if papayaid == '0':
@@ -3139,8 +3019,7 @@ class RootController(BaseController):
             v['totalNum'] += 1
             db.login.save(v)
 
-            return dict(today = {'todayNum':v['todayNum'], 'totalNum':v['totalNum'] }, wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods=nu.specialgoods,time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=newuser.userid,city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
-
+            return dict(today = {'todayNum':v['todayNum'], 'totalNum':v['totalNum'] }, wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods= getUserSpe(nu.userid),time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=newuser.userid,city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
    
 
     global EmpireLevel
@@ -3179,7 +3058,8 @@ class RootController(BaseController):
             u.food -= cost[3]
             u.labor_num += cost[4]
             costSpe(cost[1], spe)
-            u.specialgoods = setSpecial(spe)
+            setUserSpe(u.userid, setSpecial(spe))
+            #u.specialgoods = setSpecial(spe)
         else:#by caesars
             if u.cae < cost[0]:
                 return dict(id=0, reason = "cae not enough")
@@ -5066,7 +4946,8 @@ class RootController(BaseController):
             user.wood -= woodCost
             user.stone -= stoneCost
             spe = costSpe(speCost, spe)
-            user.specialgoods = setSpecial(spe)
+            #user.specialgoods = setSpecial(spe)
+            setUserSpe(user.userid, setSpecial(spe))
             user.exp += cost[4]
 
             p.ground_id += 1
@@ -5114,7 +4995,8 @@ class RootController(BaseController):
             user.wood -= woodCost
             user.stone -= stoneCost
             spe = costSpe(speCost, spe)
-            user.specialgoods = setSpecial(spe)
+            #user.specialgoods = setSpecial(spe)
+            setUserSpe(user.userid, setSpecial(spe))
             user.exp += cost[5]
 
             p.ground_id += 1
@@ -5247,7 +5129,8 @@ class RootController(BaseController):
                         p.ground_id=int(ground_id)
 
                         speGoods = costSpe(speCost, speGoods)
-                        u.specialgoods = setSpecial(speGoods)
+                        #u.specialgoods = setSpecial(speGoods)
+                        setUserSpe(u.userid, setSpecial(speGoods))
 
                         if p.ground_id>=1 and p.ground_id<=99:
                             u.exp=u.exp+lis[4]
@@ -5290,7 +5173,8 @@ class RootController(BaseController):
                         p.producttime=ti
 
                         speGoods = costSpe(speCost, speGoods)
-                        u.specialgoods = setSpecial(speGoods)
+                        #u.specialgoods = setSpecial(speGoods)
+                        setUserSpe(u.userid, setSpecial(speGoods))
 
                         if p.ground_id>=1 and p.ground_id<=99:
                             u.exp=u.exp+lis[4]
@@ -6954,7 +6838,11 @@ class RootController(BaseController):
             userid = int(user_id)
             cataid = int(cata_id)
             u=checkopdata(userid)
-            sp = u.specialgoods.split(";")
+            #sp = u.specialgoods.split(";")
+            #sp = getUserSpe(u.userid).split(";")
+            spe = getSpecial(u)
+
+            """
             num_a = int(sp[0].split(',')[1])
             num_b = int(sp[1].split(',')[1])
             num_c = int(sp[2].split(',')[1])
@@ -6967,11 +6855,14 @@ class RootController(BaseController):
             num_j = int(sp[9].split(',')[1])
             num_k = int(sp[10].split(',')[1])
             num_l = int(sp[11].split(',')[1])
+            """
             if p.object_id != -1:
                 return dict(id=0, reason = "working")
 
             if int(type) == 0:
-                if u.corn>=catapult[cataid][0] and u.wood>=catapult[cataid][1] and u.stone>=catapult[cataid][2]:
+                if u.corn>=catapult[cataid][0] and u.wood>=catapult[cataid][1] and u.stone>=catapult[cataid][2] and checkSpe(CataSpe[cataid], spe):
+                    spe = costSpe(CataSpe[cataid], spe)
+                    """
                     if cataid==2:
                         if num_g<12 or num_i<12:
                             return dict(id=0,reason="specialgoods not enough")
@@ -6987,7 +6878,10 @@ class RootController(BaseController):
                             return dict(id=0,reason="specialgoods not enough")
                         num_a -= 5
                         num_b -=5
-                    u.specialgoods = "a,"+str(num_a)+";b,"+str(num_b)+";c,"+str(num_c)+";d,"+str(num_d)+";e,"+str(num_e)+";f,"+str(num_f)+";g,"+str(num_g)+";h,"+str(num_h)+";i,"+str(num_i)+";j,"+str(num_j)+";k,"+str(num_k)+";l,"+str(num_l)
+                    #u.specialgoods = "a,"+str(num_a)+";b,"+str(num_b)+";c,"+str(num_c)+";d,"+str(num_d)+";e,"+str(num_e)+";f,"+str(num_f)+";g,"+str(num_g)+";h,"+str(num_h)+";i,"+str(num_i)+";j,"+str(num_j)+";k,"+str(num_k)+";l,"+str(num_l)
+                    speNow = "a,"+str(num_a)+";b,"+str(num_b)+";c,"+str(num_c)+";d,"+str(num_d)+";e,"+str(num_e)+";f,"+str(num_f)+";g,"+str(num_g)+";h,"+str(num_h)+";i,"+str(num_i)+";j,"+str(num_j)+";k,"+str(num_k)+";l,"+str(num_l)
+                    """
+                    setUserSpe(u.userid, setSpecial(spe))
                     u.corn -= catapult[cataid][0]
                     u.wood -= catapult[cataid][1]
                     u.stone -= catapult[cataid][2]
