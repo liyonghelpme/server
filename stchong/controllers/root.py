@@ -68,13 +68,11 @@ class RootController(BaseController):
     global godbuild
     global statuebuilding
     global decorationbuild
-    global specialgoods
     global getGround_id
     global stones
     global woods
     global expanding
     global EXPANDLEV
-    global getbonus
     global loginBonus
     global alphabet
     global randombuilding
@@ -850,50 +848,6 @@ class RootController(BaseController):
             index=random.randint(0,len(randombuilding)-1)
         return li
 
-    def getbonus(u):
-        num1=[]
-        restr=''
-        num2=[]
-        j=0
-        nobility=u.nobility
-        k=0
-        if nobility>=0 and nobility<=1:
-            k=1
-        elif nobility>=2 and nobility<=4:
-            k=2
-        else:
-            k=3
-        while j<k:
-            index=random.randint(0,11)
-            if inornot(index,num2)==False:
-                num2.append(index)
-                j=j+1
-        j=0
-        #strr=u.specialgoods.split(';')
-        strr = getUserSpe(u.userid).split(';')
-        for x in strr:
-            strx=x.split(',')
-            x1=strx[0]
-            y1=int(strx[1])
-            while j<k:
-                a1=alphabet[num2[j]]
-                if a1==x1:
-                    y1=y1+1
-                    break
-                j=j+1
-            j=0
-            num1.append([x1,y1])
-        i=0
-        s=''
-        for n in num1:
-            if i==0:
-                s=s+str(n[0])+','+str(n[1])
-                i=1
-            else:
-                s=s+';'+str(n[0])+','+str(n[1])
-        #u.specialgoods=s        
-        setUserSpe(u.userid, s)
-        return s
     global SpeNum
     SpeNum = 12
 
@@ -2883,7 +2837,7 @@ class RootController(BaseController):
                 v = db.login.find_one()
             #user.specialgoods,
             if user.newcomer<3:
-                return dict( goods = goods, loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,newstate=user.newcomer,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods = getUserSpe(user.userd), population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
+                return dict( goods = goods, loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,newstate=user.newcomer,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods = getUserSpe(user.userid), population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
             #if user_kind==0:
             return dict(loginYet = loginYet, tp24 = tp24, goods = goods, loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone, specialgoods = getUserSpe(user.userid), population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
                     

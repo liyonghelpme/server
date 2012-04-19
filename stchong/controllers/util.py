@@ -21,7 +21,7 @@ def getUserSpe(uid):
         spe = Spe(uid=uid, specialgoods=user.specialgoods)
         DBSession.add(spe)
         DBSession.flush()
-    return spe
+    return spe.specialgoods
 def setUserSpe(uid, s):
     try:
         spe = DBSession.query(Spe).filter_by(uid=uid).one()
