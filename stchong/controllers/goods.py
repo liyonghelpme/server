@@ -53,7 +53,8 @@ class GoodsController(BaseController):
             elif kind == 3:
                 spe = getSpecial(user)
                 spe[0][1] += 1
-                user.specialgoods = setSpecial(spe)
+                setUserSpe(user.userid, setSpecial(spe))
+                #user.specialgoods = setSpecial(spe)
             elif kind == 4:
                 user.corn += 999
             elif kind == 5:
