@@ -16,9 +16,12 @@ stchong/config/environment.py
 stchong/config/middleware.py
 stchong/controllers/__init__.py
 stchong/controllers/error.py
+stchong/controllers/goods.py
+stchong/controllers/r1.py
 stchong/controllers/root.py
 stchong/controllers/secure.py
 stchong/controllers/template.py
+stchong/controllers/util.py
 stchong/i18n/ru/LC_MESSAGES/stchong.po
 stchong/lib/__init__.py
 stchong/lib/app_globals.py
@@ -49,9 +52,11 @@ stchong/model/operationaldata.py
 stchong/model/papayafriend.py
 stchong/model/petAtt.py
 stchong/model/rank.py
+stchong/model/spe.py
 stchong/model/useraccount.py
 stchong/model/victories.py
 stchong/model/visitfriend.py
+stchong/model/warRes.py
 stchong/model/warmap.py
 stchong/public/favicon.ico
 stchong/public/css/admin.css
