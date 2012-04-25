@@ -12,20 +12,21 @@ import json
 import MySQLdb
 import pymongo
 
-readIP = 'localhost'
-readPass = 'badperson3'
+#readIP = '10.191.183.12'
+readIP = '10.68.55.40'
+readPass = 'wavegame1'
 readDB = 'stcHong'
 readUser = 'root'
 readCon = MySQLdb.connect(host=readIP, user=readUser, passwd = readPass, db = readDB)
 readCur = readCon.cursor()
 
-dataIp = 'localhost'
+dataIp = '10.68.55.40'
 conn = pymongo.Connection(host=dataIp, port = 27017)
 db = conn['Rank']
 collect = db.rank
 # Global session manager: DBSession() returns the Thread-local
 # session object appropriate for the current web request.
-passwd = 'badperson3'
+passwd = 'wavegame1'
 user = 'root'
 db2 = 'stcHong'
 con = MySQLdb.connect(host=dataIp, passwd=passwd, user=user, db=db2)
@@ -104,10 +105,12 @@ def init_model(engine):
     global businesswrite_table
     global businessread_table
     global visitfriend_table
+    spe_table = Table("spe", metadata, autoload=True, autoload_with=engine)
     operationaldata_table=Table("operationalData",metadata,autoload=True,autoload_with=engine)
     businesswrite_table=Table("businessWrite",metadata,autoload=True,autoload_with=engine)
     businessread_table=Table("businessRead",metadata,autoload=True,autoload_with=engine)
     warmap_table=Table("warMap",metadata,autoload=True,autoload_with=engine)
+    warRes_table = Table("warRes", metadata, autoload = True, autoload_with = engine)
     map_table=Table("map",metadata,autoload=True,autoload_with=engine)
     visitfriend_table=Table("visitFriend",metadata,autoload=True,autoload_with=engine)
     ally_table=Table("ally",metadata,autoload=True,autoload_with=engine)
@@ -126,7 +129,9 @@ def init_model(engine):
     rank_table=Table("rank",metadata,autoload=True,autoload_with=engine)
     mana_table = Table("mana", metadata, autoload=True, autoload_with=engine)
    # useraccount_table=Table("userAccount",metadata,autoload=True,autoload_with=engine)
+    mapper(Spe, spe_table)
     mapper(warMap,warmap_table)
+    mapper(WarRes, warRes_table)
     mapper(operationalData,operationaldata_table)
     mapper(businessWrite,businesswrite_table)
     mapper(businessRead,businessread_table)
@@ -176,4 +181,6 @@ from stchong.model.message import Message
 from stchong.model.emptyCastal import EmptyCastal
 from stchong.model.emptyResult import EmptyResult
 from stchong.model.mana import Mana
+from stchong.model.warRes import WarRes
+from stchong.model.spe import Spe
 #from stchong.model.useraccount import userAccount
