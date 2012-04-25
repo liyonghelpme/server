@@ -1273,27 +1273,18 @@ class RootController(BaseController):
     @expose('json')
     def addminusstate2(self,city_id,type,grid_id):
         
+        type = int(type)
+        grid_id = int(grid_id)
         war=DBSession.query(warMap).filter_by(city_id=int(city_id)).one()
-        str2=type+','+grid_id+', '
-        strminus=type+','+grid_id
         mlist=[]  
-        if war.minusstate=='':
-            war.minusstate=strminus
-            return dict(id=1)
-        else:
-            mlist=war.minusstate.split(';')
-            if len(mlist)==0:
-                x=war.minusstate.split(',')
-                if len(x)>1 and x[1]==grid_id:
-                    return dict(id=0)
-            else:
-                for m in mlist:
-                    xx=m.split(',')
-                    if len(xx)>1:
-                        if xx[1]==grid_id:
-                            return dict(id=0)
-            war.minusstate=war.minusstate+';'+strminus
-            return dict(id=1)            
+        try:
+            mlist = json.loads(war.minusstate)
+        except:
+            mlist = []
+        mlist.append([type, grid_id])
+        war.minusstate = json.dumps(mlist)
+        return dict(id=1)
+
     @expose('json')
     def eliminusstate(self,uid,city_id,grid_id):
         stri=''
