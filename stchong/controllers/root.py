@@ -163,7 +163,8 @@ class RootController(BaseController):
     #corn person level
     decorationbuild = [[10, 5, 1], [20, 5, 1], [30, 5, 1], [50, 7, 4], [-1, 15, 5], [250, 13, 6], [250, 13, 6], [250, 13, 6], [250, 13, 6], [-2, 18, 7], [-2, 18, 7], [200, 13, 8], [-5, 40, 8], [400, 15, 9], [600, 15, 10], [200, 12, 5], [800, 17, 11], [900, 18, 12], [8000, 67, 13], [2000, 50, 15], [-5, 45, 11], [3000, 40, 17], [3000, 40, 17], [-10, 90, 17], [3000, 41, 18], [3000, 41, 18], [-10, 93, 18], [-10, 93, 18], [4000, 45, 16], [4000, 45, 16], [-10, 91, 16], [-10, 91, 16], [800, 19, 14], [800, 19, 15], [-10, 90, 15], [6000, 65, 20], [-15, 100, 20], [6000, 65, 20], [-30, 150, 19], [3000, 45, 25], [-8, 90, 17], [-99, -1, 25], [-20, 110, 21], [-20, 110, 21], [-15, 99, 15], [-10, 89, 13], [5000, 44, 10], [5000, 44, 10], [-10, 85, 10], [-10, 85, 10], [-100, -1, 12], [-99, -1, 22], [10000, 70, 22], [-10, 80, 8], [5000, 43, 8], [8000, 60, 9], [-15, 93, 9], [-10, 91, 16], [4000, 46, 18], [1500, 24, 24], [10000, 130, 10], [3000, 40, 4], [1000, 21, 21], [-100, -1, 20], [-18, 110, 23], [-200, -3, 24], [-20, 100, 4],
     [-25, 130, 26], [10000, 72, 27], [9000, 70, 27],
-    [-2, 26, 3], [8000, 70, 28], [12000, 75, 28 ], [50000, 95, 29]
+    [-2, 26, 3], [8000, 70, 28], [12000, 75, 28 ], [50000, 95, 29],
+    [-5, 20, 0], [500, 13, 0], [100, 6, 0], [100, 6, 0],
     ]
     
     Plant_Price=[[50,1,20,600,1],[165,3,50,2700,1],[-1,6,120,3600,5],[700,7,150,9360,5],[1440,10,300,22680,7],[-3,10,430,14400,7],[230,5,52,1800,13],[600,7,80,3600,16],[-2,10,280,9000,10],[1210,13,200,11520,20],[3000,18,410,29160,25],[-5,20,650,25200,15]]
@@ -755,13 +756,22 @@ class RootController(BaseController):
         return dict(id=1)
     global LevUpPop
     LevUpPop = 10
+    global LevUpCoin
+    LevUpCoin = 1000
 
     @expose('json')
     def levup(self,uid,lev):
-        u=checkopdata(uid)
+        uid = int(uid)
         lev = int(lev)
+
+        u=checkopdata(uid)
         print "levup", lev
-        u.corn=u.corn+(lev)*200
+        rewCoin = lev*LevUpCoin+5000
+        rewPeop = 0
+        rewCae = 0
+        rewDra = lev*2
+        changeGoods(u.userid, 0, rewDra)
+        u.corn=u.corn+rewCoin
         u.lev=lev
         tasklist=[]
         task=[-1,-1]
@@ -775,6 +785,8 @@ class RootController(BaseController):
 
         if u.lev%10==0:
             u.populationupbound=u.populationupbound+LevUpPop
+            rewPeop = LevUpPop
+            rewCae = u.lev/10
             u.cae=u.cae+u.lev/10
             print inspect.stack()[0]
         if u.currenttask!='-1' and int(u.currenttask)<0:
@@ -789,7 +801,8 @@ class RootController(BaseController):
             xxs.lev=u.lev
         if u.lev==10 and u.rate==0:
             return dict(task=task1,tasklist=tasklist,rate=0,id=1, coin=u.corn, cae = u.cae, pop = u.population)
-        return dict(task=task1,id=1,tasklist=tasklist, coin=u.corn, cae = u.cae, pop = u.population)        
+        return dict(task=task1,id=1,tasklist=tasklist, coin=u.corn, cae = u.cae, pop = u.population, rewCoin = rewCoin, rewPeop = rewPeop, rewCae = rewCae, rewDra = rewDra)        
+
     def timejudge(t):
         t2=int(time.mktime(time.localtime())-time.mktime(beginTime))
         s=t2/86400-t/86400
@@ -3026,12 +3039,13 @@ class RootController(BaseController):
    
 
     global EmpireLevel
-    EmpireLevel = [20, 30]
+    EmpireLevel = [20, 30, 40]
     #cae, specialgoods coin food people PopulationUpbound manaBoundary
     global EmpireCost
     EmpireCost = [
     [150, [["a",30], ["b", 30], ["c", 30]], 100000, 1000, 100, 0, 5], 
-    [200, [["d", 30], ["e", 30], ["f", 30]], 500000, 5000, 500, 0, 5] 
+    [200, [["d", 30], ["e", 30], ["f", 30]], 500000, 5000, 500, 0, 5], 
+    [300, [["a", 40], ["b", 40], ["c", 40]], 800000, 10000, 500, 0, 5], 
     ]
 
     @expose('json')
