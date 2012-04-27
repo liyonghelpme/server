@@ -1078,12 +1078,12 @@ class RootController(BaseController):
         #specials
         s=getbonusbattle(u,t)
 
-        goods = random.randint(0, 11)
-        if goods == 0:
-            goods = 1
-            changeGoods(u.userid, 0, 1)
-        else:
-            goods = 0
+        #goods = random.randint(0, 11)
+        #if goods == 0:
+        goods = 1
+        changeGoods(u.userid, 0, 1)
+        #else:
+        #    goods = 0
         return [mu, s, goods]
 
         
