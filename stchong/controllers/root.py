@@ -2597,11 +2597,11 @@ class RootController(BaseController):
             addmana = boundary - mana
             if addmana <= 0 or temp_cae <= 0:
                 return dict(id=0,reason="mana <= boundary or cae <= 0")
-            if addmana%3==0:
+            if addmana%5==0:
                 r = 0
             else:
                 r = 1
-            cae_need = addmana/3 + r
+            cae_need = addmana/5 + r
             if cae_need > temp_cae:
                 addmana = temp_cae * 5
                 cae_need = temp_cae
