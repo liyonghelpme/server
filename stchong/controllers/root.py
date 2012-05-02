@@ -1844,6 +1844,7 @@ class RootController(BaseController):
                     else:
                         b.object_id = -1
                         b.producttime = 0
+                        b.finish = 1
                 
                 print "bonus " + str(bonus)
                 
@@ -5877,6 +5878,7 @@ class RootController(BaseController):
                 godlev = (monstergod[0].ground_id - 420)%5
                 statue.object_id = -1
                 statue.producttime = 0
+                statue.finish = 1
                 defenceadd = monGodReward[stype][godlev]*hour
                 user.defencepower += defenceadd
                 return dict(id=1,defenceadd=defenceadd,result="get defence suc")
@@ -6290,6 +6292,7 @@ class RootController(BaseController):
                 else:
                     b.object_id = -1
                     b.producttime = 0
+                    b.finish = 1
             else:
                 return dict(id=0,resaon="do not have the zijin god!")
             
@@ -6889,6 +6892,7 @@ class RootController(BaseController):
             if p.producttime == 1 or ti-p.producttime >= catapult[cataid][3]:
                 u.catapult += catapult[cataid][5]
                 p.producttime = 0
+                p.finish = 1
                 p.object_id=-1
                 return dict(id=1,result="add power suc")
             else:
