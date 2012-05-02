@@ -128,8 +128,10 @@ def init_model(engine):
     ppyfriend_table=Table("papayafriend",metadata,autoload=True,autoload_with=engine)
     rank_table=Table("rank",metadata,autoload=True,autoload_with=engine)
     mana_table = Table("mana", metadata, autoload=True, autoload_with=engine)
+    ship_table = Table("Ship", metadata, autoload=True, autoload_with=engine)
    # useraccount_table=Table("userAccount",metadata,autoload=True,autoload_with=engine)
     mapper(Spe, spe_table)
+    mapper(Ship, ship_table)
     mapper(warMap,warmap_table)
     mapper(WarRes, warRes_table)
     mapper(operationalData,operationaldata_table)
@@ -183,4 +185,5 @@ from stchong.model.emptyResult import EmptyResult
 from stchong.model.mana import Mana
 from stchong.model.warRes import WarRes
 from stchong.model.spe import Spe
+from stchong.model.ship import Ship
 #from stchong.model.useraccount import userAccount

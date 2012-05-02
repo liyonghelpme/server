@@ -21,9 +21,12 @@ from stchong.model import PetAtt
 from stchong.model import EmptyCastal
 from stchong.model import EmptyResult
 from stchong.model import Mana
+from stchong.model import Ship
 from stchong import model
 from stchong.controllers.secure import SecureController
 from stchong.controllers.goods import GoodsController
+from stchong.controllers.ship import ShipController
+
 from datetime import datetime
 from stchong.controllers.error import ErrorController
 import time
@@ -44,6 +47,7 @@ import pymongo
 import urllib
 from stchong.controllers.util import *
 from stchong.model import readDB, readPass, readCon, readCur, readIP, readUser
+from stchong.controllers.ship import *
 
 __all__ = ['RootController']
 class RootController(BaseController):
@@ -52,7 +56,6 @@ class RootController(BaseController):
     
     global accCost
     global Plant_Price
-    global beginTime
     global houses
     global soldie
     global soldiernum
@@ -129,6 +132,7 @@ class RootController(BaseController):
     #admin = AdminController(model, DBSession, config_type=TGAdminConfig)
     secc = SecureController()
     goodsc = GoodsController()
+    shipc = ShipController()
 
     #coin food wood caesars exp buildTime specials size 
     housebuild= [[500, 10, 0, 0, 3, 600, None, 0], [1400, 30, 0, 2, 8, 1200, 'a,1', 0], [2800, 0, 70, 4, 15, 2400, 'a,2;b,3', 0], [550, 10, 0, 0, 3, 600, None, 0], [1540, 30, 0, 2, 8, 1200, 'a,1', 0], [3080, 0, 70, 4, 15, 2400, 'a,2;b,3', 0], [600, 10, 0, 0, 3, 600, None, 0], [1680, 30, 0, 2, 8, 1200, 'a,1', 0], [3360, 0, 70, 4, 15, 2400, 'a,2;b,3', 0], [650, 10, 0, 0, 3, 600, None, 0], [1820, 30, 0, 2, 8, 1200, 'a,1', 0], [3640, 0, 70, 4, 15, 2400, 'a,2;b,3', 0], [1500, 60, 0, 0, 5, 1800, None, 0], [4800, 120, 0, 6, 13, 4320, 'b,2;c,2', 0], [9000, 0, 100, 10, 24, 9000, 'c,2;d,3', 0], [1650, 60, 0, 0, 5, 1800, None, 0], [5280, 120, 0, 6, 13, 4320, 'b,2;c,2', 0], [9900, 0, 100, 10, 24, 9000, 'c,2;d,3', 0], [1800, 60, 0, 0, 5, 1800, None, 0], [5760, 120, 0, 6, 13, 4320, 'b,2;c,2', 0], [10800, 0, 100, 10, 24, 9000, 'c,2;d,3', 0], [1950, 60, 0, 0, 5, 1800, None, 0], [6240, 120, 0, 6, 13, 4320, 'b,2;c,2', 0], [11700, 0, 100, 10, 24, 9000, 'c,2;d,3', 0], [7300, 400, 0, 0, 13, 15840, None, 0], [15000, 0, 150, 15, 21, 24480, 'f,2;g,2', 0], [19000, 0, -150, 16, 30, 30600, 'g,2;h,3', 0], [8030, 400, 0, 0, 13, 15840, None, 0], [16500, 0, 150, 15, 21, 24480, 'f,2;g,2', 0], [20900, 0, -150, 16, 30, 30600, 'g,2;h,3', 0], [8760, 400, 0, 0, 13, 15840, None, 0], [18000, 0, 150, 15, 21, 24480, 'f,2;g,2', 0], [22800, 0, -150, 16, 30, 30600, 'g,2;h,3', 0], [9490, 400, 0, 0, 13, 15840, None, 0], [19500, 0, 150, 15, 21, 24480, 'f,2;g,2', 0], [24700, 0, -150, 16, 30, 30600, 'g,2;h,3', 0], [3500, 200, 0, 0, 11, 5400, None, 0], [6600, 0, 120, 8, 25, 11160, 'd,2;e,2', 0], [11000, 0, -120, 11, 39, 21240, 'e,2;f,3', 0], [3850, 200, 0, 0, 11, 5400, None, 0], [7260, 0, 120, 8, 25, 11160, 'd,2;e,2', 0], [12100, 0, -120, 11, 39, 21240, 'e,2;f,3', 0], [4200, 200, 0, 0, 11, 5400, None, 0], [7920, 0, 120, 8, 25, 11160, 'd,2;e,2', 0], [13200, 0, -120, 11, 39, 21240, 'e,2;f,3', 0], [4550, 200, 0, 0, 11, 5400, None, 0], [8580, 0, 120, 8, 25, 11160, 'd,2;e,2', 0], [14300, 0, -120, 11, 39, 21240, 'e,2;f,3', 0], [10500, 600, 0, 0, 20, 25200, None, 0], [15500, 0, 200, 16, 32, 36720, 'h,2;i,2', 0], [19500, 0, -200, 19, 43, 68040, 'i,2;j,3', 0], [11550, 600, 0, 0, 20, 25200, None, 0], [17050, 0, 200, 16, 32, 36720, 'h,2;i,2', 0], [21450, 0, -200, 19, 43, 68040, 'i,2;j,3', 0], [12600, 600, 0, 0, 20, 25200, None, 0], [18600, 0, 200, 16, 32, 36720, 'h,2;i,2', 0], [23400, 0, -200, 19, 43, 68040, 'i,2;j,3', 0], [13650, 600, 0, 0, 20, 25200, None, 0], [20150, 0, 200, 16, 32, 36720, 'h,2;i,2', 0], [25350, 0, -200, 19, 43, 68040, 'i,2;j,3', 0], [-10, 0, 0, 0, 15, 7560, None, 0], [20000, 0, 300, 18, 25, 15480, 'b,2;c,2', 0], [25000, 0, -300, 20, 40, 30600, 'c,2;d,3', 0], [-11, 0, 0, 0, 15, 7560, None, 0], [22000, 0, 300, 18, 25, 15480, 'b,2;c,2', 0], [27500, 0, -300, 20, 40, 30600, 'c,2;d,3', 0], [-12, 0, 0, 0, 15, 7560, None, 0], [24000, 0, 300, 18, 25, 15480, 'b,2;c,2', 0], [30000, 0, -300, 20, 40, 30600, 'c,2;d,3', 0], [-13, 0, 0, 0, 15, 7560, None, 0], [26000, 0, 300, 18, 25, 15480, 'b,2;c,2', 0], [32500, 0, -300, 20, 40, 30600, 'c,2;d,3', 0], [-15, 0, 0, 0, 18, 11520, None, 0], [14000, 0, 160, 13, 28, 21600, 'a,2;f,2', 0], [18500, 0, -160, 16, 44, 29880, 'd,2;i,4', 0], [-20, 0, 0, 0, 30, 2520, None, 0], [20000, 0, 200, 20, 44, 4680, 'a,2;f,2', 0], [28000, 0, -200, 22, 60, 7200, 'd,2;i,4', 0], [-15, 0, 0, 0, 29, 18000, None, 0], [14400, 0, 170, 14, 43, 31680, 'i,5', 0], [19200, 0, -170, 17, 58, 46800, 'j,4', 0],
@@ -163,11 +167,12 @@ class RootController(BaseController):
     #corn person level
     decorationbuild = [[10, 5, 1], [20, 5, 1], [30, 5, 1], [50, 7, 4], [-1, 15, 5], [250, 13, 6], [250, 13, 6], [250, 13, 6], [250, 13, 6], [-2, 18, 7], [-2, 18, 7], [200, 13, 8], [-5, 40, 8], [400, 15, 9], [600, 15, 10], [200, 12, 5], [800, 17, 11], [900, 18, 12], [8000, 67, 13], [2000, 50, 15], [-5, 45, 11], [3000, 40, 17], [3000, 40, 17], [-10, 90, 17], [3000, 41, 18], [3000, 41, 18], [-10, 93, 18], [-10, 93, 18], [4000, 45, 16], [4000, 45, 16], [-10, 91, 16], [-10, 91, 16], [800, 19, 14], [800, 19, 15], [-10, 90, 15], [6000, 65, 20], [-15, 100, 20], [6000, 65, 20], [-30, 150, 19], [3000, 45, 25], [-8, 90, 17], [-99, -1, 25], [-20, 110, 21], [-20, 110, 21], [-15, 99, 15], [-10, 89, 13], [5000, 44, 10], [5000, 44, 10], [-10, 85, 10], [-10, 85, 10], [-100, -1, 12], [-99, -1, 22], [10000, 70, 22], [-10, 80, 8], [5000, 43, 8], [8000, 60, 9], [-15, 93, 9], [-10, 91, 16], [4000, 46, 18], [1500, 24, 24], [10000, 130, 10], [3000, 40, 4], [1000, 21, 21], [-100, -1, 20], [-18, 110, 23], [-200, -3, 24], [-20, 100, 4],
     [-25, 130, 26], [10000, 72, 27], [9000, 70, 27],
-    [-2, 26, 3], [8000, 70, 28], [12000, 75, 28 ], [50000, 95, 29]
+    [-2, 26, 3], [8000, 70, 28], [12000, 75, 28 ], [50000, 95, 29],
+    [-5, 20, 0], [500, 13, 0], [100, 6, 0], [100, 6, 0],
     ]
     
     Plant_Price=[[50,1,20,600,1],[165,3,50,2700,1],[-1,6,120,3600,5],[700,7,150,9360,5],[1440,10,300,22680,7],[-3,10,430,14400,7],[230,5,52,1800,13],[600,7,80,3600,16],[-2,10,280,9000,10],[1210,13,200,11520,20],[3000,18,410,29160,25],[-5,20,650,25200,15]]
-    beginTime=(2011,1,1,0,0,0,0,0,0)
+    
     
     #population food exp time 
     houses = [[10, 20, 1, 1800], [15, 30, 2, 1800], [20, 40, 3, 1800], [10, 20, 1, 1800], [15, 30, 2, 1800], [20, 40, 3, 1800], [10, 20, 1, 1800], [15, 30, 2, 1800], [20, 40, 3, 1800], [10, 20, 1, 1800], [15, 30, 2, 1800], [20, 40, 3, 1800], [32, 64, 3, 7560], [43, 86, 5, 7560], [55, 110, 7, 7560], [32, 64, 3, 7560], [43, 86, 5, 7560], [55, 110, 7, 7560], [32, 64, 3, 7560], [43, 86, 5, 7560], [55, 110, 7, 7560], [32, 64, 3, 7560], [43, 86, 5, 7560], [55, 110, 7, 7560], [70, 140, 7, 18720], [83, 174, 9, 18720], [100, 200, 11, 18720], [70, 140, 7, 18720], [83, 174, 9, 18720], [100, 200, 11, 18720], [70, 140, 7, 18720], [83, 174, 9, 18720], [100, 200, 11, 18720], [70, 140, 7, 18720], [83, 174, 9, 18720], [100, 200, 11, 18720], [50, 90, 7, 12600], [62, 116, 9, 12600], [75, 142, 11, 12600], [50, 90, 7, 12600], [62, 116, 9, 12600], [75, 142, 11, 12600], [50, 90, 7, 12600], [62, 116, 9, 12600], [75, 142, 11, 12600], [50, 90, 7, 12600], [62, 116, 9, 12600], [75, 142, 11, 12600], [95, 190, 13, 29880], [115, 230, 15, 29880], [135, 270, 17, 29880], [95, 190, 13, 29880], [115, 230, 15, 29880], [135, 270, 17, 29880], [95, 190, 13, 29880], [115, 230, 15, 29880], [135, 270, 17, 29880], [95, 190, 13, 29880], [115, 230, 15, 29880], [135, 270, 17, 29880], [100, 150, 15, 14400], [150, 225, 17, 14400], [200, 300, 19, 14400], [100, 150, 15, 14400], [150, 225, 17, 14400], [200, 300, 19, 14400], [100, 150, 15, 14400], [150, 225, 17, 14400], [200, 300, 19, 14400], [100, 150, 15, 14400], [150, 225, 17, 14400], [200, 300, 19, 14400], [50, 75, 9, 5400], [72, 112, 11, 5400], [100, 150, 13, 5400], [47, 140, 19, 10800], [68, 214, 21, 10800], [190, 290, 23, 10800], [90, 275, 17, 21600], [134, 416, 19, 21600], [370, 538, 21, 21600],
@@ -188,8 +193,8 @@ class RootController(BaseController):
     [1720, 19, 0, 12*3600], [3200, 21, 0, 12*3600], [5050, 23, 0, 12*3600]]
 
     #coin cae exp 
-    #expanding=[[10000,10,10],[50000,30,20],[100000,50,40],[500000,70,70],[1000000, 100, 110],[1500000,150,150],[2000000,200,210],[2500000,300,280],[3000000,500,360],[5000000,1000,450]]
-    expanding=[[10000,5,10],[50000,15,20],[100000,25,40],[500000,35,70],[1000000, 50, 110],[1500000, 75, 150],[2000000, 100, 210],[2500000, 150, 280],[3000000, 250, 360],[5000000,500,450]]
+    expanding=[[10000,10,10],[50000,30,20],[100000,50,40],[500000,70,70],[1000000, 100, 110],[1500000,150,150],[2000000,200,210],[2500000,300,280],[3000000,500,360],[5000000,1000,450]]
+    #expanding=[[10000,5,10],[50000,15,20],[100000,25,40],[500000,35,70],[1000000, 50, 110],[1500000, 75, 150],[2000000, 100, 210],[2500000, 150, 280],[3000000, 250, 360],[5000000,500,450]]
     error = ErrorController()
     EXPANDLEV=10
     
@@ -755,13 +760,22 @@ class RootController(BaseController):
         return dict(id=1)
     global LevUpPop
     LevUpPop = 10
+    global LevUpCoin
+    LevUpCoin = 1000
 
     @expose('json')
     def levup(self,uid,lev):
-        u=checkopdata(uid)
+        uid = int(uid)
         lev = int(lev)
+
+        u=checkopdata(uid)
         print "levup", lev
-        u.corn=u.corn+(lev)*200
+        rewCoin = lev*LevUpCoin+5000
+        rewPeop = 0
+        rewCae = 0
+        rewDra = lev*2
+        changeGoods(u.userid, 0, rewDra)
+        u.corn=u.corn+rewCoin
         u.lev=lev
         tasklist=[]
         task=[-1,-1]
@@ -775,6 +789,8 @@ class RootController(BaseController):
 
         if u.lev%10==0:
             u.populationupbound=u.populationupbound+LevUpPop
+            rewPeop = LevUpPop
+            rewCae = u.lev/10
             u.cae=u.cae+u.lev/10
             print inspect.stack()[0]
         if u.currenttask!='-1' and int(u.currenttask)<0:
@@ -789,7 +805,8 @@ class RootController(BaseController):
             xxs.lev=u.lev
         if u.lev==10 and u.rate==0:
             return dict(task=task1,tasklist=tasklist,rate=0,id=1, coin=u.corn, cae = u.cae, pop = u.population)
-        return dict(task=task1,id=1,tasklist=tasklist, coin=u.corn, cae = u.cae, pop = u.population)        
+        return dict(task=task1,id=1,tasklist=tasklist, coin=u.corn, cae = u.cae, pop = u.population, rewCoin = rewCoin, rewPeop = rewPeop, rewCae = rewCae, rewDra = rewDra)        
+
     def timejudge(t):
         t2=int(time.mktime(time.localtime())-time.mktime(beginTime))
         s=t2/86400-t/86400
@@ -1065,7 +1082,7 @@ class RootController(BaseController):
         #specials
         s=getbonusbattle(u,t)
 
-        goods = random.randint(0, 11)
+        goods = random.randint(0, 3)
         if goods == 0:
             goods = 1
             changeGoods(u.userid, 0, 1)
@@ -2576,11 +2593,11 @@ class RootController(BaseController):
             addmana = boundary - mana
             if addmana <= 0 or temp_cae <= 0:
                 return dict(id=0,reason="mana <= boundary or cae <= 0")
-            if addmana%3==0:
+            if addmana%5==0:
                 r = 0
             else:
                 r = 1
-            cae_need = addmana/3 + r
+            cae_need = addmana/5 + r
             if cae_need > temp_cae:
                 addmana = temp_cae * 5
                 cae_need = temp_cae
@@ -2646,11 +2663,14 @@ class RootController(BaseController):
         boundary=-1
         lasttime=-1
         curTime = int(time.mktime(time.localtime())-time.mktime(beginTime))
+        todayWeek = time.localtime()
         if md51!=md5:
             return dict(md51=md51,id=md5)
         try:
-            ruser=DBSession.query(operationalData).filter_by(otherid=oid).one()
-            user=checkopdata(ruser.userid)
+            user=DBSession.query(operationalData).filter_by(otherid=oid).one()
+            ship = returnShip(user.userid)
+            #user=checkopdata(ruser.userid)
+            """
             loginYet = 1
             if user_kind == 1:#use new client login
                 loginYet = db.oldUser.find_one({'uid':user.userid})
@@ -2665,6 +2685,7 @@ class RootController(BaseController):
             if regTime != None and curTime - regTime['regTime'] > 3600*24:
                 tp24 = 1
                 db.newuser.remove(regTime)
+            """
 
             #act = getPlantAct(user.userid)
             
@@ -2869,9 +2890,9 @@ class RootController(BaseController):
                 v = db.login.find_one()
             #user.specialgoods,
             if user.newcomer<3:
-                return dict( goods = goods, loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,newstate=user.newcomer,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods = getUserSpe(user.userid), population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
+                return dict(ship = ship, week = todayWeek.tm_wday,  goods = goods, loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,newstate=user.newcomer,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone,specialgoods = getUserSpe(user.userid), population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
             #if user_kind==0:
-            return dict(loginYet = loginYet, tp24 = tp24, goods = goods, loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone, specialgoods = getUserSpe(user.userid), population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
+            return dict(ship = ship, week = todayWeek.tm_wday ,goods = goods, loginNum = user.logincard, wonNum=wonNum, wonBonus = wonBonus, sub=sub,wartaskstring=user.wartaskstring,wartask=wartask,ppyname=user.papayaname,cardlist=cardlist,monsterdefeat=user.monsterdefeat,monsterid=user.monster,foodlost=ds.monfood,monsterstr=user.monsterlist,task=task,monstertime=user.monstertime,citydefence=user.defencepower,wargod=user.war_god,wargodtime=wargodtime,populationgod=user.person_god,populationgodtime=popgodtime,foodgod=user.food_god,foodgodtime=foodgodtime,wealthgod=user.wealth_god,wealthgodtime=wealthgodtime,scout1_num=user.scout1_num,scout2_num=user.scout2_num,scout3_num=user.scout3_num,nobility=user.nobility,subno=user.subno,tasklist=tasklist,taskstring=user.taskstring,infantrypower=user.infantrypower,cavalrypower=user.cavalrypower,castlelev=user.castlelev,empirename=user.empirename,lev=user.lev,labor_num=user.labor_num,allyupbound=user.allyupbound,minusstr=minusstr,giftnum=giftstr,bonus=bonus,allylis=lisa,id=user.userid,stri=stt,food=user.food,wood=user.wood,stone=user.stone, specialgoods = getUserSpe(user.userid), population=user.population,popupbound=user.populationupbound,time=logintime,exp=user.exp,corn=user.corn,cae=user.cae,map_id=s.mapid,city_id=s.city_id,landkind=user.landkind,treasurebox=user.treasurebox,treasurenum=user.treasurenum,mana=mana,boundary=boundary,lasttime=lasttime, catapultnum=user.catapult)
                     
         except InvalidRequestError:
             if papayaid == '0':
@@ -2887,10 +2908,14 @@ class RootController(BaseController):
             if newuser.otherid == '0':
                 print "error newuser oid",  oid
                 return dict(id=0)
-            db.newuser.save({'uid':newuser.userid, 'regTime':curTime})
-            db.oldUser.save({'uid':newuser.userid})
+            #db.newuser.save({'uid':newuser.userid, 'regTime':curTime})
+            #db.oldUser.save({'uid':newuser.userid})
             #c1=DBSession.query('LAST_INSERT_ID()')
             #c1=c1[0]
+            ship = returnShip(newuser.userid)
+
+            #db.newuser.save({'uid':newuser.userid, 'regTime':curTime})
+            #db.oldUser.save({'uid':newuser.userid})
             gi=0
             mi=0
             nuid=newuser.userid
@@ -3002,6 +3027,7 @@ class RootController(BaseController):
             except:
                 x=0
             #{total:}
+            """
             v = db.login.find_one()
             if v == None:
                 v = {'totalNum':0, 'todayNum':0}
@@ -3010,19 +3036,28 @@ class RootController(BaseController):
             v['todayNum'] += 1
             v['totalNum'] += 1
             db.login.save(v)
+            """
 
-            return dict(today = {'todayNum':v['todayNum'], 'totalNum':v['totalNum'] }, wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods= getUserSpe(nu.userid),time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=newuser.userid,city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
+            return dict(ship = ship, week = todayWeek.tm_wday, wonNum = 0, wonBonus = 0, ppyname=nu.papayaname,infantrypower=nu.infantrypower,cavalrypower=nu.cavalrypower,castlelev=nu.castlelev,newstate=0,popupbound=nu.populationupbound,wood=nu.wood,stone=nu.stone,specialgoods= getUserSpe(nu.userid), time=nu.logintime,labor_num=280,nobility=0,population=380,food=100,corn=1000,cae=nu.cae,exp=0,stri=inistr,id=newuser.userid,city_id=cid.city_id,mapid=mi,gridid=gi,mana=mana,boundary=boundary,lasttime=lasttime)
    
 
     global EmpireLevel
-    EmpireLevel = [20, 30]
+    EmpireLevel = [20, 30, 40]
     #cae, specialgoods coin food people PopulationUpbound manaBoundary
     global EmpireCost
     EmpireCost = [
     [150, [["a",30], ["b", 30], ["c", 30]], 100000, 1000, 100, 0, 5], 
-    [200, [["d", 30], ["e", 30], ["f", 30]], 500000, 5000, 500, 0, 5] 
+    [200, [["d", 30], ["e", 30], ["f", 30]], 500000, 5000, 500, 0, 5], 
+    [300, [["a", 40], ["b", 40], ["c", 40]], 800000, 10000, 500, 0, 5], 
     ]
 
+    @expose('json')
+    def inviteAll(self, uid):
+        uid = int(uid)
+        user = getUser(uid)
+        user.cae += 2
+        return dict(id=1)
+    
 
     #cae, specialgoods coin food people PopulationUpbound manaBoundary
     @expose('json')
