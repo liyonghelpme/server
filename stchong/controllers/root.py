@@ -1091,7 +1091,6 @@ class RootController(BaseController):
         return [mu, s, goods]
 
         
-    """
     global getPlantAct
     def getPlantAct(uid):
         act = db.rank.find_one({'uid': uid})
@@ -1105,7 +1104,6 @@ class RootController(BaseController):
         act['food'] += inc
         db.rank.update({'uid':uid}, {'$set':{'food':act['food']}})
         return
-    """
 
     global changeMonRank
     def changeMonRank(uid):
@@ -6022,7 +6020,7 @@ class RootController(BaseController):
             tu=Plant_Price[p.object_id]
             incFood = int(tu[2]*factor*(int(factor2*10))/10)
             u.food += incFood
-            #changePlantFood(user_id, incFood)
+            changePlantFood(user_id, incFood)
         elif type==1:
             tu=stones[p.object_id]
             u.stone=u.stone+int(tu[2]*factor)
@@ -6111,10 +6109,10 @@ class RootController(BaseController):
             for i in res:
                 user = checkopdata(i['uid'])
                 if user != None:
-                    oid.append([int(user.otherid), i['mon'], user.papayaname])
+                    oid.append([int(user.otherid), i['food'], user.papayaname])
         my = db.rank.find_one({'uid':uid})
         if my != None:
-            my = [my['order'], my['mon']]
+            my = [my['order'], my['food']]
         else:
             my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
@@ -6149,10 +6147,10 @@ class RootController(BaseController):
             for i in res:
                 user = checkopdata(i['uid'])
                 if user != None:
-                    oid.append([int(user.otherid), i['mon'], user.papayaname])
+                    oid.append([int(user.otherid), i['food'], user.papayaname])
         my = db.rank.find_one({'uid':uid})
         if my != None:
-            my = [my['order'], my['mon']]
+            my = [my['order'], my['food']]
         else:
             my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
@@ -6222,7 +6220,7 @@ class RootController(BaseController):
                     g.producttime=0
             u.exp=u.exp+expadd
             u.food=u.food+foodadd
-            #changePlantFood(u.userid, foodadd)
+            changePlantFood(u.userid, foodadd)
             if flag==1:
                 m.mana = temp_mana
             return dict(id=1,expadd=expadd,foodadd=foodadd)
