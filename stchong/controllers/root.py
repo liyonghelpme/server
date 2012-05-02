@@ -1105,6 +1105,7 @@ class RootController(BaseController):
         db.rank.update({'uid':uid}, {'$set':{'food':act['food']}})
         return
 
+    """
     global changeMonRank
     def changeMonRank(uid):
         act = db.rank.find_one({'uid':uid})
@@ -1114,6 +1115,7 @@ class RootController(BaseController):
             act = db.rank.find_one({'uid':uid})
         act['mon'] += 1
         db.rank.save(act)
+    """
     @expose('json')
     def defeatmonster(self,uid,gridid, kind):
         print "defeatmonster", uid, gridid, kind
@@ -1216,7 +1218,7 @@ class RootController(BaseController):
                     else:
                         ss=ss+';'+str(cc)
                 u.monsterdefeat=ss
-            changeMonRank(uid)
+            #changeMonRank(uid)
             return dict(goods = goods, id=1,cardid=card,powerlost=powerlost,infantrypower=u.infantrypower,cavalrypower=u.cavalrypower,specialgoods=s)  
         except InvalidRequestError:
             return dict(id=0)
@@ -5753,7 +5755,7 @@ class RootController(BaseController):
             coinCost = cost[0]
         else:
             caeCost = -cost[0]
-        if user.corn >= coinCost and user.food >= cost[1] and (user.population-user.labor_num) >= cost[2]:
+        if user.corn >= coinCost and user.food >= cost[1] and (user.population-user.labor_num) >= cost[2] and user.cae >= caeCost:
             user.corn -= coinCost
             user.food -= cost[1]
             user.labor_num += cost[2]
@@ -5778,7 +5780,7 @@ class RootController(BaseController):
             coinCost = cost[0]
         else:
             caeCost = -cost[0]
-        if user.corn >= coinCost and user.food >= cost[1] and (user.population-user.labor_num) >= cost[2]:
+        if user.corn >= coinCost and user.food >= cost[1] and (user.population-user.labor_num) >= cost[2] and user.cae >= caeCost:
             user.corn -= coinCost
             user.food -= cost[1]
             user.labor_num += cost[2]
