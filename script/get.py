@@ -4,7 +4,7 @@ import MySQLdb
 con = MySQLdb.connect(host='localhost', user='root', password='wavegame1', db='stcHong')
 cur = con.cursor()
 
-for i in f[4:100]:
+for i in f[:800]:
     oid = i[0]
     sql = 'select userid from operationalData where otherid = \''+str(oid)+'\''
     cur.execute(sql)
