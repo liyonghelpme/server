@@ -10,8 +10,25 @@ from sqlalchemy import func
 from stchong.model import DBSession, db 
 import random
 from stchong import model
-from stchong.model import WarRes, operationalData, Spe
+from stchong.model import WarRes, operationalData, Spe, Ship
 import json
+import time
+
+beginTime=(2011,1,1,0,0,0,0,0,0)
+def getTime():
+    curTime = int(time.mktime(time.localtime())-time.mktime(beginTime))
+    return curTime
+def getShip(uid):
+    try:
+        ship = DBSession.query(Ship).filter_by(uid=uid).one()
+    except:
+        ship = Ship(uid=uid, sid = 0, state = -1, startTime = 0, timeNeed = 0, goodsKind = 0, num = 0)
+        DBSession.add(ship)
+        DBSession.flush()
+    return ship
+def returnShip(uid):
+    ship = getShip(uid)
+    return [ship.state, ship.startTime, ship.timeNeed, ship.goodsKind, ship.num]
 
 def getUserSpe(uid):
     try:

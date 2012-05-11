@@ -39,8 +39,14 @@ class GoodsController(BaseController):
     Possible = [
     [1, 30, 200, 50, 100, 200, 200, 200, 19],
     [10, 4, 1, 10, 20, 20, 15, 10, 10],
-    [200, 50, 9, 40, 200, 200, 100, 200, 1]
+    [200, 200, 10, 100, 200, 20, 200, 200, 1],
+    #19 119 1119 49 499 9 99 9999 999
+    [40, 5, 0, 30, 0, 15, 10, 0, 0],
+    [15, 10, 1, 30, 5, 5, 30, 0, 4],
+    [10, 20, 4, 15, 10, 5, 30, 1, 5],
     ]
+    global ExpDisk
+    ExpDisk = [19, 119, 1119, 49, 499, 9, 99, 9999, 999]
     def getReward(self, user, kind, diskType):
         if diskType == 0:
             if kind == 0:
@@ -84,7 +90,7 @@ class GoodsController(BaseController):
                 user.food += 9
             elif kind == 8:
                 user.infantrypower += 99
-        else:
+        elif diskType == 2:
             if kind == 0:
                 user.corn += 99
             elif kind == 1:
@@ -103,7 +109,8 @@ class GoodsController(BaseController):
                 user.food += 9
             elif kind == 8:
                 user.cae += 99
-
+        else:
+            user.exp += ExpDisk[kind] 
         
     @expose('json')
     def startDragon(self, uid, kind):
@@ -131,6 +138,11 @@ class GoodsController(BaseController):
             all = sum(Possible[diskType])
             v = random.randint(0, all-1)            
             last = 0
+            if diskType == 3:
+                if user.lev > 20:
+                    diskType = 5
+                elif user.lev > 10:
+                    diskType = 4
             for i in range(len(Possible[diskType])):
                 cur = sum(Possible[diskType][:i+1])
                 if v >= last and v < cur:
