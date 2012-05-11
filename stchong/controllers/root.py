@@ -2904,7 +2904,11 @@ class RootController(BaseController):
 <<<<<<< HEAD
             #newuser = DBSession.query(operationalData).filter_by(otherid = oid).one()
 =======
+<<<<<<< HEAD
+            #newuser = DBSession.query(operationalData).filter_by(otherid = oid).one()
+=======
 >>>>>>> engFormal
+>>>>>>> 63080dd411ba030c4c0b03db5300b81c8de07918
             DBSession.flush()
             #newuser = DBSession.query(operationalData).filter_by(otherid = oid).one()
 

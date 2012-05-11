@@ -4,7 +4,7 @@ db = con['Rank']
 p = db.goods.find()
 for i in p:
     try:
-        i['goods'] += 1
+        i['goods']['0'] += 10
         db.goods.save(i)
     except:
         pass
