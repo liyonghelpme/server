@@ -221,8 +221,9 @@ class RootController(BaseController):
     ]
 
     #coin cae exp 
-    expanding=[[10000,10,10],[50000,30,20],[100000,50,40],[500000,70,70],[1000000, 100, 110],[1500000,150,150],[2000000,200,210],[2500000,300,280],[3000000,500,360],[5000000,1000,450]]
-    #expanding=[[10000,5,10],[50000,15,20],[100000,25,40],[500000,35,70],[1000000, 50, 110],[1500000, 75, 150],[2000000, 100, 210],[2500000, 150, 280],[3000000, 250, 360],[5000000,500,450]]
+    #expanding=[[10000,10,10],[50000,30,20],[100000,50,40],[500000,70,70],[1000000, 100, 110],[1500000,150,150],[2000000,200,210],[2500000,300,280],[3000000,500,360],[5000000,1000,450]]
+
+    expanding=[[10000,5,10],[50000,15,20],[100000,25,40],[500000,35,70],[1000000, 50, 110],[1500000, 75, 150],[2000000, 100, 210],[2500000, 150, 280],[3000000, 250, 360],[5000000,500,450]]
     error = ErrorController()
     EXPANDLEV=10
     
@@ -1111,6 +1112,7 @@ class RootController(BaseController):
         return [mu, s, goods]
 
         
+    """
     global getPlantAct
     def getPlantAct(uid):
         act = db.rank.find_one({'uid': uid})
@@ -1124,6 +1126,7 @@ class RootController(BaseController):
         act['food'] += inc
         db.rank.update({'uid':uid}, {'$set':{'food':act['food']}})
         return
+    """
 
     global changeMonRank
     def changeMonRank(uid):
@@ -3025,13 +3028,14 @@ class RootController(BaseController):
    
 
     global EmpireLevel
-    EmpireLevel = [20, 30, 40]
+    EmpireLevel = [20, 30, 40, 50]
     #cae, specialgoods coin food people PopulationUpbound manaBoundary
     global EmpireCost
     EmpireCost = [
     [150, [["a",30], ["b", 30], ["c", 30]], 100000, 1000, 100, 0, 5], 
     [200, [["d", 30], ["e", 30], ["f", 30]], 500000, 5000, 500, 0, 5], 
     [300, [["a", 40], ["b", 40], ["c", 40]], 800000, 10000, 500, 0, 5], 
+    [500, [["e", 40], ["f", 40], ["g", 40]], 1000000, 20000, 1000, 0, 10],
     ]
 
     @expose('json')
@@ -6077,6 +6081,7 @@ class RootController(BaseController):
         except InvalidRequestError:
             return dict(id=0,reason="query failed")
 
+    """
     @expose('json')
     def getFoodRank(self, uid):
         uid = int(uid)
@@ -6095,6 +6100,9 @@ class RootController(BaseController):
             my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
     """
+    """
+    clear Rank res oldData 
+    """
     @expose('json')
     def getFoodRank(self, uid):
         uid = int(uid)
@@ -6106,13 +6114,17 @@ class RootController(BaseController):
             for i in res:
                 user = checkopdata(i['uid'])
                 if user != None:
-                    oid.append([int(user.otherid), i['heart'], user.papayaname])
+                    oid.append([int(user.otherid), i['mon'], user.papayaname])
         my = db.rank.find_one({'uid':uid})
         if my != None:
-            my = [my['order'], my['heart']]
+            my = [my['order'], my['mon']]
         else:
             my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
+    """
+    2 
+    rank order mon 
+    res uid mon papayaname
     """
     @expose('json')
     def getAllRank(self, uid):
@@ -6125,13 +6137,14 @@ class RootController(BaseController):
             for i in res:
                 user = checkopdata(i['uid'])
                 if user != None:
-                    oid.append([int(user.otherid), i['food'], user.papayaname])
+                    oid.append([int(user.otherid), i['mon'], user.papayaname])
         my = db.rank.find_one({'uid':uid})
         if my != None:
-            my = [my['order'], my['food']]
+            my = [my['order'], my['mon']]
         else:
             my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
+    """
     @expose('json')
     def rankHeart(self, uid, oid):
         uid = int(uid)
@@ -6148,6 +6161,7 @@ class RootController(BaseController):
             db.rank.save(fri)
             return dict(id=1)
         return dict(id=0)
+    """
         
     @expose('json')
     def harvestall(self,user_id,city_id):
