@@ -1138,7 +1138,6 @@ class RootController(BaseController):
         return
     """
 
-    """
     global changeMonRank
     def changeMonRank(uid):
         act = db.rank.find_one({'uid':uid})
@@ -1146,9 +1145,10 @@ class RootController(BaseController):
             db.rank.save({'uid':uid, 'mon':0, 'order':1000})
             db.rank.ensure_index("uid")
             act = db.rank.find_one({'uid':uid})
+        if act.get('mon') == None:
+            act['mon'] = 0
         act['mon'] += 1
         db.rank.save(act)
-    """
     @expose('json')
     def defeatmonster(self,uid,gridid, kind):
         print "defeatmonster", uid, gridid, kind
@@ -1251,7 +1251,7 @@ class RootController(BaseController):
                     else:
                         ss=ss+';'+str(cc)
                 u.monsterdefeat=ss
-            #changeMonRank(uid)
+            changeMonRank(uid)
             return dict(goods = goods, id=1,cardid=card,powerlost=powerlost,infantrypower=u.infantrypower,cavalrypower=u.cavalrypower,specialgoods=s)  
         except InvalidRequestError:
             return dict(id=0)
@@ -6173,6 +6173,8 @@ class RootController(BaseController):
                     oid.append([int(user.otherid), i['mon'], user.papayaname])
         my = db.rank.find_one({'uid':uid})
         if my != None:
+            if my.get('mon') == None:
+                my['mon'] = 0
             my = [my['order'], my['mon']]
         else:
             my = [999, 0]
