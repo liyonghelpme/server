@@ -204,16 +204,28 @@ class RootController(BaseController):
 
     
     #coin exp lev time
-    production = [[50, 1, 0, 600], [70, 2, 0, 600], [100, 3, 0, 600], [300, 3, 0, 5400], [450, 5, 0, 5400], [610, 7, 0, 5400], [300, 5, 0, 1800], [660, 7, 0, 1800], [1000, 9, 0, 1800], [530, 7, 0, 10440], [750, 9, 0, 10440], [1100, 11, 0, 10440], [150, 7, 0, 1800], [210, 9, 0, 1800], [300, 11, 0, 1800], [1100, 17, 0, 14400], [2400, 19, 0, 14400], [4400, 21, 0, 14400], [590, 15, 0, 7200], [880, 17, 0, 7200], [1200, 19, 0, 7200], [1100, 19, 0, 14400], [1600, 21, 0, 14400], [2300, 23, 0, 14400], [1700, 21, 0, 26280], [3000, 23, 0, 26280], [5100, 25, 0, 26280], [1500, 20, 0, 36000], [2200, 22, 0, 36000], [3000, 24, 0, 36000], [600, 13, 0, 7920], [900, 15, 0, 7920], [1300, 17, 0, 7920],
-    [1000, 13, 0, 6*3600], [1450, 15, 0, 6*3600], [2100, 17, 0, 6*3600],
-    [1720, 19, 0, 12*3600], [3200, 21, 0, 12*3600], [5050, 23, 0, 12*3600],
-    [190, 3, 0, 2700], [250, 4, 0, 2700], [380, 6, 0, 2700],
-    [200, 4, 0, 1200], [440, 6, 0, 1200], [660, 8, 0, 1200],
+    production = [
+    [50, 2, 0, 600], [70, 3, 0, 600], [100, 5, 0, 600], 
+    [300, 4, 0, 5400], [450, 6, 0, 5400], [610, 10, 0, 5400], 
+    [300, 6, 0, 1800], [660, 8, 0, 1800], [1000, 12, 0, 1800], 
+    [530, 8, 0, 10440], [750, 10, 0, 10440], [1100, 15, 0, 10440], 
+    [150, 13, 0, 1800], [210, 15, 0, 1800], [300, 20, 0, 1800], 
+    [1100, 20, 0, 14400], [2400, 23, 0, 14400], [4400, 27, 0, 14400], 
+    [590, 18, 0, 7200], [880, 23, 0, 7200], [1200, 30, 0, 7200], 
+    [1100, 23, 0, 14400], [1600, 28, 0, 14400], [2300, 35, 0, 14400], 
+    [1700, 21, 0, 26280], [3000, 25, 0, 26280], [5100, 32, 0, 26280], 
+    [1500, 20, 0, 36000], [2200, 22, 0, 36000], [3000, 27, 0, 36000], 
+    [600, 14, 0, 7920], [900, 16, 0, 7920], [1300, 20, 0, 7920],
+    [1000, 15, 0, 6*3600], [1450, 17, 0, 6*3600], [2100, 21, 0, 6*3600],
+    [1720, 19, 0, 12*3600], [3200, 21, 0, 12*3600], [5050, 30, 0, 12*3600],
+    [190, 3, 0, 2700], [250, 4, 0, 2700], [380, 8, 0, 2700],
+    [200, 4, 0, 1200], [440, 6, 0, 1200], [660, 10, 0, 1200],
     ]
 
     #coin cae exp 
-    expanding=[[10000,10,10],[50000,30,20],[100000,50,40],[500000,70,70],[1000000, 100, 110],[1500000,150,150],[2000000,200,210],[2500000,300,280],[3000000,500,360],[5000000,1000,450]]
-    #expanding=[[10000,5,10],[50000,15,20],[100000,25,40],[500000,35,70],[1000000, 50, 110],[1500000, 75, 150],[2000000, 100, 210],[2500000, 150, 280],[3000000, 250, 360],[5000000,500,450]]
+    #expanding=[[10000,10,10],[50000,30,20],[100000,50,40],[500000,70,70],[1000000, 100, 110],[1500000,150,150],[2000000,200,210],[2500000,300,280],[3000000,500,360],[5000000,1000,450]]
+
+    expanding=[[10000,5,10],[50000,15,20],[100000,25,40],[500000,35,70],[1000000, 50, 110],[1500000, 75, 150],[2000000, 100, 210],[2500000, 150, 280],[3000000, 250, 360],[5000000,500,450]]
     error = ErrorController()
     EXPANDLEV=10
     
@@ -1110,6 +1122,7 @@ class RootController(BaseController):
         return [mu, s, goods]
 
         
+    """
     global getPlantAct
     def getPlantAct(uid):
         act = db.rank.find_one({'uid': uid})
@@ -1123,6 +1136,7 @@ class RootController(BaseController):
         act['food'] += inc
         db.rank.update({'uid':uid}, {'$set':{'food':act['food']}})
         return
+    """
 
     """
     global changeMonRank
@@ -2445,7 +2459,7 @@ class RootController(BaseController):
             war=DBSession.query(warMap).filter_by(userid=int(uid)).one()
             if level==1:        
                 user.newcomer=level
-                user.corn=950
+                user.corn=1450
                 user.exp=5
                 user.cae=1
                 user.food=120
@@ -2454,7 +2468,7 @@ class RootController(BaseController):
                 return dict(id=user.newcomer)
             elif level==2:
                 user.newcomer=level
-                user.corn=2950
+                user.corn=9500
                 user.food=90
                 user.cae=3
                 user.exp=20
@@ -2479,13 +2493,13 @@ class RootController(BaseController):
                     newbuilding1=businessWrite(city_id=war.city_id,ground_id=300,grid_id=570,object_id=-1,producttime=t,finish=1)
                     DBSession.add(newbuilding1)
                 
-                read(war.city_id)
+                #read(war.city_id)
             
             else:
                 user.newcomer=level
                 user.exp=50
                 user.lev=user.lev+1
-                user.corn=5550
+                user.corn=19500
                 user.cae=7
                 task=tasknew(user.userid)
                 user.monstertime=t+1800
@@ -3070,13 +3084,14 @@ class RootController(BaseController):
    
 
     global EmpireLevel
-    EmpireLevel = [20, 30, 40]
+    EmpireLevel = [20, 30, 40, 50]
     #cae, specialgoods coin food people PopulationUpbound manaBoundary
     global EmpireCost
     EmpireCost = [
     [150, [["a",30], ["b", 30], ["c", 30]], 100000, 1000, 100, 0, 5], 
     [200, [["d", 30], ["e", 30], ["f", 30]], 500000, 5000, 500, 0, 5], 
     [300, [["a", 40], ["b", 40], ["c", 40]], 800000, 10000, 500, 0, 5], 
+    [500, [["e", 40], ["f", 40], ["g", 40]], 1000000, 20000, 1000, 0, 10],
     ]
 
     @expose('json')
@@ -6122,6 +6137,7 @@ class RootController(BaseController):
         except InvalidRequestError:
             return dict(id=0,reason="query failed")
 
+    """
     @expose('json')
     def getFoodRank(self, uid):
         uid = int(uid)
@@ -6140,6 +6156,9 @@ class RootController(BaseController):
             my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
     """
+    """
+    clear Rank res oldData 
+    """
     @expose('json')
     def getFoodRank(self, uid):
         uid = int(uid)
@@ -6151,13 +6170,17 @@ class RootController(BaseController):
             for i in res:
                 user = checkopdata(i['uid'])
                 if user != None:
-                    oid.append([int(user.otherid), i['heart'], user.papayaname])
+                    oid.append([int(user.otherid), i['mon'], user.papayaname])
         my = db.rank.find_one({'uid':uid})
         if my != None:
-            my = [my['order'], my['heart']]
+            my = [my['order'], my['mon']]
         else:
             my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
+    """
+    2 
+    rank order mon 
+    res uid mon papayaname
     """
     @expose('json')
     def getAllRank(self, uid):
@@ -6170,13 +6193,14 @@ class RootController(BaseController):
             for i in res:
                 user = checkopdata(i['uid'])
                 if user != None:
-                    oid.append([int(user.otherid), i['food'], user.papayaname])
+                    oid.append([int(user.otherid), i['mon'], user.papayaname])
         my = db.rank.find_one({'uid':uid})
         if my != None:
-            my = [my['order'], my['food']]
+            my = [my['order'], my['mon']]
         else:
             my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
+    """
     @expose('json')
     def rankHeart(self, uid, oid):
         uid = int(uid)
@@ -6196,6 +6220,7 @@ class RootController(BaseController):
             db.rank.save(fri)
             return dict(id=1)
         return dict(id=0)
+    """
         
     @expose('json')
     def harvestall(self,user_id,city_id):
