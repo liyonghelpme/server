@@ -89,7 +89,6 @@ class RootController(BaseController):
     global sg
     global minusstateeli
     global completereceive
-    global checkminusstate
     global monsterlist
     global returnSoldier
     global returnsentouryoku
@@ -827,90 +826,6 @@ class RootController(BaseController):
         replacecache(uid,u)
         
         return dict(string=u.invitestring)
-    @expose('json')
-    def writeback(self,uid):
-        ucache=mc.get(str(uid))
-        
-        
-        if ucache!=None:
-            uc=ucache[0]
-            um=DBSession.query(operationalData).filter_by(userid=int(uid)).one()
-            um.userid=uc.userid
-            um.labor_num=uc.labor_num
-            um.population=uc.population
-            um.exp=uc.exp
-            um.corn=uc.corn
-            um.cae=uc.cae
-            um.nobility=uc.nobility
-            um.subno=uc.subno
-            um.infantry1_num=uc.infantry1_num
-            um.cavalry1_num=uc.cavalry1_num
-            um.scout1_num=uc.scout1_num
-            um.person_god=uc.person_god
-            um.person_god_lev=uc.person_god_lev
-            um.wealth_god=uc.wealth_god
-            um.wealth_god_lev=uc.wealth_god_lev
-            um.food_god=uc.food_god
-            um.food_god_lev=uc.food_god_lev
-            um.war_god=uc.war_god
-            um.war_god_lev=uc.war_god_lev
-            um.user_kind=uc.user_kind
-            um.otherid=uc.otherid
-            um.lev=uc.lev
-            um.empirename=uc.empirename
-            um.food=uc.food
-            um.populationupbound=uc.populationupbound
-            um.wood=uc.wood
-            um.stone=uc.stone
-            um.specialgoods=uc.specialgoods
-            um.treasurebox=uc.treasurebox
-            um.treasurenum=uc.treasurenum
-            um.landkind=uc.landkind
-            um.visitnum=uc.visitnum
-            um.allyupbound=uc.allyupbound
-            um.allynum=uc.allynum
-            um.infantry2_num=uc.infantry2_num
-            um.cavalry2_num=uc.cavalry2_num
-            um.scout3_num=uc.scout3_num
-            um.scout2_num=uc.scout2_num
-            um.infantry3_num=uc.infantry3_num
-            um.cavalry3_num=uc.cavalry3_num
-            um.loginnum=uc.loginnum
-            um.minusstate=uc.minusstate
-            um.monsterlist=uc.monsterlist
-            um.monsterdefeat=uc.monsterdefeat
-            um.rate=uc.rate
-            um.allycancel=uc.allycancel
-            um.defencepower=uc.defencepower
-            um.battleresult=uc.battleresult
-            um.nbattleresult=uc.nbattleresult
-            um.wealthgodtime=uc.wealthgodtime
-            um.foodgodtime=uc.foodgodtime
-            um.wargodtime=uc.wargodtime
-            um.popgodtime=uc.popgodtime
-            um.newcomer=uc.newcomer
-            um.castlelev=uc.castlelev
-            um.infantrypower=uc.infantrypower
-            um.cavalrypower=uc.cavalrypower
-            um.currenttask=uc.currenttask
-            um.taskstring=uc.taskstring
-            um.tasknum=uc.tasknum
-            um.invitestring=uc.invitestring
-            um.signtime=uc.signtime
-            um.tid=uc.tid
-            um.paytime=uc.paytime
-            um.hid=uc.hid
-            um.monstertime=uc.monstertime
-            um.invite=uc.invite
-            um.invited=uc.invited
-            um.inviteid=uc.inviteid
-            um.monster=uc.monster
-            um.monlost=uc.monlost
-            um.monfood=uc.monfood
-            um.monpower=uc.monpower
-            return dict(id=1)
-        else:
-            return dict(id=0)
     def addcache(uid,u):
         uli=[u,0]
         mc.add(str(uid),uli)
@@ -926,86 +841,6 @@ class RootController(BaseController):
         
     def deleteopdata(uid):
         return mc.delete(str(uid),time=0) 
-    def cachewriteback(uid):
-        ucache=mc.get(str(uid))        
-        if ucache!=None:
-            uc=ucache[0]
-            um=DBSession.query(operationalData).filter_by(userid=int(uid)).one()
-            um.userid=uc.userid
-            um.labor_num=uc.labor_num
-            um.population=uc.population
-            um.exp=uc.exp
-            um.corn=uc.corn
-            um.cae=uc.cae
-            um.nobility=uc.nobility
-            um.subno=uc.subno
-            um.infantry1_num=uc.infantry1_num
-            um.cavalry1_num=uc.cavalry1_num
-            um.scout1_num=uc.scout1_num
-            um.person_god=uc.person_god
-            um.person_god_lev=uc.person_god_lev
-            um.wealth_god=uc.wealth_god
-            um.wealth_god_lev=uc.wealth_god_lev
-            um.food_god=uc.food_god
-            um.food_god_lev=uc.food_god_lev
-            um.war_god=uc.war_god
-            um.war_god_lev=uc.war_god_lev
-            um.user_kind=uc.user_kind
-            um.otherid=uc.otherid
-            um.lev=uc.lev
-            um.empirename=uc.empirename
-            um.food=uc.food
-            um.populationupbound=uc.populationupbound
-            um.wood=uc.wood
-            um.stone=uc.stone
-            um.specialgoods=uc.specialgoods
-            um.treasurebox=uc.treasurebox
-            um.treasurenum=uc.treasurenum
-            um.landkind=uc.landkind
-            um.visitnum=uc.visitnum
-            um.allyupbound=uc.allyupbound
-            um.allynum=uc.allynum
-            um.infantry2_num=uc.infantry2_num
-            um.cavalry2_num=uc.cavalry2_num
-            um.scout3_num=uc.scout3_num
-            um.scout2_num=uc.scout2_num
-            um.infantry3_num=uc.infantry3_num
-            um.cavalry3_num=uc.cavalry3_num
-            um.loginnum=uc.loginnum
-            um.minusstate=uc.minusstate
-            um.monsterlist=uc.monsterlist
-            um.monsterdefeat=uc.monsterdefeat
-            um.rate=uc.rate
-            um.allycancel=uc.allycancel
-            um.defencepower=uc.defencepower
-            um.battleresult=uc.battleresult
-            um.nbattleresult=uc.nbattleresult
-            um.wealthgodtime=uc.wealthgodtime
-            um.foodgodtime=uc.foodgodtime
-            um.wargodtime=uc.wargodtime
-            um.popgodtime=uc.popgodtime
-            um.newcomer=uc.newcomer
-            um.castlelev=uc.castlelev
-            um.infantrypower=uc.infantrypower
-            um.cavalrypower=uc.cavalrypower
-            um.currenttask=uc.currenttask
-            um.taskstring=uc.taskstring
-            um.tasknum=uc.tasknum
-            um.invitestring=uc.invitestring
-            um.paytime=uc.paytime
-            um.tid=uc.tid
-            um.hid=uc.hid
-            um.monstertime=uc.monstertime
-            um.invite=uc.invite
-            uc.invited=uc.invited
-            um.inviteid=uc.inviteid
-            um.monster=uc.monster
-            um.monlost=uc.monlost
-            um.monfood=uc.monfood
-            um.monpower=uc.monpower
-            return 1
-        else:
-            return 0
     @expose('json')
     def memm(self):
         mc.add('a','b')
@@ -1424,6 +1259,7 @@ class RootController(BaseController):
     @expose('json')
     def defeatmonster(self,uid,gridid, kind):
         print "defeatmonster", uid, gridid, kind
+        uid = int(uid)
         kind = int(kind)
         listsoldier=[]
         l2=[]
@@ -1522,185 +1358,79 @@ class RootController(BaseController):
                     else:
                         ss=ss+';'+str(cc)
                 u.monsterdefeat=ss
+            changeMonRank(uid)
             return dict(goods = goods, id=1,cardid=card,powerlost=powerlost,infantrypower=u.infantrypower,cavalrypower=u.cavalrypower,specialgoods=s)  
         except InvalidRequestError:
             return dict(id=0)
     
     
-    def checkminusstate(gridid,mstr):
-        mlist=mstr.split(mstr)
-        i=0
-        s=''
-        for m in mlist:
-            if u.minusstate.find(m)!=-1:
-                if i==0:
-                    s=m
-                    i=1
-                else:
-                    s=s+';'+m
-        return s   
-    def checkminusstate2(u,str):
-        if u.minusstate.find(str)!=-1:
-            return True
-        else:
-            return False
-    @expose('json')
-    def addminusstate(self,city_id,minusstr):
-        
-        war=DBSession.query(warMap).filter_by(city_id=int(city_id)).one()
-        str2=minusstr
-        strminus=minusstr
-        strminus=checkminusstate(war,minusstr)
-        str3=''
-        x=[]
-        minus=[] 
-        x=minusstr.split(';')
-        minus=war.minusstate.split(';')
-        if minus==None or len(minus)==0:
-            minus=[]
-            minus.append(war.minusstate)
-        if x==None or len(x)==0:
-            x=[]
-            x.append(minusstr)
-        xy=[]
-        mark=0
-        for xx in x:
-            xm=xx.split(',')
-            for mm in minus:
-                mmx=mm.split(',')
-                if mmx[1]==xx[1]:
-                    mark=1
-            if mark==0:
-                xy.append(xx)
-            mark=0
-        i=0
-        for xyy in xy:
-            if i==0:
-                str3=str3+xyy[0]+','+xyy[1]
-                i=1
-            else:
-                str3=str3+';'+xyy[0]+','+xyy[1]
-                         
-        if war.minusstate=='':
-            war.minusstate=str3
-            return dict(id=1)
-        else:
-            if strminus!='':
-                war.minusstate=war.minusstate+';'+str3
-                return dict(id=1)    
-            else:
-                return dict(id=0)
     @expose('json')
     def addminusstate2(self,city_id,type,grid_id):
-        
+        print "addMinus", city_id, type, grid_id
+        type = int(type)
+        grid_id = int(grid_id)
         war=DBSession.query(warMap).filter_by(city_id=int(city_id)).one()
-        str2=type+','+grid_id+', '
-        strminus=type+','+grid_id
         mlist=[]  
-        if war.minusstate=='':
-            war.minusstate=strminus
-            return dict(id=1)
-        else:
-            mlist=war.minusstate.split(';')
-            if len(mlist)==0:
-                x=war.minusstate.split(',')
-                if len(x)>1 and x[1]==grid_id:
-                    return dict(id=0)
-            else:
-                for m in mlist:
-                    xx=m.split(',')
-                    if len(xx)>1:
-                        if xx[1]==grid_id:
-                            return dict(id=0)
-            war.minusstate=war.minusstate+';'+strminus
-            return dict(id=1)            
+        try:
+            mlist = json.loads(war.minusstate)
+        except:
+            mlist = []
+        mlist.append([type, grid_id])
+        mlist = mlist[-10:]
+        war.minusstate = json.dumps(mlist)
+        return dict(id=1)
     @expose('json')
     def eliminusstate(self,uid,city_id,grid_id):
+        print "eliminusstate", uid, city_id, grid_id
         stri=''
         i=0
         t=int(time.mktime(time.localtime())-time.mktime(beginTime))
         minuslist=[]
-        try:
-            
-            u=checkopdata(uid)
-            war=DBSession.query(warMap).filter_by(city_id=int(city_id)).one()
-            strminus=war.minusstate
-            minuslist=strminus.split(';')
-            if strminus=='' or strminus==None or minuslist==None or len(minuslist)==0:
-                return dict(id=0)
-            else:
-                if len(minuslist)==0:
-                    minuslist.append(strminus)
-                i=0
-                for ml in minuslist :
-                    if ml=='' or ml==None:
-                        continue
-                    mle=ml.split(',')
-                    if len(mle)>=2:
-                        if mle[1]==grid_id :
-                            if mle[0]=='3':
-                                return dict(id=0)
-                            mle[0]='3'
-                        if i==0:
-                            stri=stri+mle[0]+','+mle[1]
-                            i=1
-                        else:
-                            stri=stri+';'+mle[0]+','+mle[1]
-                war.minusstate=stri
-                lev=int((u.lev-1)/10)
-                u.corn=u.corn+50+lev*20
-                u.exp=u.exp+1+lev*1
-                
-                if u.userid!=war.userid:
-                    try:
-                        n=DBSession.query(News).filter_by(uid=war.userid).filter_by(fpapayaid=u.otherid).filter_by(fuser_kind=u.user_kind).filter_by(kind=1).one()
-                        n.time=t
-                    except:
-                        addnews(war.userid,u.otherid,1,t,u.user_kind) 
-                replacecache(uid,u)  
-                return dict(id=1)
-        except InvalidRequestError:
-            return dict(id=0)         
-    def minusstateeli(user,war,stri,t1):
-        mark=0
-        if war.minusstate=='' or war.minusstate==None:
-            return 0
-        msl=war.minusstate.split(';')
-        t=int(time.mktime(time.localtime())-time.mktime(beginTime))
-        ss=''
-        sss=''
-        day1=0
-        i=0
-        if msl==None:
-            return 0
-        for msle in msl :
-            if msle=='' or msle==None:
-                continue
-            mslee=msle.split(',')
-            if len(mslee)<2:
-                continue
-            day=t/86400-t1/86400
-            if stri==mslee[1] and user.lev<10:
+        city_id = int(city_id)
+        uid = int(uid)
+        grid_id = int(grid_id)
 
-                if day>=3:
-                    mark=1
-                           
-            elif stri==mslee[1] and user.lev>=10 and user.lev<20:
-                if day>=5:
-                    mark=1
-                        
-            elif stri==mslee[1]:
-                if day>=7:
-                    mark=1
-            else:
-                sss=sss+mslee[0]+','+mslee[1]+';'
-                if i==0:
-                    ss=ss+msle
-                    i=1
-                else:
-                    ss=ss+';'+msle   
-        war.minusstate=ss
-        return mark
+        u=checkopdata(uid)
+        war=DBSession.query(warMap).filter_by(city_id=city_id).one()
+        try:
+            mlist = json.loads(war.minusstate)
+        except:
+            mlist = []
+
+        for m in mlist:
+            if m[1] == grid_id:
+                mlist.remove(m)
+                break
+        war.minusstate = json.dumps(mlist)
+        
+        lev=int((u.lev-1)/10)
+        u.corn=u.corn+50+lev*20
+        u.exp=u.exp+1+lev*1
+            
+        if u.userid!=war.userid:
+            try:
+                n=DBSession.query(News).filter_by(uid=war.userid).filter_by(fpapayaid=u.otherid).filter_by(fuser_kind=u.user_kind).filter_by(kind=1).one()
+                n.time=t
+            except:
+                addnews(war.userid,u.otherid,1,t,u.user_kind) 
+        return dict(id=1)
+
+    #grid_id
+    def minusstateeli(user,war, grid_id,t1):
+        grid_id = int(grid_id)
+        mark=0
+        try:
+            mlist = json.loads(war.minusstate)
+        except:
+            mlist = []
+        for m in mlist:
+            if m[1] == grid_id:
+                mlist.remove(m)
+                break
+        war.minusstate = json.dumps(mlist)
+        return 1
+                
+
     
     
     @expose('json')
@@ -2198,12 +1928,14 @@ class RootController(BaseController):
             uw=DBSession.query(warMap).filter_by(userid=u.userid).one()
             friendid=u.userid
 
-            
+            """
             if uw.city_id == 2763:
                 readstr = DBSession.query(businessRead).filter_by(city_id = uw.city_id).one()
                 readstr = readstr.layout
             else:
-                readstr = getCity(uw.city_id)
+            """
+
+            readstr = getCity(uw.city_id)
 
             visit=DBSession.query(Papayafriend).filter_by(uid=userid).filter_by(papayaid=otherid).one()
             try:
@@ -2260,7 +1992,7 @@ class RootController(BaseController):
                 sub=0
                 
             
-            return dict(loginNum = u.logincard, money = u.corn, id=otherid, sub=sub,cardlist=cardlist,monsterdefeat=u.monsterdefeat,hid=u.hid,power=u.infantrypower+u.cavalrypower,casubno=u.subno,empirename=u.empirename,minusstr=uw.minusstate,allyupbound=u.allyupbound,frienduserid=u.userid,city_id=uw.city_id,visited=i,corn=bonus,stri=readstr,friends=u.treasurebox,lev=u.lev,nobility=u.nobility,treasurenum=u.treasurenum,time=int(time.mktime(time.localtime())-time.mktime(beginTime)))
+            return dict(loginNum = u.logincard, money = u.corn, id=otherid, sub=sub,cardlist=cardlist,monsterdefeat=u.monsterdefeat,hid=u.hid,power=u.infantrypower+u.cavalrypower,casubno=u.subno,empirename=u.empirename,minusstr= getMinusState(uw.minusstate),allyupbound=u.allyupbound,frienduserid=u.userid,city_id=uw.city_id,visited=i,corn=bonus,stri=readstr,friends=u.treasurebox,lev=u.lev,nobility=u.nobility,treasurenum=u.treasurenum,time=int(time.mktime(time.localtime())-time.mktime(beginTime)))
         except InvalidRequestError:
             print "error visit " + str(uu.userid) + ' ' + str(otherid)
             if visit!=None:
@@ -2279,7 +2011,7 @@ class RootController(BaseController):
                 print "no such user" 
             if u == None or uu == None:
                 return dict(id=0, reason="error no such user") 
-            return dict(loginNum = u.logincard, money = u.corn, id=otherid, cardlist=cardlist,monsterdefeat=u.monsterdefeat,hid=u.hid,power=u.infantrypower+u.cavalrypower,casubno=u.subno,empirename=u.empirename,minusstr=uw.minusstate,frienduserid=u.userid,city_id=uw.city_id,visited=0,corn=85+15*(dv.visitnum),stri=readstr,friends=u.treasurebox,lev=u.lev,nobility=u.nobility,treasurenum=u.treasurenum,time=int(time.mktime(time.localtime())-time.mktime(beginTime)))
+            return dict(loginNum = u.logincard, money = u.corn, id=otherid, cardlist=cardlist,monsterdefeat=u.monsterdefeat,hid=u.hid,power=u.infantrypower+u.cavalrypower,casubno=u.subno,empirename=u.empirename,minusstr= getMinusState(uw.minusstate),frienduserid=u.userid,city_id=uw.city_id,visited=0,corn=85+15*(dv.visitnum),stri=readstr,friends=u.treasurebox,lev=u.lev,nobility=u.nobility,treasurenum=u.treasurenum,time=int(time.mktime(time.localtime())-time.mktime(beginTime)))
     @expose('json')
     def sell(self,user_id,city_id,grid_id):
         user_id = int(user_id)
@@ -3117,7 +2849,7 @@ class RootController(BaseController):
                     
             except InvalidRequestError:
                 giftstr=0
-            minusstr=s.minusstate
+            minusstr = getMinusState(s.minusstate)
             ds=DBSession.query(Datesurprise).filter_by(uid=user.userid).one()   
             if user.war_god==1:
                 wargodtime=3600-(logintime-user.wargodtime)
@@ -6360,7 +6092,16 @@ class RootController(BaseController):
             factor2 = FarmExtra[farmKind]
         return factor2
         
-        
+    global changeMonRank
+    def changeMonRank(uid):
+        act = db.rank.find_one({'uid':uid})
+        if act == None:
+            db.rank.save({'uid':uid, 'mon':0, 'order':1000})
+            db.rank.ensure_index('uid')
+            act = db.rank.find_one({'uid':uid})
+        print uid, act
+        act['mon'] += 1
+        db.rank.save(act)
     @expose('json')
     def harvest(self,user_id,city_id,grid_id,type):
         user_id = int(user_id)
@@ -6490,10 +6231,11 @@ class RootController(BaseController):
             for i in res:
                 user = checkopdata(i['uid'])
                 if user != None:
-                    oid.append([int(user.otherid), i['heart'], user.papayaname])
+                    oid.append([int(user.otherid), i['mon'], user.papayaname])
         my = db.rank.find_one({'uid':uid})
+        print uid, my
         if my != None:
-            my = [my['order'], my['heart']]
+            my = [my['order'], my['mon']]
         else:
             my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
