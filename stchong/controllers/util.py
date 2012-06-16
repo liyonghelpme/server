@@ -10,6 +10,7 @@ from sqlalchemy import func
 from stchong.model import DBSession, db 
 import random
 from stchong import model
+from stchong.model import warMap
 import json
 
 
@@ -65,4 +66,19 @@ def changeGoods(uid, kind, num):
     else:
         objs[kind] += num
     db.goods.update({'uid':uid}, {'$set': {'goods': objs}})
+
+def getMinusState(minus):
+    try:
+        mlist = json.loads(minus)
+    except:
+        mlist = []
+    s = ''
+    i = 0
+    for m in mlist:
+        if i == 0:
+            s += str(m[0])+','+str(m[1])
+            i += 1
+        else:
+            s += ';'+str(m[0])+','+str(m[1])
+    return s
 
