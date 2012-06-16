@@ -120,7 +120,9 @@ def init_model(engine):
     rank_table=Table("rank",metadata,autoload=True,autoload_with=engine)
     mana_table = Table("mana", metadata, autoload=True, autoload_with=engine)
     ship_table = Table("Ship", metadata, autoload=True, autoload_with=engine)
+    invite_table = Table("invite", metadata, autoload=True, autoload_with=engine)
    # useraccount_table=Table("userAccount",metadata,autoload=True,autoload_with=engine)
+    mapper(Invite, invite_table)
     mapper(Spe, spe_table)
     mapper(Ship, ship_table)
     mapper(warMap,warmap_table)
@@ -177,4 +179,5 @@ from stchong.model.mana import Mana
 from stchong.model.warRes import WarRes
 from stchong.model.spe import Spe
 from stchong.model.ship import Ship
+from stchong.model.invite import Invite
 #from stchong.model.useraccount import userAccount
