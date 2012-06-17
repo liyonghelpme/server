@@ -47,20 +47,20 @@ class InviteController(BaseController):
         try:
             code = int(code)
         except:
-            return dict(id=0, reason='not number')
+            return dict(id=0, reason='not number', status=0)
         try:
             user = DBSession.query(Invite).filter_by(code=code).one()
             if user.uid == uid:
-                return dict(id=0, reason = 'can\'t write to you')
+                return dict(id=0, reason = 'can\'t write to you', status = 1)
             if user.num >= 10:
-                return dict(id=0, reason='times too much')
+                return dict(id=0, reason='times too much', status = 2)
             try:
                 fl = json.loads(user.friendList)
             except:
                 fl = []
             try:
                 po = fl.index(uid)
-                return dict(id=0, reason = 'write yet')
+                return dict(id=0, reason = 'write yet', status = 3)
             except:
                 pass
             fl.append(uid)

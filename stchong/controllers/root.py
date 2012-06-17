@@ -334,53 +334,73 @@ class RootController(BaseController):
         curTime = int(time.mktime(time.localtime())-time.mktime(beginTime))
         print 'buyCae', uid, cae, pap/10000, pap%10000, curTime
         return dict(id=1)
+    global CAENUM
+    CAENUM = [2, 3, 5, 10, 20]
+    global caeLevel
+    caeLevel = [3, 10, 25, 50, 100]
     @expose('json')
     def completepay(self,uid,tid,papapas,signature):
         u=checkopdata(uid)
         ti=int(time.mktime(time.localtime())-time.mktime(beginTime))
-        caeplus=0
-        reward = [1, 5, 15, 40]
-        #if u.tid=='-1':
-            #s=hashlib.md5(u.otherid+'-'+tid+'-'+appsecret).hexdigest()
-        print "charge", uid, u.otherid, tid, appsecret, papapas
-        calS = hashlib.md5(u.otherid+'-'+tid+'-'+appsecret).hexdigest()
-        print calS
-        print signature
-        if calS != signature:
-            print "sig error", calS, signature
-        #    return dict(id=0, reason="sig error")
-        cb=u.cae
-        #if s==signature:
-        u.paytime=-1
-        if int(papapas)==300:
-            u.cae=u.cae+int(int(papapas)/100)
-            caeplus=int(int(papapas)/100)
-        elif int(papapas)==1000:
-            u.cae=u.cae+10+reward[0]
-            caeplus=10+reward[0]
-        elif int(papapas)==2500:
-            u.cae=u.cae+25+reward[1]
-            caeplus=25+reward[1]
-        elif int(papapas)==5000:
-            u.cae=u.cae+50+reward[2]
-            caeplus=50+reward[2]
-        elif int(papapas)==10000:
-            u.cae=u.cae+100+reward[3]
-            caeplus=100+reward[3]
-        else:
-            u.cae=u.cae+int(int(papapas)/100)
-        ca=u.cae
+        
+        #caeplus=0
+        papapas = int(papapas)
+        #reward = [1, 5, 15, 40]
+
+        s=hashlib.md5(u.otherid+'-'+tid+'-'+appsecret).hexdigest()
+        print "complete pay", uid, tid, papapas, signature, s
+        if s != signature:
+            print "payError", uid, tid, papapas, signature, s
+
+        caeNum = papapas/100
+        u.cae += caeNum
+        try:
+            index = caeLevel.index(caeNum)
+            u.cae += CAENUM[index]
+        except:
+            pass
         try:
             x=DBSession.query(Caebuy).filter_by(uid=u.userid).filter_by(time=ti).one()
             x.cae=int(int(papapas)/100)
         except:
             ncb=Caebuy(uid=u.userid,cae=int(int(papapas)/100),time=ti)
-            
             DBSession.add(ncb)
         return dict(id=1)
-        #else:
-        #    return dict(id=0)
+        
         """
+        if u.tid=='-1':
+            s=hashlib.md5(u.otherid+'-'+tid+'-'+appsecret).hexdigest()
+            cb=u.cae
+            if s==signature:
+                u.paytime=-1
+                if int(papapas)==300:
+                    u.cae=u.cae+int(int(papapas)/100)
+                    caeplus=int(int(papapas)/100)
+                elif int(papapas)==1000:
+                    u.cae=u.cae+10+reward[0]
+                    caeplus=10+reward[0]
+                elif int(papapas)==2500:
+                    u.cae=u.cae+25+reward[1]
+                    caeplus=25+reward[1]
+                elif int(papapas)==5000:
+                    u.cae=u.cae+50+reward[2]
+                    caeplus=50+reward[2]
+                elif int(papapas)==10000:
+                    u.cae=u.cae+100+reward[3]
+                    caeplus=100+reward[3]
+                else:
+                    u.cae=u.cae+int(int(papapas)/100)
+                ca=u.cae
+                try:
+                    x=DBSession.query(Caebuy).filter_by(uid=u.userid).filter_by(time=ti).one()
+                    x.cae=int(int(papapas)/100)
+                except:
+                    ncb=Caebuy(uid=u.userid,cae=int(int(papapas)/100),time=ti)
+                    
+                    DBSession.add(ncb)
+                return dict(id=1)
+            else:
+                return dict(id=0)
         else:
             if tid!=u.tid:
                 return dict(id=0)
