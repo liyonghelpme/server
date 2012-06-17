@@ -12,6 +12,7 @@ import random
 from stchong import model
 from stchong.model import warMap
 import json
+from stchong.model import Monster, MonsterResult
 
 
 def getSpecial(user):
@@ -57,6 +58,7 @@ def getGoods(uid):
         goods = db.goods.find_one({'uid':uid}) 
     return goods
 def changeGoods(uid, kind, num):
+    print "changeGoods", uid, kind, num
     goods = getGoods(uid)
     objs = goods['goods']
     kind = str(kind)
@@ -82,3 +84,35 @@ def getMinusState(minus):
             s += ';'+str(m[0])+','+str(m[1])
     return s
 
+
+def getMonster(uid, mid):
+    uid = int(uid)
+    mid = int(mid)
+    monster = DBSession.query(Monster).filter_by(mid=mid).all()
+    return dict(id=1, monster=monster)
+def calResult(monster):
+    attacker = json.loads(monster.attacker)
+    totalPower = sum([i[1] for i in attacker])
+    dragonNum = monster.dragonNum
+    for i in attacker:
+        reward = dragonNum*i[1]/totalPower
+        monR = MonsterResult(uid=i[0], mid=monster.id, dragonNum=reward, power = i[1], totalNum = totalPower, readYet = 0)
+        #changeGoods(i[1], 0, reward )
+        try:
+            exis = DBSession.query(MonsterResult).filter_by(uid=i[0]).filter_by(mid=monster.id).one()
+            exis.readYet = 0
+            exis.dragonNum += reward
+            exis.power += i[1]
+        except:
+            DBSession.add(monR)
+
+def getResult(uid):
+    uid = int(uid)
+    res = DBSession.query(MonsterResult).filter_by(uid=uid).filter_by(readYet = 0).all()
+    user = getUser(uid)
+    for r in res:
+        r.readYet = 1
+        changeGoods(uid, 0, r.dragonNum)
+    print "monster Result", res
+
+    return dict(id=0, res=res)
