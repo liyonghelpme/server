@@ -39,6 +39,8 @@ while True:
     for m in maps:#m[0] = mapid
         if m[0] not in nmon:
             getMonster(m[0], m[1])
+    conn.commit()
+
     time.sleep(3600*12)
 
 
