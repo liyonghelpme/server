@@ -115,4 +115,4 @@ def getResult(uid):
         changeGoods(uid, 0, r.dragonNum)
     print "monster Result", res
 
-    return dict(id=0, res=res)
+    return dict(id=1, res=res)

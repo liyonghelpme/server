@@ -24,11 +24,11 @@ cursor.execute(sql)
 maps = cursor.fetchall()
 print maps
 
-draNum = [1, 10, 15, 20]
+draNum = [10, 20, 40, 80]
 def getMonster(mid, kind):
     base = draNum[min(kind, len(draNum)-1)] 
     dragonNum = random.randint(base, base+5)
-    power = dragonNum*1000
+    power = dragonNum*300
 
     sql = 'insert into monster (mid, power, attacker, dragonNum) values(%d, %d, %s, %d)' % (mid, power, '\'[]\'', dragonNum) 
     print sql

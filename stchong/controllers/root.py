@@ -291,6 +291,38 @@ class RootController(BaseController):
         DBSession.flush()
         return dict(id=1, leftNum = nums-end, msg = msgs)
 
+    global CAENUM
+    CAENUM = [2, 3, 5, 10, 20]
+    global caeLevel
+    caeLevel = [3, 10, 25, 50, 100]
+    @expose('json')
+    def completepay(self,uid,tid,papapas,signature):
+        u=checkopdata(uid)
+        ti=int(time.mktime(time.localtime())-time.mktime(beginTime))
+        #caeplus=0
+        papapas = int(papapas)
+        #reward = [1, 5, 15, 40]
+
+        s=hashlib.md5(u.otherid+'-'+tid+'-'+appsecret).hexdigest()
+        print "complete pay", uid, tid, papapas, signature, s
+        if s != signature:
+            print "payError", uid, tid, papapas, signature, s
+
+        caeNum = papapas/100
+        u.cae += caeNum
+        try:
+            index = caeLevel.index(caeNum)
+            u.cae += CAENUM[index]
+        except:
+            pass
+        try:
+            x=DBSession.query(Caebuy).filter_by(uid=u.userid).filter_by(time=ti).one()
+            x.cae=int(int(papapas)/100)
+        except:
+            ncb=Caebuy(uid=u.userid,cae=int(int(papapas)/100),time=ti)
+            DBSession.add(ncb)
+        return dict(id=1)
+    """
     @expose('json')
     def completepay(self,uid,tid,papapas,signature):
         u=checkopdata(uid)
@@ -345,6 +377,7 @@ class RootController(BaseController):
                 DBSession.add(ncb)            
             print inspect.stack()[0]
             return dict(id=1)
+    """
     
     @expose()
     def payment(self,tid,uid,papapas,signature,time):
