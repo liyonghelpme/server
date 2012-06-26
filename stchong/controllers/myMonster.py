@@ -37,7 +37,7 @@ class MyMonsterController(BaseController):
     global MON_CAE
     MON_CAE = 100
     global MON_ID
-    MON_ID = [180, 190, 110, 100]
+    MON_ID = range(18, 36)
     def genNewMonster(self, user):
         #mid kindid power
         maxId = -1
@@ -49,12 +49,25 @@ class MyMonsterController(BaseController):
         gids = [g[3] for g in monsters]
         leftGids = list(set(range(0, 10))-set(gids))
         print "leftGids", leftGids
-
-        for i in range(0, MAX_MON - len(monsters)):
-            kindId = random.randint(0, 3)
+        hasSpe = False
+        for i in monsters:
+            if i[4] == 1:
+                hasSpe = True
+                break
+        if not hasSpe:
+            kindId = random.randint(0, len(MON_ID)-1)
             kindId = MON_ID[kindId]
-            power = random.randint(1, 6)*MON_CAE
-            monsters.append([maxId, kindId, power, leftGids[i]])
+            power = 80+4*user.waveNum//8
+            monsters.append([maxId, kindId, power, leftGids[0], 1])
+            leftGids.pop(0)
+            maxId += 1
+        print "monsters", monsters
+            
+        for i in range(0, MAX_MON - len(monsters)):
+            kindId = random.randint(0, len(MON_ID)-1)
+            kindId = MON_ID[kindId]
+            power = 40+2*user.waveNum//8
+            monsters.append([maxId, kindId, power, leftGids[i], 0])
             maxId += 1
         user.monsters = json.dumps(monsters)
             
@@ -71,7 +84,8 @@ class MyMonsterController(BaseController):
         curTime = getTime()
         dif = curTime - user.lastTime
         if dif >= 3600*2:
-            if len(user.monsters) < MAX_MON:
+            monsters = json.loads(user.monsters)
+            if len(monsters) < MAX_MON:
                 self.genNewMonster(user)
                 user.lastTime = curTime
         return user
@@ -101,7 +115,7 @@ class MyMonsterController(BaseController):
             print "killMon", i
             power = i[2]
             if kind == 0:#attack with cae
-                cost = power/MON_CAE
+                cost = (power+MON_CAE-1)/MON_CAE
                 if cost > user.cae:
                     return dict(id=0, reason='cae not', status = 2)
                 user.cae -= cost
@@ -131,7 +145,8 @@ class MyMonsterController(BaseController):
 
             ms.remove(i)
             mon.monsters = json.dumps(ms)
-            dragonNum = power//MON_DRA;
+            mon.waveNum = min(mon.waveNum+1, 250*8)
+            dragonNum = (power+MON_DRA-1)//MON_DRA;
             changeGoods(uid, 0, dragonNum)
             if kind == 0:
                 return dict(id=1, caeCost = cost, dragonNum = dragonNum)
