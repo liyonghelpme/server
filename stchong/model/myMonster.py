@@ -4,3 +4,4 @@ class MyMonster(object):
         self.uid = uid
         self.monsters = monsters
         self.lastTime = lastTime
+        self.waveNum = 0
