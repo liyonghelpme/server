@@ -132,7 +132,9 @@ def init_model(engine):
     invite_table = Table("invite", metadata, autoload=True, autoload_with=engine)
     monster_table = Table("monster", metadata, autoload=True, autoload_with=engine)
     monsterResult_table = Table("monsterResult", metadata, autoload=True, autoload_with=engine)
+    myMonster_table = Table("myMonster", metadata, autoload=True, autoload_with=engine)
     mapper(Monster, monster_table)
+    mapper(MyMonster, myMonster_table)
     mapper(MonsterResult, monsterResult_table)
    # useraccount_table=Table("userAccount",metadata,autoload=True,autoload_with=engine)
     mapper(Invite, invite_table)
@@ -195,5 +197,6 @@ from stchong.model.ship import Ship
 from stchong.model.invite import Invite
 from stchong.model.monster import Monster
 from stchong.model.monsterResult import MonsterResult
+from stchong.model.myMonster import MyMonster
 
 #from stchong.model.useraccount import userAccount
