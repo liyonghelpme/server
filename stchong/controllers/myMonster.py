@@ -31,7 +31,7 @@ __all__ = ['MyMonsterController']
 
 class MyMonsterController(BaseController):
     global MON_DRA
-    MON_DRA = 50
+    MON_DRA = 100
     global MAX_MON
     MAX_MON = 10
     global MON_CAE

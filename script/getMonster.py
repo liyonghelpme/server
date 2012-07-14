@@ -30,7 +30,7 @@ while True:
     def getMonster(mid, kind):
         base = draNum[min(kind, len(draNum)-1)] 
         dragonNum = random.randint(base, base+5)
-        power = dragonNum*50
+        power = dragonNum*100
 
         sql = 'insert into monster (mid, power, attacker, dragonNum) values(%d, %d, %s, %d)' % (mid, power, '\'[]\'', dragonNum) 
         print sql
