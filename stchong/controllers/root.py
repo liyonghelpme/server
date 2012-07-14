@@ -339,7 +339,8 @@ class RootController(BaseController):
         print 'buyCae', uid, cae, pap/10000, pap%10000, curTime
         return dict(id=1)
     global CAENUM
-    CAENUM = [2, 3, 5, 10, 20]
+    #CAENUM = [2, 3, 5, 10, 20]
+    CAENUM = [0, 1, 5, 10, 20]
     global caeLevel
     caeLevel = [3, 10, 25, 50, 100]
     @expose('json')
