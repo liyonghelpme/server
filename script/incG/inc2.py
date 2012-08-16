@@ -7,5 +7,5 @@ for l in f:
     l = l.replace('\n', '')
     p = db.goods.find_one({'uid':int(l)})
     print p
-    #p['goods']['0'] += 90
-    #db.goods.save(p)
+    p['goods']['0'] += 100
+    db.goods.save(p)
