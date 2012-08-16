@@ -192,3 +192,12 @@ def getResult(uid):
 
     
 
+def changeMonRank(uid):
+    act = db.rank.find_one({'uid':uid})
+    if act == None:
+        db.rank.save({'uid':uid, 'mon':0, 'order':1000})
+        db.rank.ensure_index("uid")
+        act = db.rank.find_one({'uid':uid})
+    mNum = act.get('mon', 0)
+    act['mon'] = mNum+1
+    db.rank.save(act)
