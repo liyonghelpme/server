@@ -230,9 +230,9 @@ class RootController(BaseController):
     ]
 
     #coin cae exp 
-    #expanding=[[10000,10,10],[50000,30,20],[100000,50,40],[500000,70,70],[1000000, 100, 110],[1500000,150,150],[2000000,200,210],[2500000,300,280],[3000000,500,360],[5000000,1000,450]]
+    expanding=[[10000,10,10],[50000,30,20],[100000,50,40],[500000,70,70],[1000000, 100, 110],[1500000,150,150],[2000000,200,210],[2500000,300,280],[3000000,500,360],[5000000,1000,450]]
 
-    expanding=[[10000,5,10],[50000,15,20],[100000,25,40],[500000,35,70],[1000000, 50, 110],[1500000, 75, 150],[2000000, 100, 210],[2500000, 150, 280],[3000000, 250, 360],[5000000,500,450]]
+    #expanding=[[10000,5,10],[50000,15,20],[100000,25,40],[500000,35,70],[1000000, 50, 110],[1500000, 75, 150],[2000000, 100, 210],[2500000, 150, 280],[3000000, 250, 360],[5000000,500,450]]
     error = ErrorController()
     EXPANDLEV=10
     
@@ -339,8 +339,8 @@ class RootController(BaseController):
         print 'buyCae', uid, cae, pap/10000, pap%10000, curTime
         return dict(id=1)
     global CAENUM
-    #CAENUM = [2, 3, 5, 10, 20]
-    CAENUM = [0, 1, 5, 10, 20]
+    CAENUM = [2, 4, 10, 20, 40]
+    #CAENUM = [0, 1, 5, 10, 20]
     global caeLevel
     caeLevel = [3, 10, 25, 50, 100]
     @expose('json')
@@ -1268,11 +1268,32 @@ class RootController(BaseController):
                     else:
                         ss=ss+';'+str(cc)
                 u.monsterdefeat=ss
-            changeMonRank(uid)
+            #changeMonRank(uid)
             return dict(goods = goods, id=1,cardid=card,powerlost=powerlost,infantrypower=u.infantrypower,cavalrypower=u.cavalrypower,specialgoods=s)  
         except InvalidRequestError:
             return dict(id=0)
     
+    @expose('json')
+    def getReward(self, uid):
+        uid = int(uid)
+        act = db.rank.find_one({'uid':uid})
+        dragonNum = 0
+        if act == None:
+            return dict(id=1, monNum=0, dragonNum=dragonNum)
+
+        monNum = act.get('mon', 0)
+
+        rewardYet = db.getReward.find_one({'uid':uid})
+
+        if rewardYet == None:
+            rewardYet = {'uid':uid}
+            db.getReward.save(rewardYet)
+            db.getReward.ensure_index('uid')
+            dragonNum = monNum/10
+            changeGoods(uid, 0, dragonNum)
+
+
+        return dict(id=1, monNum=monNum, dragonNum = dragonNum)
     
     def checkminusstate(gridid,mstr):
         mlist=mstr.split(mstr)
