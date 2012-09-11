@@ -337,7 +337,7 @@ class RootController(BaseController):
         print 'buyCae', uid, cae, pap/10000, pap%10000, curTime
         return dict(id=1)
     global CAENUM
-    CAENUM = [2, 5, 12, 30, 70]
+    CAENUM = [2, 4, 10, 20, 40]
     #CAENUM = [0, 1, 5, 10, 20]
     global caeLevel
     caeLevel = [3, 10, 25, 50, 100]
