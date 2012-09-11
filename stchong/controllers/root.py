@@ -1166,19 +1166,6 @@ class RootController(BaseController):
         return
     """
 
-    """
-    global changeMonRank
-    def changeMonRank(uid):
-        act = db.rank.find_one({'uid':uid})
-        if act == None:
-            db.rank.save({'uid':uid, 'mon':0, 'order':1000})
-            db.rank.ensure_index("uid")
-            act = db.rank.find_one({'uid':uid})
-        if act.get('mon') == None:
-            act['mon'] = 0
-        act['mon'] += 1
-        db.rank.save(act)
-    """
     @expose('json')
     def defeatmonster(self,uid,gridid, kind):
         print "defeatmonster", uid, gridid, kind
@@ -1281,7 +1268,7 @@ class RootController(BaseController):
                     else:
                         ss=ss+';'+str(cc)
                 u.monsterdefeat=ss
-            #changeMonRank(uid)
+            changeMonRank(uid)
             return dict(goods = goods, id=1,cardid=card,powerlost=powerlost,infantrypower=u.infantrypower,cavalrypower=u.cavalrypower,specialgoods=s)  
         except InvalidRequestError:
             return dict(id=0)
@@ -6201,10 +6188,10 @@ class RootController(BaseController):
             for i in res:
                 user = checkopdata(i['uid'])
                 if user != None:
-                    oid.append([int(user.otherid), i.get('heart', 0), user.papayaname])
+                    oid.append([int(user.otherid), i.get('mon', 0), user.papayaname])
         my = db.rank.find_one({'uid':uid})
         if my != None:
-            my = [my['order'], my.get('heart', 0)]
+            my = [my['order'], my.get('mon', 0)]
         else:
             my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
@@ -6225,13 +6212,14 @@ class RootController(BaseController):
             for i in res:
                 user = checkopdata(i['uid'])
                 if user != None:
-                    oid.append([int(user.otherid), i['heart'], user.papayaname])
+                    oid.append([int(user.otherid), i['mon'], user.papayaname])
         my = db.rank.find_one({'uid':uid})
         if my != None:
-            my = [my['order'], my['heart']]
+            my = [my['order'], my['mon']]
         else:
             my = [999, 0]
         return dict(id=1, top=oid, myrank = my)
+    """
     @expose('json')
     def rankHeart(self, uid, oid):
         uid = int(uid)
@@ -6253,6 +6241,7 @@ class RootController(BaseController):
             db.rank.save(fri)
             return dict(id=1)
         return dict(id=0)
+    """
         
     @expose('json')
     def harvestall(self,user_id,city_id):

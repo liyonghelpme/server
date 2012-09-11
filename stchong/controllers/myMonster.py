@@ -148,6 +148,7 @@ class MyMonsterController(BaseController):
             mon.waveNum = min(mon.waveNum+1, 250*8)
             dragonNum = (power+MON_DRA-1)//MON_DRA;
             changeGoods(uid, 0, dragonNum)
+            changeMonRank(uid)
             if kind == 0:
                 return dict(id=1, caeCost = cost, dragonNum = dragonNum)
             else:
