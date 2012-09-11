@@ -57,7 +57,7 @@ class MyMonsterController(BaseController):
         if not hasSpe:
             kindId = random.randint(0, len(MON_ID)-1)
             kindId = MON_ID[kindId]
-            power = 80+4*user.waveNum//8
+            power = 400+20*user.waveNum//8
             monsters.append([maxId, kindId, power, leftGids[0], 1])
             leftGids.pop(0)
             maxId += 1
@@ -148,7 +148,7 @@ class MyMonsterController(BaseController):
             mon.waveNum = min(mon.waveNum+1, 250*8)
             dragonNum = (power+MON_DRA-1)//MON_DRA;
             changeGoods(uid, 0, dragonNum)
-            changeMonRank(uid)
+            #changeMonRank(uid)
             if kind == 0:
                 return dict(id=1, caeCost = cost, dragonNum = dragonNum)
             else:
