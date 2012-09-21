@@ -118,7 +118,13 @@ def init_model(engine):
     ppyfriend_table=Table("papayafriend",metadata,autoload=True,autoload_with=engine)
     rank_table=Table("rank",metadata,autoload=True,autoload_with=engine)
     mana_table = Table("mana", metadata, autoload=True, autoload_with=engine)
+    monster_table = Table("monster", metadata, autoload=True, autoload_with=engine)
+    monsterResult_table = Table("monsterResult", metadata, autoload=True, autoload_with=engine)
+    invite_table = Table("invite", metadata, autoload=True, autoload_with=engine)
    # useraccount_table=Table("userAccount",metadata,autoload=True,autoload_with=engine)
+    mapper(Invite, invite_table)
+    mapper(MonsterResult, monsterResult_table)
+    mapper(Monster, monster_table)
     mapper(warMap,warmap_table)
     mapper(operationalData,operationaldata_table)
     mapper(businessWrite,businesswrite_table)
@@ -169,4 +175,7 @@ from stchong.model.message import Message
 from stchong.model.emptyCastal import EmptyCastal
 from stchong.model.emptyResult import EmptyResult
 from stchong.model.mana import Mana
+from stchong.model.monster import Monster
+from stchong.model.monsterResult import MonsterResult
+from stchong.model.invite import Invite
 #from stchong.model.useraccount import userAccount
