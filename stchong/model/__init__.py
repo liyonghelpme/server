@@ -11,15 +11,17 @@ import time
 import json
 import MySQLdb
 import pymongo
+DataHost = '10.241.81.242'
+DataPort = 27018
 
-conn = pymongo.Connection(host='localhost', port = 27017)
+conn = pymongo.Connection(host=DataHost, port = DataPort)
 db = conn['Rank']
 collect = db.rank
 # Global session manager: DBSession() returns the Thread-local
 # session object appropriate for the current web request.
 passwd = '2e4n5k2w2x'
-user = 'root'
-con = MySQLdb.connect(host='localhost', passwd=passwd, user=user, db='stcHong')
+DataUser = 'root'
+con = MySQLdb.connect(host=DataHost, passwd=passwd, user=DataUser, db='stcHong')
 cursor = con.cursor()
 maker = sessionmaker(autoflush=True, autocommit=False,
                      extension=ZopeTransactionExtension())
