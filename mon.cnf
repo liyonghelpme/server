@@ -1,0 +1,7 @@
+dbpath=/data/monDB
+logpath=/data/monLog/mon.log
+bind_ip=0.0.0.0
+port=27018
+slave=true
+source=uhz000738.chinaw3.com:27018
+

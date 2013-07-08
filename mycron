@@ -1,0 +1,19 @@
+0 0 * * * python /data/server/script/database.py
+0 0 * * 0,3 python /data/server/script/newsdelete.py
+15 23 * * * python /data/server/script/caelog.py
+0 3 * * * python /data/server/script/rank.py
+15 23 * * * python /data/server/script/clearPet.py
+20 3 * * * python /data/server/script/clearMsg.py
+
+#0 0 * * * bash /databasescript
+#0 0 * * * bash ~/tg2env/english/server/script/dead.sh
+#0 0 * * * python /database-en.py
+#0 0 * * 0,3 bash /newsscript
+#0 0 * * 0,3 python /newsdelete-en.py
+#15 23 * * * python /root/linan-empire/caelog.py
+#0 3 * * * python /root/tg2env/stchong/rank.py
+#15 23 * * * python /root/tg2env/clearPet.py
+#15 23 * * * python /root/tg2env/clearPet-en.py
+#20 3 * * * python /clearMsg.py
+#20 3 * * * python /clearMsg-en.py
+#59 23 * * * python /happyfruit.py
