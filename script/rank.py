@@ -3,8 +3,8 @@
 
 import MySQLdb
 import time
-
-conn = MySQLdb.connect(host='localhost',user='root',passwd='badperson3',db='stcHong')
+from config import *
+#conn = MySQLdb.connect(host='localhost',user='root',passwd='badperson3',db='stcHong')
 cursor = conn.cursor()
 logfile = open("/root/tg2env/stchong/ranklog","a")
 #print "####### wonder_empire daily rank at "+time.strftime("%Y-%m-%d %H:%M:%S ",time.localtime())+" #######"

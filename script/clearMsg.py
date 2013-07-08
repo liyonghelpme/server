@@ -2,8 +2,9 @@ import MySQLdb
 import json
 import time
 
-con = MySQLdb.connect(host='localhost', user='root', db='stcHong', passwd='2e4n5k2w2x')
-cursor = con.cursor()
+#con = MySQLdb.connect(host='localhost', user='root', db='stcHong', passwd='2e4n5k2w2x')
+from config import *
+cursor = conn.cursor()
 
 beginTime = [2011, 1, 1, 0, 0, 0, 0, 0, 0]
 curNow = int(time.mktime(time.localtime()) - time.mktime(beginTime))
@@ -27,4 +28,4 @@ for d in data:
     print "remove " + str(remove)
     sql = 'delete from message where fid = ' + str(d[0]) + ' order by time limit ' + str(remove)
     cursor.execute(sql)
-con.commit()
+conn.commit()

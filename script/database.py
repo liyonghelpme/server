@@ -1,11 +1,11 @@
 import os,sys,string
 import MySQLdb
-
-try:
-    conn = MySQLdb.connect(host='localhost',user='root',passwd='badperson3',db='stcHong')
-except Exception, e:
-    print e
-    sys.exit()
+from config import *
+#try:
+#    conn = MySQLdb.connect(host='localhost',user='root',passwd='badperson3',db='stcHong')
+#except Exception, e:
+#    print e
+#    sys.exit()
     
 
         

@@ -11,7 +11,8 @@ import time
 import json
 import MySQLdb
 import pymongo
-DataHost = '10.241.81.242'
+#DataHost = '10.241.81.242'
+DataHost = 'localhost'
 DataPort = 27018
 
 conn = pymongo.Connection(host=DataHost, port = DataPort)

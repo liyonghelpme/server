@@ -41,6 +41,7 @@ import inspect
 import MySQLdb
 from stchong.model import con, cursor
 from stchong.model import collect, db 
+from stchong.model import *
 import pymongo
 from stchong.controllers.util import *
 

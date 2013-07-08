@@ -1,12 +1,13 @@
 import os,sys,string
 import MySQLdb
+from config import *
 
 
-try:
-    conn=MySQLdb.connect(host='localhost',user='root',passwd='2e4n5k2w2x',db='stcHong')
-except Exception, e:
-    print e
-    sys.exit()
+#try:
+#    conn=MySQLdb.connect(host='localhost',user='root',passwd='2e4n5k2w2x',db='stcHong')
+#except Exception, e:
+#    print e
+#    sys.exit()
 cursor=conn.cursor()
 sql="delete from gift"
 try:

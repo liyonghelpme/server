@@ -1,7 +1,7 @@
 import time
 import pymongo
 
-con = pymongo.Connection(host='localhost', port=27017)
+con = pymongo.Connection(host='localhost', port=27018)
 db = con['Rank']
 
 collect = db.rank
